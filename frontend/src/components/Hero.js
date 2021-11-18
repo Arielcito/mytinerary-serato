@@ -1,27 +1,50 @@
 import React from "react"
-import {Box} from '@mui/material'
-import background from '../assets/background.jpeg'
+import {Box,Button,Tooltip} from '@mui/material'
+import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
 
 const useStyles = makeStyles((theme) =>({
     hero:{
         backgroundImage: `url(${background})`,
         height:"100vh",
-        width:"100vw",
+        minWidth:"100vw",
         backgroundPosition:"center",
         backgroundRepeat:"no-repeat",
         backgroundSize: "cover",
-        marginLeft: "-.5rem",
-        marginTop: "-2rem"
+        boxShadow:"none",
+        backgroundPositionY:"-5rem",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+    },
+    p:{
+        fontWeight: 1000,
+        fontSize: 70,
+        fontStyle: 'italic',
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    buttonHero:{
+        width:"50%"
     }
+
 }))
 
 const Hero = () =>{
     const classes = useStyles()
 
     return(
-        <Box className={classes.hero}>
-            <Box>aca va el slogan</Box>
+        <Box className={classes.hero} id="hero">
+            <Box className={classes.p}>
+                <p >
+                    Discover your next adventure
+                </p>
+                <Tooltip title="Go To Cities">
+                    <Button variant="contained" size="medium" color="error" className={classes.buttonHero}>Start your trip</Button>
+                </Tooltip>
+            </Box>
         </Box>
     )
 }
