@@ -1,54 +1,66 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Box} from '@mui/material'
-import Cards from './Cards'
+import {makeStyles} from '@mui/styles'
+import Cards from './CardsComp'
 import Carousel from 'react-elastic-carousel'
 
+const useStyles = makeStyles((theme) =>({
+	titulo:{
+		display:"flex",
+		justifyContent:"center",
+		marginTop:"3rem",
+		marginBottom:"3rem"
+	},
+	containter:{
+		width:"100%"
+	}
+}))
 const CarouselComp = () => {
-	
-	const [imageArray, setImageArray] = useState([[
+	const imageArray = [[
 		{
 			title: 'Paris',
-			src: '../assets/carousel/paris.jpg'
+			src: 'paris.jpg'
 		  }, {
 			title: 'Rome',
-			src: '../assets/carousel/rome.jpg'
+			src: 'rome.jpg'
 		  }, {
 			title: 'Istanbul',
-			src: '../assets/carousel/istanbul.jpg'
+			src: 'istanbul.jpg'
 		  }, {
 			title: 'London',
-			src: '../assets/carousel/london.jpg'
+			src: 'london.jpg'
 		  }], [{
 			title: 'Sidney',
-			src: '../assets/carousel/sidney.jpg'
+			src: 'sidney.jpg'
 		  }, {
 			title: 'Berlin',
-			src: '../assets/carousel/berlin.jpg'
+			src: 'berlin.jpg'
 		  }, {
 			title: 'Toulouse',
-			src: '../assets/carousel/toulouse.jpg'
+			src: 'toulouse.jpg'
 		  }, {
 			title: 'San Sebastian',
-			src: '../assets/carousel/sansebastian.jpg'
+			src: 'sansebastian.jpg'
 		  }], [{
 			title: 'Barcelona',
-			src: '../assets/carousel/barcelona.jpg'
+			src: 'barcelona.jpg'
 		  }, {
 			title: 'Ibiza',
-			src: '../assets/carousel/ibiza.jpg'
+			src: 'ibiza.jpg'
 		  }, {
 			title: 'Milan',
-			src: '../assets/carousel/milan.jpeg'
+			src: 'milan.jpeg'
 		  }, {
 			title: 'Bilbao',
-			src: '../assets/carousel/bilbao.jpg'
+			src: 'bilbao.jpg'
 		  }
-	]])
-  
+	]]
+	const classes = useStyles()
+
 	return (
-		<Box>
-		  <h2 >Popular trips</h2>
-		  <Carousel disableArrowsOnEnd={false}>
+		<Box >
+		  <h2 className={classes.titulo}>Popular trips</h2>
+		  <Carousel disableArrowsOnEnd={false} enableAutoPlay={true} className={classes.containter}>
 			{
 			  imageArray.map((image, index) => {
 				console.log(image)

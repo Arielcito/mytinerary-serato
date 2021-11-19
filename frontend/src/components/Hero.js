@@ -2,6 +2,7 @@ import React from "react"
 import {Box,Button,Tooltip} from '@mui/material'
 import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
+import '../styles/Hero.css'
 
 const useStyles = makeStyles((theme) =>({
     hero:{
@@ -27,7 +28,15 @@ const useStyles = makeStyles((theme) =>({
         alignItems:"center"
     },
     buttonHero:{
-        width:"50%"
+        width:"50%",
+            "&:hover":{
+                color:"ff7a59",
+                border:"1px solid #ff7a59",
+                background:"#fff"
+        }
+    },
+    heroTitle:{
+        
     }
 
 }))
@@ -38,10 +47,10 @@ const Hero = () =>{
     return(
         <Box className={classes.hero} id="hero">
             <Box className={classes.p}>
-                <p >
+                <h2 id="heroTitle">
                     Discover your next adventure
-                </p>
-                <Tooltip title="Go To Cities">
+                </h2>
+                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200}>
                     <Button variant="contained" size="medium" color="error" className={classes.buttonHero}>Start your trip</Button>
                 </Tooltip>
             </Box>
