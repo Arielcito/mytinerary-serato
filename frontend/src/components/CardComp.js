@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize:"cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "50% 50%",
-    width: "30vw",
+    width: "30rem",
     height: "40vh",
     margin:"2rem",
     cursor:"pointer"

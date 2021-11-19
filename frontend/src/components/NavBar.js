@@ -6,6 +6,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import '../styles/NavBar.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import {makeStyles} from '@mui/styles'
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>({
     appBar:{
@@ -16,6 +17,10 @@ const useStyles = makeStyles((theme) =>({
     logoStyle:{
         width:"7rem",
         height:"5rem", 
+    },
+    link:{
+        color:"white",
+        textDecoration:"none"
     }
 }))
 
@@ -47,12 +52,14 @@ const NavBar = () =>{
                             <MenuIcon  />
                         </IconButton>
                     </Box>
+                    <Link to={`/Home`} className={classes.link}>
                     <Box display="flex" alignItems="center" id="navLogo">
                         <img src={Logo} alt="Logo" className={classes.logoStyle} id="logo"/>
                         <h1 fontFamily="italic"  overflow="hidden" id="navTitle">
                             MyTinerary
                         </h1>
                     </Box>
+                    </Link>
                     <Box id="navButton" display="block">
                         <ButtonNav page="Home" ></ButtonNav>
                         <ButtonNav page="Cities" ></ButtonNav>

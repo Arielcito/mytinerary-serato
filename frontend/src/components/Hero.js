@@ -6,9 +6,10 @@ import '../styles/Hero.css'
 
 const useStyles = makeStyles((theme) =>({
     hero:{
+        backgroundColor:"#1e2326",
         backgroundImage: `url(${background})`,
         height:"100vh",
-        minWidth:"100vw",
+        width:"100vw",
         backgroundPosition:"center",
         backgroundRepeat:"no-repeat",
         backgroundSize: "cover",

@@ -6,6 +6,7 @@ import Carousel from 'react-elastic-carousel'
 import '../styles/Carousel.css'
 import ExploreIcon from '@mui/icons-material/Explore';
 import Steps from './steps';
+import MapIcon from '@mui/icons-material/Map'
 
 const useStyles = makeStyles((theme) =>({
 	titulo:{
@@ -73,7 +74,7 @@ const CarouselComp = () => {
 				<Steps></Steps>
             </Container>
 			<Box className={classes.containter}>
-				<Typography variant="h4" className={classes.titulo}>Popular trips</Typography>
+				<Typography variant="h4" className={classes.titulo}><MapIcon sx={{width:"30px",height:"30px"}}/>Popular trips</Typography>
 				<Carousel disableArrowsOnEnd={false} enableAutoPlay={true} autoPlaySpeed={10000} infinite>
 					{
 					imageArray.map((image, index) => {
