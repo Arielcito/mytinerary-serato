@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) =>({
         alignItems:"center",
     },
     p:{
-        fontWeight: 1000,
-        fontSize: 70,
+        fontWeight: 500,
+        fontSize: 40,
         fontStyle: 'italic',
         display:"flex",
         flexDirection:"column",
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) =>({
     },
     buttonHero:{
         width:"50%",
+        marginTop:"5rem",
             "&:hover":{
                 color:"ff7a59",
                 border:"1px solid #ff7a59",
