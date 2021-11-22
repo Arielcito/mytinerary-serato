@@ -23,46 +23,47 @@ const useStyles = makeStyles((theme) =>({
         background:"#1e2326",
     }
 }))
+const imageArray = [
+	{
+		title: 'Paris',
+		src: 'paris.jpg'
+	  }, {
+		title: 'Rome',
+		src: 'rome.jpg'
+	  }, {
+		title: 'Istanbul',
+		src: 'istanbul.jpg'
+	  }, {
+		title: 'London',
+		src: 'london.jpg'
+	  }, {
+		title: 'Sidney',
+		src: 'sidney.jpg'
+	  }, {
+		title: 'Berlin',
+		src: 'berlin.jpg'
+	  }, {
+		title: 'Toulouse',
+		src: 'toulouse.jpg'
+	  }, {
+		title: 'San Sebastian',
+		src: 'sansebastian.jpg'
+	  }, {
+		title: 'Barcelona',
+		src: 'barcelona.jpg'
+	  }, {
+		title: 'Ibiza',
+		src: 'ibiza.jpg'
+	  }, {
+		title: 'Milan',
+		src: 'milan.jpeg'
+	  }, {
+		title: 'Bilbao',
+		src: 'bilbao.jpg'
+	  }
+]
 const CarouselComp = () => {
-	const imageArray = [[
-		{
-			title: 'Paris',
-			src: 'paris.jpg'
-		  }, {
-			title: 'Rome',
-			src: 'rome.jpg'
-		  }, {
-			title: 'Istanbul',
-			src: 'istanbul.jpg'
-		  }, {
-			title: 'London',
-			src: 'london.jpg'
-		  }], [{
-			title: 'Sidney',
-			src: 'sidney.jpg'
-		  }, {
-			title: 'Berlin',
-			src: 'berlin.jpg'
-		  }, {
-			title: 'Toulouse',
-			src: 'toulouse.jpg'
-		  }, {
-			title: 'San Sebastian',
-			src: 'sansebastian.jpg'
-		  }], [{
-			title: 'Barcelona',
-			src: 'barcelona.jpg'
-		  }, {
-			title: 'Ibiza',
-			src: 'ibiza.jpg'
-		  }, {
-			title: 'Milan',
-			src: 'milan.jpeg'
-		  }, {
-			title: 'Bilbao',
-			src: 'bilbao.jpg'
-		  }
-	]]
+
 	const classes = useStyles()
 
 	return (
@@ -77,7 +78,7 @@ const CarouselComp = () => {
 				<Typography variant="h4" className={classes.titulo}><MapIcon sx={{width:"30px",height:"30px"}}/>Popular trips</Typography>
 				<Carousel disableArrowsOnEnd={false} enableAutoPlay={true} autoPlaySpeed={10000} infinite>
 					{
-					imageArray.map((image, index) => {
+					arrayCarousel.map((image, index) => {
 						return <Cards item={image} key={index}/>
 					})
 					}
@@ -86,5 +87,16 @@ const CarouselComp = () => {
 		</Box>
 	  )
 }
+
+function splitArray(array,n){
+	let length = array.length
+	let i=0
+	let auxArray = []
+	while(i<length) {
+		auxArray.push(array.slice(i,i += n))
+	}
+	return auxArray	
+}
+let arrayCarousel = splitArray(imageArray,4)
 
 export default CarouselComp

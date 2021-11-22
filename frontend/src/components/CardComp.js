@@ -2,6 +2,7 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/system"
 import React from "react"
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 
 const useStyles = makeStyles((theme) => ({
   container:{
@@ -11,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
     width: "30rem",
     height: "40vh",
     margin:"2rem",
-    cursor:"pointer"
+    cursor:"pointer",
+    overflow:"hidden"
   },
   titulo:{
     width:"100%",
@@ -31,6 +33,7 @@ const CardComp =  ({photo}) => {
   return (
         <Box className={classes.container} id="card" sx={{backgroundImage:`url(${imageSrc})`}}>
           <h3 className={classes.titulo}><LocationOnIcon/>{photo.title}</h3>
+          <FavoriteBorder />
         </Box>
   )
 }

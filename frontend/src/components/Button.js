@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     button:{
-        marginRight:"10rem!important",
+        marginRight:"10vw!important",
         color:"white",
-        textDecoration:"none"
+        textDecoration:"none",
+        
     },
     link:{
         color:"white",

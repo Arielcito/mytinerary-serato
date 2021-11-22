@@ -7,6 +7,7 @@ import '../styles/NavBar.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import {makeStyles} from '@mui/styles'
 import { Link } from 'react-router-dom';
+import { FormControlLabel,Collapse } from '@mui/material';
 
 const useStyles = makeStyles((theme) =>({
     appBar:{
@@ -20,38 +21,77 @@ const useStyles = makeStyles((theme) =>({
     },
     link:{
         color:"white",
-        textDecoration:"none"
-    }
+        textDecoration:"none",
+        
+    },
 }))
 
 const NavBar = () =>{
     const classes = useStyles()
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [checked, setChecked] = React.useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
     }
+
     const handleClose = () => {
         setAnchorEl(null)
     }
 
+    const handleChange = () => {
+        setChecked((prev) => !prev)
+    }
+
+    const stateMenu = checked ? "block" : "none"
     return (
         <div className="App">
             <AppBar className={classes.appBar}>
                 <Toolbar sx={{justifyContent:"space-between"}}>
-                    <Box display="none" id="hamburger">
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            
-                        >
-                            <MenuIcon  />
-                        </IconButton>
-                    </Box>
+                <Box display="none" id="hamburger">    
+                <FormControlLabel
+                    control={
+                        <Box  >
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                sx={{ mr: 2 ,mt: 5}}
+                                onClick={handleChange}
+                            >
+                            </IconButton>
+                        </Box>
+                }
+                    label={
+                        <MenuIcon  />
+                    }
+                />
+                    <Box
+                    
+                    sx={{
+                    '& > :not(style)': {
+                    position:"relative",
+                    height: 90,
+                    width: 100,
+                    overflow:"hidden",
+                    display:stateMenu
+                },
+                }}
+            >
+                <div>
+                <Collapse in={checked}>
+                            <Box >
+                                <ButtonNav page="Home" ></ButtonNav>
+                                <ButtonNav page="Cities" ></ButtonNav>
+                            </Box>
+                </Collapse>
+                
+                
+                </div>
+                </Box>
+                </Box>
                     <Link to={`/Home`} className={classes.link}>
                     <Box display="flex" alignItems="center" id="navLogo">
                         <img src={Logo} alt="Logo" className={classes.logoStyle} id="logo"/>
@@ -86,6 +126,7 @@ const NavBar = () =>{
                         <MenuItem onClick={handleClose}>Log in</MenuItem>
                         <MenuItem onClick={handleClose}>Sign up</MenuItem>
                     </Menu>
+
                 </Toolbar>
             </AppBar>
         </div>

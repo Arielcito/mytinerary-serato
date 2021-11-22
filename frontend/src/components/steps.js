@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
    parraf:{
        color:"#ffcf97",
        fontSize:"calc(.25em + 1vw)"
+   },
+   icons:{
+    width:"78px",
+    height:"78px"
    }
 }))
 
@@ -47,34 +51,34 @@ const Steps = () =>{
             <Box className={classes.container}>
                 <List className={classes.list}>
                     <ListItem className={classes.items}>
-                        <MapIcon className={classes.icons} sx={{width:"78px",height:"78px"}}/>
+                        <MapIcon className={classes.icons}  sx={{fontSize:30}}/>
                         <h4 className={classes.title}>Get a personalized trip</h4>
                         <p className={classes.parraf}>A complete day by day itinerary<br/>
                         based on your preferences</p> 
                     </ListItem>
                     <ListItem>
-                        <ArrowRightAltIcon sx={{width:"78px",height:"78px"}}/>
+                        <ArrowRightAltIcon sx={{fontSize:30}}/>
                     </ListItem>
                     <ListItem className={classes.items}>
-                        <EventAvailableIcon sx={{width:"78px",height:"78px"}} />
+                        <EventAvailableIcon sx={{fontSize:30}} />
                         <h4 className={classes.title}>Customize it</h4>
                         <p className={classes.parraf}>Refine your trip. We'll find the
                                          best routes and schedules</p> 
                     </ListItem>
                     <ListItem>
-                        <ArrowRightAltIcon sx={{width:"78px",height:"78px"}} />
+                        <ArrowRightAltIcon sx={{fontSize:30}} />
                     </ListItem>
                     <ListItem className={classes.items}>
-                        <FlightTakeoffIcon sx={{width:"78px",height:"78px"}} />
+                        <FlightTakeoffIcon sx={{fontSize:30}} />
                         <h4 className={classes.title}>Book it</h4>
                         <p className={classes.parraf}>Choose from the best hotels
                         and activities. Up to 50% off</p> 
                     </ListItem>
                     <ListItem>
-                        <ArrowRightAltIcon sx={{width:"78px",height:"78px"}} />
+                        <ArrowRightAltIcon sx={{fontSize:30}} />
                     </ListItem>
                     <ListItem className={classes.items}>
-                        <AirplaneTicketIcon sx={{width:"78px",height:"78px"}}/>
+                        <AirplaneTicketIcon sx={{fontSize:30}}/>
                         <h4 className={classes.title}>Manage it</h4>
                         <p className={classes.parraf}>Everything in one place.
 Everyone on the same page.</p> 
