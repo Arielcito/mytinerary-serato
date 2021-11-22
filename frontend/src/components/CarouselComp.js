@@ -14,14 +14,16 @@ const useStyles = makeStyles((theme) =>({
 		justifyContent:"center",
 		marginTop:"3rem",
 		marginBottom:"3rem",
-		color:"white"
+		color:"white",
+		fontFamily:'Shippori Antique'
 	},
 	containter:{
 		width:"100%",
 	},
 	main:{
         background:"#1e2326",
-    }
+    },
+
 }))
 const imageArray = [
 	{
@@ -69,7 +71,7 @@ const CarouselComp = () => {
 	return (
 		<Box className={classes.main} id="main">
 			<Container className={classes.containerCarousel}>
-                <Typography variant="h4" textAlign="center" marginTop="2rem" color="#fff">
+                <Typography variant="h4" textAlign="center" marginTop="2rem" color="#fff" >
 				<ExploreIcon sx={{width:"30px",height:"30px"}}/>Start Your Journey
                 </Typography>
 				<Steps></Steps>

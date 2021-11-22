@@ -3,7 +3,7 @@ import {Box,Button,Tooltip} from '@mui/material'
 import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
 import '../styles/Hero.css'
-
+import {Link} from 'react-router-dom'
 const useStyles = makeStyles((theme) =>({
     hero:{
         backgroundColor:"#1e2326",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) =>({
     },
     buttonHero:{
         width:"50%",
-        marginTop:"5rem"
+        textDecoration:"none"
     },
 }))
 
@@ -43,9 +43,11 @@ const Hero = () =>{
                 <h2 id="heroTitle" >
                     <span id="discover">Discover</span> <span id="the">the</span> <span id="planet">PLANET</span>
                 </h2>
-                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200}>
-                    <Button variant="contained" size="medium" color="error" className={classes.buttonHero}>Start your trip</Button>
+                <Link to={`/Cities`} className={classes.buttonHero} >
+                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200} >
+                    <Button variant="contained" size="medium" color="error" >Start your trip</Button>
                 </Tooltip>
+                </Link>
             </Box>
         </Box>
     )

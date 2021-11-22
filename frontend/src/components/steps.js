@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
    title:{
        color:"#FFA500",
        textAlign:"center",
-       fontSize:"calc(.5em + 1vw)"
+       fontSize:"calc(.3em + 1vw)"
    },
    parraf:{
        color:"#ffcf97",
-       fontSize:"calc(.25em + 1vw)"
+       fontSize:"calc(.20em + 1vw)"
    },
    icons:{
     width:"78px",

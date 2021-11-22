@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x:hidden;
 }
 @media (min-device-width: 768px){
     body{
@@ -12,6 +12,6 @@
         font-size: 18px;
         line-height: 1.33;
         font-weight: 700;
-    letter-spacing: normal;
+        letter-spacing: normal;
     }
 }
