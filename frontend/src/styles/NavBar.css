@@ -1,3 +1,14 @@
+*{
+    text-decoration: none;
+    color:white;
+}
+#navTitle{
+    font-family: 'Comforter Brush', cursive;
+}
+#footer{
+    text-decoration: none;
+    color:white;
+}
 @media (max-width: 600px) {
     #hamburger{
         display: block;
@@ -27,6 +38,3 @@
     }
 }
 
-#navTitle{
-    font-family: 'Comforter Brush', cursive;
-}

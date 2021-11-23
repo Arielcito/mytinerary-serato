@@ -1,9 +1,6 @@
-@media  (max-width: 600px){
-    #heroTitle{
-        font-size: 50px;
-    }
+body{
+    min-width:100%;
 }
-
 #discover{
     font-family: 'Shippori Antique', sans-serif;
     color:white;
@@ -17,9 +14,24 @@
 }
 #planet{
     font-family: 'Paytone One', sans-serif;
-    font-size: 90px;
+    font-size: 80px;
     font-weight: bolder;
     -webkit-text-stroke:1px #fff;
     color: transparent;
     display:block;
 }
+@media  (max-width: 600px){
+    #heroTitle{
+        font-size: 50px;
+    }
+    #planet{
+        font-size:60px;
+    }
+    #discover{
+        font-size:40px;
+    }
+    #the{
+        font-size:40px;
+    }
+}
+

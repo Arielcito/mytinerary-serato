@@ -7,8 +7,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Link } from 'react-router-dom';
-import '../styles/footer.css'
-
+import '../styles/NavBar.css'
+//estilado del footer
 const useStyles = makeStyles((theme) =>({
     footer:{
         background:"#000000f2",
@@ -16,13 +16,14 @@ const useStyles = makeStyles((theme) =>({
         position:"relative",
         padding:"30px",
         width:"100vw",
-        color:"#fff",
+        color:"#fff!important",
         display:"flex",
-        
+        textDecoration:"none!important"
     },
     logo:{
         maxWidth:"100px",
-        maxHeight:"100px"
+        maxHeight:"100px",
+        
     },
     mediaIcon:{
         padding:"1rem",
@@ -44,18 +45,18 @@ const useStyles = makeStyles((theme) =>({
         marginBottom:"1rem"
     }
 }))
-
+//creacion del componente footer
 const Footer = () =>{
     const classes = useStyles()
     return(
-        <Box className={classes.footer} id="footer">
+        <Box className={classes.footer} >
             <Container >
-                <Grid container spacing={1} >
-                    <Grid item sm={4} xs={8}>
+                <Grid container spacing={1} id="footer">
+                    <Grid item sm={4} xs={12}>
                     <Link to={`/Home`} >
                         <Box display="flex" alignItems="center" id="navLogo">
                             <img src={Favicon} alt="Logo" className={classes.logoStyle} />
-                            <h1 overflow="hidden" id="navTitle">
+                            <h1 overflow="hidden" id="navTitle" >
                                 MyTinerary
                             </h1>
                         </Box>
@@ -74,7 +75,7 @@ const Footer = () =>{
                             </Link>
                         </Box>
                     </Grid>
-                    <Grid item xs={3} id="mediasCostado">
+                    <Grid item xs={3} sm={4} id="mediasCostado">
                         <a href="facebook.com.ar" target="_blank" className={classes.medias}>
                         <FacebookIcon className={classes.mediaIcon}/>
                         </a>

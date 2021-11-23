@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {makeStyles} from '@mui/styles'
 import { Link,NavLink } from 'react-router-dom';
 import { FormControlLabel,Collapse,List,ListItem } from '@mui/material';
-
+//estilado navbar
 const useStyles = makeStyles((theme) =>({
     appBar:{
         background: 'rgba(0,0,0,0.25)!important',
@@ -23,9 +23,12 @@ const useStyles = makeStyles((theme) =>({
         color:"white",
         textDecoration:"none",
         
+    },
+    logo:{
+        display:"flex",
     }
 }))
-
+//componente navbar
 const NavBar = () =>{
     const classes = useStyles()
     const [checked, setChecked] = React.useState(false)
@@ -94,7 +97,7 @@ const NavBar = () =>{
                     </Box>
                 </Box>
                 <Link to={`/Home`} className={classes.link}>
-                    <Box display="flex" alignItems="center" id="navLogo">
+                    <Box className={classes.logo} id="navLogo">
                         <img src={Logo} alt="Logo" className={classes.logoStyle} id="logo"/>
                         <h1 overflow="hidden" id="navTitle">
                             MyTinerary
@@ -113,8 +116,7 @@ const NavBar = () =>{
                         onClick={handleClick}
                         color="inherit"
                     >
-                        <AccountCircle
-/>
+                        <AccountCircle/>
                     </IconButton>
                     <Menu
                 id="menu-appbar"
@@ -125,7 +127,7 @@ const NavBar = () =>{
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
+                  vertical: 'bottom',
                   horizontal: 'right',
                 }}
                 open={Boolean(anchorEl)}

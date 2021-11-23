@@ -7,7 +7,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
-
+//estilado 
 const useStyles = makeStyles((theme) => ({
    container:{
        color:"white",

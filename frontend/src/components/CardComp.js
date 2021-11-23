@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/system"
 import React from "react"
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
+//estilado de las slides
 const useStyles = makeStyles((theme) => ({
   card:{
     backgroundSize:"cover",
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign:"center"
   },
 }))
+//componente de las slides
 const CardComp =  ({photo}) => {
   const imageSrc = require(`../assets/carousel/${photo.src}`).default
   const classes = useStyles()

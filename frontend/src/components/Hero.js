@@ -4,6 +4,7 @@ import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
 import '../styles/Hero.css'
 import {Link} from 'react-router-dom'
+//estilado del Hero
 const useStyles = makeStyles((theme) =>({
     hero:{
         backgroundColor:"#1e2326",
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) =>({
         textDecoration:"none"
     },
 }))
-
+//componente hero
 const Hero = () =>{
     const classes = useStyles()
 
