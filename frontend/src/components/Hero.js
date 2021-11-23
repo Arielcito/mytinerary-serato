@@ -2,7 +2,7 @@ import React from "react"
 import {Box,Button,Tooltip} from '@mui/material'
 import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
-import '../styles/Hero.css'
+import '../styles/NavBar.css'
 import {Link} from 'react-router-dom'
 //estilado del Hero
 const useStyles = makeStyles((theme) =>({
@@ -41,9 +41,8 @@ const Hero = () =>{
     return(
         <Box className={classes.hero} id="hero">
             <Box className={classes.p} >
-                <h2 id="heroTitle" >
-                    <span id="discover">Discover</span> <span id="the">the</span> <span id="planet">PLANET</span>
-                </h2>
+                <h3 id="navTitleHero" fontSize="200px" >MyTinerary</h3>
+                <h3 id="slogan">Find your perfect trip,designed by insiders who knows and love their cities!</h3>
                 <Link to={`/Cities`} className={classes.buttonHero} >
                 <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200} >
                     <Button variant="contained" size="medium" color="error" >Start your trip</Button>

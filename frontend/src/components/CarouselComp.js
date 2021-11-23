@@ -3,11 +3,11 @@ import {Box, Container,Typography} from '@mui/material'
 import {makeStyles} from '@mui/styles'
 import CardsComp from './CardsComp'
 import Carousel from 'react-elastic-carousel'
-import '../styles/Carousel.css'
+import '../styles/NavBar.css'
 import ExploreIcon from '@mui/icons-material/Explore';
 import Steps from './steps';
 import MapIcon from '@mui/icons-material/Map'
-
+import imagesArray from './citiesArray';
 
 const useStyles = makeStyles((theme) =>({
 	titulo:{
@@ -26,46 +26,7 @@ const useStyles = makeStyles((theme) =>({
     }
 
 }))
-//array de imagenes
-const imageArray = [
-	{
-		title: 'Paris',
-		src: 'paris.jpg'
-	  }, {
-		title: 'Rome',
-		src: 'rome.jpg'
-	  }, {
-		title: 'Istanbul',
-		src: 'istanbul.jpg'
-	  }, {
-		title: 'London',
-		src: 'london.jpg'
-	  }, {
-		title: 'Sidney',
-		src: 'sidney.jpg'
-	  }, {
-		title: 'Berlin',
-		src: 'berlin.jpg'
-	  }, {
-		title: 'Toulouse',
-		src: 'toulouse.jpg'
-	  }, {
-		title: 'San Sebastian',
-		src: 'sansebastian.jpg'
-	  }, {
-		title: 'Barcelona',
-		src: 'barcelona.jpg'
-	  }, {
-		title: 'Ibiza',
-		src: 'ibiza.jpg'
-	  }, {
-		title: 'Milan',
-		src: 'milan.jpeg'
-	  }, {
-		title: 'Bilbao',
-		src: 'bilbao.jpg'
-	  }
-]
+
 const CarouselComp = () => {
 	const classes = useStyles()
 
@@ -78,7 +39,7 @@ const CarouselComp = () => {
 				<Steps></Steps>
             </Container>
 			<Box className={classes.containter}>
-				<Typography variant="h4" className={classes.titulo}><MapIcon sx={{fontSize:30}}/>Popular trips</Typography>
+				<Typography variant="h4" className={classes.titulo}><MapIcon sx={{fontSize:30}}/>Popular MyTinerarys</Typography>
 				<Carousel disableArrowsOnEnd={false} enableAutoPlay={true} autoPlaySpeed={10000} infinite>
 					{
 					arrayCarousel.map((image, index) => {
@@ -100,6 +61,6 @@ function splitArray(array,n){
 	}
 	return auxArray	
 }
-let arrayCarousel = splitArray(imageArray,4)
+let arrayCarousel = splitArray(imagesArray,4)
 
 export default CarouselComp
