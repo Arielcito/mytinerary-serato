@@ -133,8 +133,8 @@ const NavBar = () =>{
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                        <MenuItem onClick={handleClose}>Log in</MenuItem>
-                        <MenuItem onClick={handleClose}>Sign up</MenuItem>
+                        <MenuItem sx={{color:"#000"}} onClick={handleClose}>Log in</MenuItem>
+                        <MenuItem sx={{color:"#000"}} onClick={handleClose}>Sign up</MenuItem>
                     </Menu>
                 </Toolbar>
             </AppBar>
