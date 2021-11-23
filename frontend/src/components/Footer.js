@@ -76,16 +76,16 @@ const Footer = () =>{
                         </Box>
                     </Grid>
                     <Grid item xs={3} sm={4} id="mediasCostado">
-                        <a href="facebook.com.ar" target="_blank" className={classes.medias}>
+                        <a href="https://facebook.com.ar" target="_blank" className={classes.medias}>
                         <FacebookIcon className={classes.mediaIcon}/>
                         </a>
-                        <a href="instagram.com.ar" target="_blank" className={classes.medias}>
+                        <a href="https://instagram.com.ar" target="_blank" className={classes.medias}>
                         <InstagramIcon className={classes.mediaIcon}/>
                         </a>
-                        <a href="twitter.com.ar" target="_blank" className={classes.medias}> 
+                        <a href="https://twitter.com.ar" target="_blank" className={classes.medias}> 
                         <TwitterIcon className={classes.mediaIcon}/>
                         </a>
-                        <a href="youtube.com.ar" target="_blank" className={classes.medias}>
+                        <a href="https://youtube.com.ar" target="_blank" className={classes.medias}>
                         <YouTubeIcon className={classes.mediaIcon}/>
                         </a>
                     </Grid>
