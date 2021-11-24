@@ -2,18 +2,20 @@ import {Button} from '@mui/material'
 import React from "react"
 import {makeStyles} from '@mui/styles'
 import { Link } from 'react-router-dom'
-
+//estilado de botones
 const useStyles = makeStyles((theme) => ({
     button:{
-        marginRight:"10rem!important",
+        marginRight:"10vw!important",
         color:"white",
-        textDecoration:"none"
+        textDecoration:"none",
+        
     },
     link:{
         color:"white",
         textDecoration:"none"
     }
 }))
+//componente botones
 const ButtonNav = (param) =>{
     const classes = useStyles()
     return(

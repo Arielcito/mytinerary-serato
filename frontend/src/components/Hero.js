@@ -3,7 +3,8 @@ import {Box,Button,Tooltip} from '@mui/material'
 import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
 import '../styles/Hero.css'
-
+import {Link} from 'react-router-dom'
+//estilado del Hero
 const useStyles = makeStyles((theme) =>({
     hero:{
         backgroundColor:"#1e2326",
@@ -22,39 +23,32 @@ const useStyles = makeStyles((theme) =>({
     p:{
         fontWeight: 500,
         fontSize: 40,
-        fontStyle: 'italic',
         display:"flex",
         flexDirection:"column",
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        textAlign:"center"
     },
     buttonHero:{
         width:"50%",
-        marginTop:"5rem",
-            "&:hover":{
-                color:"ff7a59",
-                border:"1px solid #ff7a59",
-                background:"#fff"
-        }
+        textDecoration:"none"
     },
-    heroTitle:{
-        
-    }
-
 }))
-
+//componente hero
 const Hero = () =>{
     const classes = useStyles()
 
     return(
         <Box className={classes.hero} id="hero">
-            <Box className={classes.p}>
-                <h2 id="heroTitle">
-                    Discover your next adventure
+            <Box className={classes.p} >
+                <h2 id="heroTitle" >
+                    <span id="discover">Discover</span> <span id="the">the</span> <span id="planet">PLANET</span>
                 </h2>
-                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200}>
-                    <Button variant="contained" size="medium" color="error" className={classes.buttonHero}>Start your trip</Button>
+                <Link to={`/Cities`} className={classes.buttonHero} >
+                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200} >
+                    <Button variant="contained" size="medium" color="error" >Start your trip</Button>
                 </Tooltip>
+                </Link>
             </Box>
         </Box>
     )
