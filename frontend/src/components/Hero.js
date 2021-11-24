@@ -2,7 +2,7 @@ import React from "react"
 import {Box,Button,Tooltip} from '@mui/material'
 import background from '../assets/background.jpg'
 import {makeStyles} from '@mui/styles'
-import '../styles/Hero.css'
+import '../styles/NavBar.css'
 import {Link} from 'react-router-dom'
 //estilado del Hero
 const useStyles = makeStyles((theme) =>({

@@ -3,7 +3,7 @@ import {Box, Container,Typography} from '@mui/material'
 import {makeStyles} from '@mui/styles'
 import CardsComp from './CardsComp'
 import Carousel from 'react-elastic-carousel'
-import '../styles/Carousel.css'
+import '../styles/NavBar.css'
 import ExploreIcon from '@mui/icons-material/Explore';
 import Steps from './steps';
 import MapIcon from '@mui/icons-material/Map'
