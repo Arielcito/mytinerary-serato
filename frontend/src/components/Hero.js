@@ -42,8 +42,9 @@ const Hero = () =>{
         <Box className={classes.hero} id="hero">
             <Box className={classes.p} >
                 <h2 id="heroTitle" >
-                    <span id="discover">Discover</span> <span id="the">the</span> <span id="planet">PLANET</span>
+                    MyTinerary
                 </h2>
+                <p id="slogan">Find your perfect trip, designed by insiders who know and love their cities!</p>
                 <Link to={`/Cities`} className={classes.buttonHero} >
                 <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200} >
                     <Button variant="contained" size="medium" color="error" >Start your trip</Button>

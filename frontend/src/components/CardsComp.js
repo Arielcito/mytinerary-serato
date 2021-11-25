@@ -16,7 +16,7 @@ const CardsComp = ({ item }) => {
   return (
     <Grid container className={classes.container}>
       {item.map((photo, index) => {
-        return <CardComp photo={photo} />;
+        return <CardComp photo={photo} key={index} />;
       })}
     </Grid>
   );

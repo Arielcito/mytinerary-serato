@@ -1,9 +1,12 @@
 *{
     text-decoration: none;
-    color:white;
 }
 body{
     min-width:100%;
+    min-height: 100%;
+}
+h2{
+    color:white;
 }
 #discover{
     font-family: 'Shippori Antique', sans-serif;
@@ -28,7 +31,10 @@ body{
     font-family: 'Comforter Brush', cursive;
 }
 #footer{
+    
     text-decoration: none;
+}
+a{
     color:white;
 }
 .rec.rec-arrow {
@@ -54,7 +60,16 @@ body{
 #card:hover{
     transform: scale(1.3);
 }
-
+#heroTitle{
+    font-family: 'Comforter Brush', cursive;
+    font-size: 120px;
+}
+#slogan{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 30px;
+    color:white;
+}
+/* City */
 @media (max-width: 600px) {
     #hamburger{
         display: block;
@@ -83,7 +98,8 @@ body{
         display: block;
     }
     #heroTitle{
-        font-size: 50px;
+        font-size: 70px;
+        
     }
     #planet{
         font-size:60px;

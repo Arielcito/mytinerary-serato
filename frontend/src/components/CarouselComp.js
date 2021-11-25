@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   containter: {
     width: "100%",
+    marginBottom:"5rem"
   },
   main: {
     background: "#1e2326",
@@ -79,7 +80,7 @@ const CarouselComp = () => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.main} id="main">
+    <Box className={classes.main} id="main" >
       <Container className={classes.containerCarousel}>
         <Typography variant="h4" className={classes.titulo}>
           <ExploreIcon sx={{ fontSize: 30 }} />
@@ -97,6 +98,7 @@ const CarouselComp = () => {
           enableAutoPlay={true}
           autoPlaySpeed={10000}
           infinite
+          
         >
           {arrayCarousel.map((image, index) => {
             return <CardsComp item={image} key={index} />;

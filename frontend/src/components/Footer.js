@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) =>({
         color:"#fff!important",
         display:"flex",
         textDecoration:"none!important",
-        marginTop:"5rem"
+        
     },
     logo:{
         maxWidth:"100px",
@@ -51,8 +51,8 @@ const Footer = () =>{
     const classes = useStyles()
     return(
         <Box className={classes.footer} >
-            <Container >
-                <Grid container spacing={1} id="footer">
+            <Container id="footer">
+                <Grid container spacing={1} >
                     <Grid item sm={4} xs={12}>
                     <Link to={`/Home`} >
                         <Box display="flex" alignItems="center" id="navLogo">
