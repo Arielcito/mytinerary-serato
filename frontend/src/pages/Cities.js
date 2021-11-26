@@ -1,4 +1,3 @@
-
 import React from "react";
 import CitiesComp from "../components/CitiesComp";
 

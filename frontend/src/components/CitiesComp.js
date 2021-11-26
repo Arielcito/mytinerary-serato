@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, FormControl, InputAdornment, Input } from "@mui/material";
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import CardComp from "./CardComp";
 import backgroundImage from "../assets/background-cities.jpg";
 import SearchIcon from "@mui/icons-material/Search";
-import axios from 'axios'
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(256,256,256,.8)",
     borderRadius: "100px",
     width: "50rem",
+    height: "3rem",
   },
   containerInput: {
     alignSelf: "center",
@@ -31,53 +32,53 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CitiesComp() {
   const [cities, setCities] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState([])
   const classes = useStyles();
-
   useEffect(() => {
-    axios.get("http://localhost:4000/api/cities")
+    axios
+      .get("http://localhost:4000/api/cities")
       .then((res) => setCities(res.data.response))
-    //   axios.post("http://localhost:4000/api/cities", {})
-  }, []);
-
+  }, [])
+  
   const handleChange = (e) => {
-    setSearch(e.taget.value);
-    searchFilter()
-  }
-  const searchFilter = () => {
-    if (search.length > 0) {
-      let resultado = cities.filter(
-        (city) =>
-          city.title.toLowerCase().includes(search) ||
-          city.country.toLowerCase().includes(search)
-      );
-      setCities(resultado);
+    let value = e.target.value.toLowerCase()
+    let result = []
+    if(value){
+      result = cities.filter((city) => city.title.toLowerCase().startsWith(value) || city.country.toLowerCase().startsWith(value))
+      setSearch(result)
+    }else{
+      setSearch(cities)
     }
-  };
-
+  }
   return (
     <>
-      <Box >
+      <Box>
         <Box className={classes.container}>
-          <div className={classes.containerInput}>
-            <SearchIcon sx={{ fontSize: "50px" }} />
-            <TextField
+          <FormControl variant="standard" className={classes.containerInput}>
+            <Input
               className={classes.input}
               placeholder="Where to?"
-              value={search}
-              onChange={handleChange}
-            ></TextField>
-          </div>
+              onChange={(event) => handleChange(event)}
+              id="input-with-icon-adornment"
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ fontSize: "50px", color: "red" }} />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </Box>
         <Box>
-          <Grid container sx={{justifyContent:"center" }}>
-            {cities.map((city, index) => {
+          <Grid container sx={{ justifyContent: "center" }}>
+            {search === [] &&
+            search.map((city, index) => {
               return (
                 <Grid item key={index}>
-                    <CardComp photo={city} />
+                  <CardComp photo={city} />
                 </Grid>
               );
-            })}
+            })
+            }
           </Grid>
         </Box>
       </Box>

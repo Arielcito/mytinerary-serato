@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     height: "40vh",
     margin: "1rem",
     overflow: "hidden",
-    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
   },
   titulo: {
     width: "100%",
