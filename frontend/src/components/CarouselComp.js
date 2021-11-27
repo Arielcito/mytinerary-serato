@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CardsComp from "./CardsComp";
@@ -7,7 +7,7 @@ import "../styles/NavBar.css";
 import ExploreIcon from "@mui/icons-material/Explore";
 import Steps from "./steps";
 import MapIcon from "@mui/icons-material/Map";
-import axios from 'axios'
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   titulo: {
@@ -26,66 +26,15 @@ const useStyles = makeStyles((theme) => ({
     background: "#1e2326",
   },
 }));
-//array de imagenes
-const imageArray = [
-  {
-    title: "Paris",
-    src: "paris.jpg",
-  },
-  {
-    title: "Rome",
-    src: "rome.jpg",
-  },
-  {
-    title: "Istanbul",
-    src: "istanbul.jpg",
-  },
-  {
-    title: "London",
-    src: "london.jpg",
-  },
-  {
-    title: "Sidney",
-    src: "sidney.jpg",
-  },
-  {
-    title: "Berlin",
-    src: "berlin.jpg",
-  },
-  {
-    title: "Toulouse",
-    src: "toulouse.jpg",
-  },
-  {
-    title: "San Sebastian",
-    src: "sansebastian.jpg",
-  },
-  {
-    title: "Barcelona",
-    src: "barcelona.jpg",
-  },
-  {
-    title: "Ibiza",
-    src: "ibiza.jpg",
-  },
-  {
-    title: "Milan",
-    src: "milan.jpeg",
-  },
-  {
-    title: "Bilbao",
-    src: "bilbao.jpg",
-  },
-];
 const CarouselComp = () => {
   const classes = useStyles();
-const [cities, setCities] = useState([])
-let arrayCarousel = splitArray(cities, 4);
-useEffect(() => {
-  axios.get("http://localhost:4000/api/cities").then((res) => {
-    setCities(res.data.response);
-  });
-}, []);
+  const [cities, setCities] = useState([]);
+  let arrayCarousel = splitArray(cities, 4);
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/cities").then((res) => {
+      setCities(res.data.response);
+    });
+  }, []);
   return (
     <Box className={classes.main} id="main">
       <Container className={classes.containerCarousel}>
@@ -124,6 +73,5 @@ function splitArray(array, n) {
   }
   return auxArray;
 }
-
 
 export default CarouselComp;
