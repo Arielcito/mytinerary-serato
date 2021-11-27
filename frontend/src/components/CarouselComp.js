@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CardsComp from "./CardsComp";
@@ -7,6 +7,7 @@ import "../styles/NavBar.css";
 import ExploreIcon from "@mui/icons-material/Explore";
 import Steps from "./steps";
 import MapIcon from "@mui/icons-material/Map";
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   titulo: {
@@ -78,7 +79,13 @@ const imageArray = [
 ];
 const CarouselComp = () => {
   const classes = useStyles();
-
+const [cities, setCities] = useState([])
+let arrayCarousel = splitArray(cities, 4);
+useEffect(() => {
+  axios.get("http://localhost:4000/api/cities").then((res) => {
+    setCities(res.data.response);
+  });
+}, []);
   return (
     <Box className={classes.main} id="main">
       <Container className={classes.containerCarousel}>
@@ -117,6 +124,6 @@ function splitArray(array, n) {
   }
   return auxArray;
 }
-let arrayCarousel = splitArray(imageArray, 4);
+
 
 export default CarouselComp;

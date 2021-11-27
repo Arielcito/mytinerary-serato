@@ -6,6 +6,7 @@ import CardComp from "./CardComp";
 import backgroundImage from "../assets/background-cities.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,11 +34,13 @@ const useStyles = makeStyles((theme) => ({
 export default function CitiesComp() {
   const [cities, setCities] = useState([]);
   const [search, setSearch] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const classes = useStyles();
   useEffect(() => {
     axios.get("http://localhost:4000/api/cities").then((res) => {
       setSearch(res.data.response);
       setCities(res.data.response);
+      setIsLoading(false);
     });
   }, []);
 
@@ -79,13 +82,17 @@ export default function CitiesComp() {
         </Box>
         <Box>
           <Grid container sx={{ justifyContent: "center" }}>
-            {search.map((city, index) => {
-              return (
-                <Grid item key={index}>
-                  <CardComp photo={city} />
-                </Grid>
-              );
-            })}
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              search.map((city, index) => {
+                return (
+                  <Grid item key={index}>
+                    <CardComp photo={city} />
+                  </Grid>
+                );
+              })
+            )}
           </Grid>
         </Box>
       </Box>

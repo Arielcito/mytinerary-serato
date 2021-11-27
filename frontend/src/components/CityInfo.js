@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "10rem",
+    padding: "1rem",
     backgroundColor: "rgba(0,0,0,.5)",
   },
   ucimage: {
