@@ -7,7 +7,7 @@ Router.route("/cities")
 .get(getAllCities)
 .post(postCities);
 
-Router.route("/city/:id")
+Router.route("/cities/:id")
 .get(getACity)
 .delete(deleteACity)
 .put(modifyACity)

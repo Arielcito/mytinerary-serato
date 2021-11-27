@@ -1,16 +1,15 @@
+import "../styles/NavBar.css";
 import React from "react";
 import axios from "axios";
 import { Box } from "@mui/system";
-import "../styles/NavBar.css";
-import ButtonNav from "../components/Button";
-
+import CityInfo from "../components/CityInfo";
 export default class City extends React.Component {
   state = { city: { title: "loading..." } };
   id = this.props.params.id;
 
   componentDidMount() {
     axios
-      .get("http://localhost:4000/api/city/" + this.id)
+      .get("http://localhost:4000/api/cities/" + this.id)
       .then((res) => this.setState({ city: res.data.response }));
   }
   render() {
@@ -38,12 +37,7 @@ export default class City extends React.Component {
             {this.state.city.title}
           </h2>
         </Box>
-        <Box sx={{ backgroundColor: "rgba(0,0,0,.5)" }}>
-          <h3>
-            Oops... this page is under construction, come back on sprint 3
-          </h3>
-          <ButtonNav page={"cities"}></ButtonNav>
-        </Box>
+        <CityInfo />
       </>
     );
   }

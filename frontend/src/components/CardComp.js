@@ -51,7 +51,7 @@ const CardComp = ({ photo }) => {
   const classes = useStyles();
 
   return (
-    <Link to={`/city/${photo.title}`}>
+    <Link to={`/city/${photo._id}`}>
       <Box className={classes.container}>
         <Box
           className={classes.card}

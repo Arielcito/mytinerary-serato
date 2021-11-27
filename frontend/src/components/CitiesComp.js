@@ -32,24 +32,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CitiesComp() {
   const [cities, setCities] = useState([]);
-  const [search, setSearch] = useState([])
+  const [search, setSearch] = useState([]);
   const classes = useStyles();
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/cities")
-      .then((res) => setCities(res.data.response))
-  }, [])
-  
+    axios.get("http://localhost:4000/api/cities").then((res) => {
+      setSearch(res.data.response);
+      setCities(res.data.response);
+    });
+  }, []);
+
   const handleChange = (e) => {
-    let value = e.target.value.toLowerCase()
-    let result = []
-    if(value){
-      result = cities.filter((city) => city.title.toLowerCase().startsWith(value) || city.country.toLowerCase().startsWith(value))
-      setSearch(result)
-    }else{
-      setSearch(cities)
+    let value = e.target.value.toLowerCase();
+    let result = [];
+    if (value) {
+      result = cities.filter(
+        (city) =>
+          city.title.toLowerCase().startsWith(value) ||
+          city.country.toLowerCase().startsWith(value)
+      );
+      setSearch(result);
+    } else {
+      setSearch(cities);
     }
-  }
+  };
   return (
     <>
       <Box>
@@ -61,24 +66,26 @@ export default function CitiesComp() {
               onChange={(event) => handleChange(event)}
               id="input-with-icon-adornment"
               startAdornment={
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: "50px", color: "red" }} />
-                </InputAdornment>
+                <SearchIcon
+                  sx={{
+                    fontSize: "30px",
+                    color: "rgba(0,0,0,.7)",
+                    marginLeft: "1rem",
+                  }}
+                />
               }
             />
           </FormControl>
         </Box>
         <Box>
           <Grid container sx={{ justifyContent: "center" }}>
-            {search === [] &&
-            search.map((city, index) => {
+            {search.map((city, index) => {
               return (
                 <Grid item key={index}>
                   <CardComp photo={city} />
                 </Grid>
               );
-            })
-            }
+            })}
           </Grid>
         </Box>
       </Box>
