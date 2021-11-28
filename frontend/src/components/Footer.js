@@ -63,7 +63,7 @@ const Footer = () => {
           <Grid item sm={4}>
             <Box className={classes.nav}>Navigation</Box>
             <Box sx={{ marginBottom: "1rem" }}>
-              <Link to={`/Home`} color="#fff" underline="none">
+              <Link to={`/`} color="#fff" underline="none">
                 Home
               </Link>
             </Box>
@@ -77,7 +77,7 @@ const Footer = () => {
               </Link>
             </Box>
           </Grid>
-          <Grid item xs={3} sm={4} id="mediasCostado">
+          <Grid item xs={3} sm={4} md={4} xl={4} id="mediasCostado">
             <a
               href="facebook.com.ar"
               target="_blank"

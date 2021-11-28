@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     backgroundColor: "rgba(256,256,256,.8)",
     borderRadius: "100px",
-    width: "50rem",
+    width: "50vw",
     height: "3rem",
   },
   containerInput: {
@@ -45,13 +45,13 @@ export default function CitiesComp() {
   }, []);
 
   const handleChange = (e) => {
-    let value = e.target.value.toLowerCase();
+    let value = e.target.value.toLowerCase().replace(/ /g, "");
     let result = [];
     if (value) {
       result = cities.filter(
         (city) =>
-          city.title.toLowerCase().startsWith(value) ||
-          city.country.toLowerCase().startsWith(value)
+          city.title.toLowerCase().replace(/ /g, "").startsWith(value) ||
+          city.country.toLowerCase().replace(/ /g, "").startsWith(value)
       );
       setSearch(result);
     } else {
@@ -87,7 +87,7 @@ export default function CitiesComp() {
             ) : (
               search.map((city, index) => {
                 return (
-                  <Grid item key={index}>
+                  <Grid item key={index} xs={7} lg={4} md={4}>
                     <CardComp photo={city} />
                   </Grid>
                 );

@@ -8,15 +8,15 @@ const useStyles = makeStyles((theme) => ({
   card: {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "50% 50%",
-    width: "calc(1vw+1rem)",
+    backgroundPosition: "center ",
+    width: "100%",
     height: "40vh",
     cursor: "pointer",
     overflow: "hidden",
     display: "flex",
   },
   container: {
-    width: "30rem",
+    width: "30vw",
     height: "40vh",
     margin: "1rem",
     overflow: "hidden",
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "13px",
     overflow: "hidden",
     position: "relative",
-    top: "-5.5rem",
+    top: "-5rem",
     textOverflow: "ellipsis",
   },
 }));
@@ -52,7 +52,7 @@ const CardComp = ({ photo }) => {
 
   return (
     <Link to={`/city/${photo._id}`}>
-      <Box className={classes.container}>
+      <Box className={classes.container} id="containerCard">
         <Box
           className={classes.card}
           id="card"
