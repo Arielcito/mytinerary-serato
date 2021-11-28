@@ -7,7 +7,8 @@ import backgroundImage from "../assets/background-cities.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundImage: `url(${backgroundImage})`,
@@ -35,29 +36,43 @@ export default function CitiesComp() {
   const [cities, setCities] = useState([]);
   const [search, setSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [alert, setAlert] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+
   const classes = useStyles();
   useEffect(() => {
-    axios.get("http://localhost:4000/api/cities").then((res) => {
+    axios.get("http://localhost:4000/api/cities")
+    .then((res) => {
       setSearch(res.data.response);
       setCities(res.data.response);
       setIsLoading(false);
-    });
+    })
+    .catch(error => {
+      console.error('Error:', error)
+    })
   }, []);
 
   const handleChange = (e) => {
     let value = e.target.value.toLowerCase().replace(/ /g, "");
     let result = [];
-    if (value) {
-      result = cities.filter(
-        (city) =>
-          city.title.toLowerCase().replace(/ /g, "").startsWith(value) ||
-          city.country.toLowerCase().replace(/ /g, "").startsWith(value)
-      );
-      setSearch(result);
-    } else {
-      setSearch(cities);
+
+    result = cities.filter(
+      (city) =>
+        city.title.toLowerCase().replace(/ /g, "").startsWith(value) ||
+        city.country.toLowerCase().replace(/ /g, "").startsWith(value)
+    );
+    setAlert(false)
+    setSearch(result);
+    if(result > []){
+      setAlert(false)
+    }else{
+      setAlert(true)
     }
   };
+  const handleValue= (e) => {
+    let value = e.target.value
+    setInputValue(value)
+  }
   return (
     <>
       <Box>
@@ -66,7 +81,9 @@ export default function CitiesComp() {
             <Input
               className={classes.input}
               placeholder="Where to?"
-              onChange={(event) => handleChange(event)}
+              onChange={(event) => {
+                handleValue(event)
+                handleChange(event)}}
               id="input-with-icon-adornment"
               startAdornment={
                 <SearchIcon
@@ -81,9 +98,18 @@ export default function CitiesComp() {
           </FormControl>
         </Box>
         <Box>
-          <Grid container sx={{ justifyContent: "center" }}>
+          <Grid container sx={{ justifyContent: "center", margin: "1rem" }}>
+            <Grid item xs={12}>
+              <Alert
+                severity="error"
+                style={{ display: alert ? "block" : "none" }}
+              >
+                <AlertTitle>No results found for '{inputValue}'</AlertTitle>
+                We couldnt found your request 😿 — <strong>check it out!</strong>
+              </Alert>
+            </Grid>
             {isLoading ? (
-              <CircularProgress />
+              <CircularProgress sx={{ margin: "1rem" }} />
             ) : (
               search.map((city, index) => {
                 return (
