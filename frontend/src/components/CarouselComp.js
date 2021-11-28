@@ -65,7 +65,7 @@ const CarouselComp = () => {
 };
 //funcion que recibe un array y devuelve un array de arrays con la cantidad de elementos n
 function splitArray(array, n) {
-  let length = array.length;
+  let length = 12;
   let i = 0;
   let auxArray = [];
   while (i < length) {
