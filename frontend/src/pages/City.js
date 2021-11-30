@@ -2,7 +2,7 @@ import "../styles/NavBar.css";
 import React from "react";
 import axios from "axios";
 import { Box } from "@mui/system";
-import CityInfo from "../components/CityInfo";
+import Itinerary from "../components/Itinerary";
 export default class City extends React.Component {
   state = { city: { title: "loading..." } };
   id = this.props.params.id;
@@ -37,7 +37,7 @@ export default class City extends React.Component {
             {this.state.city.title}
           </h2>
         </Box>
-        <CityInfo />
+        <Itinerary />
       </>
     );
   }
