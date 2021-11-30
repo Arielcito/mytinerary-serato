@@ -1,6 +1,31 @@
 *{
     text-decoration: none;
+}
+body{
+    min-width:100%;
+    min-height: 100%;
+}
+h2{
     color:white;
+}
+#discover{
+    font-family: 'Shippori Antique', sans-serif;
+    color:white;
+    text-decoration:underline white
+}
+#the{
+    font-family: 'Comforter Brush', cursive;
+    color:tomato;
+    text-decoration:underline white
+
+}
+#planet{
+    font-family: 'Paytone One', sans-serif;
+    font-size: 80px;
+    font-weight: bolder;
+    -webkit-text-stroke:1px #fff;
+    color: transparent;
+    display:block;
 }
 body{
     min-width:100%;
@@ -28,7 +53,10 @@ body{
     font-family: 'Comforter Brush', cursive;
 }
 #footer{
+    
     text-decoration: none;
+}
+a{
     color:white;
 }
 .rec.rec-arrow {
@@ -54,14 +82,44 @@ body{
 #card:hover{
     transform: scale(1.3);
 }
-#slogan{
-    font-family: 'Raleway', sans-serif;
-    font-size: 20px;
-}
-#navTitleHero{
+#heroTitle{
     font-family: 'Comforter Brush', cursive;
-    font-size: 80px;
+    font-size: 120px;
 }
+#slogan{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 30px;
+    color:white;
+}
+.scrollTop {
+    position: fixed; 
+    width: 100%;
+    bottom: 20px;
+    right: 20px;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    animation: fadeIn 0.3s;
+    transition: opacity 0.4s;
+    opacity: 0.5;
+    background-color: white;
+    border-radius: 20%;
+  }
+  
+  .scrollTop:hover{
+    opacity: 1;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+/* City */
 @media (max-width: 600px) {
     #hamburger{
         display: block;
@@ -90,7 +148,8 @@ body{
         display: block;
     }
     #heroTitle{
-        font-size: 50px;
+        font-size: 70px;
+        
     }
     #planet{
         font-size:60px;
@@ -100,6 +159,12 @@ body{
     }
     #the{
         font-size:40px;
+    }
+    #input-with-icon-adornment{
+        width: 12rem;
+    }
+    #containerCard{
+       width: 11.9rem;
     }
 }
 
