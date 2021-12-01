@@ -9,6 +9,9 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import {connect} from 'react-redux'
+import filterActions from '../redux/actions/filterActions'
+
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundImage: `url(${backgroundImage})`,
@@ -32,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CitiesComp() {
+const CitiesComp = () => {
   const [cities, setCities] = useState([]);
   const [search, setSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -125,3 +128,12 @@ export default function CitiesComp() {
     </>
   );
 }
+const mapDispatchToProps = {
+  fetchCities : filterActions.fetchCities
+}
+
+const mapStateToProps = (state) => {
+  return {cities : state.filterReducer.cities}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps )(CitiesComp)

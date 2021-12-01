@@ -38,22 +38,6 @@ const useStyles = makeStyles((theme) => ({
 const Hero = () => {
   const classes = useStyles();
 
-<<<<<<< HEAD
-    return(
-        <Box className={classes.hero} id="hero">
-            <Box className={classes.p} >
-                <h3 id="navTitleHero" fontSize="200px" >MyTinerary</h3>
-                <h3 id="slogan">Find your perfect trip,designed by insiders who knows and love their cities!</h3>
-                <Link to={`/Cities`} className={classes.buttonHero} >
-                <Tooltip title="Go To Cities" enterDelay={500} leaveDelay={200} >
-                    <Button variant="contained" size="medium" color="error" >Start your trip</Button>
-                </Tooltip>
-                </Link>
-            </Box>
-        </Box>
-    )
-}
-=======
   return (
     <Box className={classes.hero} id="hero">
       <Box className={classes.p}>
@@ -73,6 +57,5 @@ const Hero = () => {
     </Box>
   );
 };
->>>>>>> 46c09568785bac87aab10e3b342b296e92b2a2be
 
 export default Hero;

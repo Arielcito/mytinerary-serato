@@ -52,7 +52,7 @@ const itinerarys = [
   {
     title: "Coliseum",
     hashtags: ["Historycal", "GuidedVisit", "Ruins"],
-    src: [
+    src: [ 
       "https://ichef.bbci.co.uk/news/800/cpsprodpb/A6F4/production/_118304724_romecolosseum.jpg",
       "https://assets.buendiatours.com/s3fs-public/styles/highlight_large/public/2019-12/roma-que-ver-coliseo-listado_0.jpg?VersionId=AvKnDEuPMh6gb5_5pKef4gdo23Yi57ys&itok=kuAp-nrw",
       "https://locuraviajes.com/wp-content/uploads/2014/03/coliseo-romano-interior.jpg",
