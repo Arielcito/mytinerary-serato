@@ -1,19 +1,23 @@
 import axios from "axios"
 
 const filterActions = {
-    fetchCities: (dispatch, getState) => {
-        axios.get("http://localhost:4000/api/cities")
-        .then(res => dispatch({type:'fetch',payload:res.data.respuesta}))
-    },
-    filter: ( cities, value) => {
+
+    fetchCities: () => {
+        return async(dispatch, getState) => {
+            const res = await axios.get("http://localhost:4000/api/cities")
+            dispatch({type:'fetch',payload:res.data.response})
+    }},
+    filterCities: ( cities, value) => {
         return(dispatch,getState) => {
-            cities.filter(
-                (city) =>
-                  city.title.toLowerCase().replace(/ /g, "").startsWith(value) ||
-                  city.country.toLowerCase().replace(/ /g, "").startsWith(value)
-              );
+            dispatch({type:'filter',payload:{cities,value}})
         }
-    }
+    },
+    fetchItineraries: () => {
+        return async(dispatch, getState) => {
+            const res = await axios.get("http://localhost:4000/api/itineraries")
+            dispatch({type:'fetch2',payload:res.data.response})
+    }}
+
 }
 
 export default filterActions

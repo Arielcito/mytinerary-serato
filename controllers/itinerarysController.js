@@ -5,13 +5,13 @@ const ItinerarysController = {
     let itinerarys;
     let error = null;
     try {
-      itinerarys = await Itinerary.find();
+      itinerarys = await Itinerary.find().populate('city')
     } catch (error) {
       error = error;
       console.error(error);
     }
     res.json({
-      response: error ? "ERROR" : cities,
+      response: error ? "ERROR" : itinerarys,
       success: error ? false : true,
       error: error,
     });
@@ -20,7 +20,7 @@ const ItinerarysController = {
     let itinerary;
     const id = req.params.id;
     try {
-      itinerary = await Itinerary.findOne({ _id: id });
+      itinerary = await Itinerary.findOne({ _id: id }).populate('city')
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +30,7 @@ const ItinerarysController = {
     });
   },
   postItinerary: async (req, res) => {
-    const { title, src, hashtags, price, duration, currency, language, user, userAvatar } =
+    const { title, src, hashtags, price, duration, currency, language, user, userAvatar ,city} =
       req.body;
     let itinerary;
     try {
@@ -43,7 +43,8 @@ const ItinerarysController = {
         currency,
         language,
         user,
-        userAvatar
+        userAvatar,
+        city
       }).save();
     } catch (error) {
       console.error(error);
@@ -75,6 +76,10 @@ const ItinerarysController = {
     } catch (error) {
       console.error(error);
     }
+    res.json({
+      res: itinerary,
+      success: true,
+    });
   },
 };
 

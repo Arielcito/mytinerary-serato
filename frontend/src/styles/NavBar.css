@@ -119,6 +119,8 @@ a{
       opacity: 0.5;
     }
   }
+
+  
 /* City */
 @media (max-width: 600px) {
     #hamburger{
@@ -165,6 +167,10 @@ a{
     }
     #containerCard{
        width: 11.9rem;
+    }
+    #noItineraries{
+        width: 15rem;
+        height: 15rem;
     }
 }
 

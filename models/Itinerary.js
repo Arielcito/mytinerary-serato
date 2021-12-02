@@ -3,14 +3,16 @@ const { Schema } = mongoose;
 
 const itinerarySchema = new Schema({
   title: { type: String, required: true },
-  hashtags: { type: Number,required: true },
-  src: { type: String, required: true },
-  duration: { type: Number,required: true },
-  price: { type: Number,required: true },
+  hashtags: [{ type: String, }],
+  src: [{ type: String,  }],
+  duration: { type: String, },
+  price: { type: String, },
   currency: { type: String },
   language: { type: String },
-  user: {type:String,required: true},
-  userAvatar: {type:String,required: true}
+  user: {type:String,},
+  userAvatar: {type:String,},
+  city: [{ type:mongoose.Types.ObjectId, ref:'city', required: true}],
+  comments:[{type:String}]
 });
 
 const Itinerary = mongoose.model("itinerary", itinerarySchema);

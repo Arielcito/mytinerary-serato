@@ -5,12 +5,11 @@ import { makeStyles } from "@mui/styles";
 import CardComp from "./CardComp";
 import backgroundImage from "../assets/background-cities.jpg";
 import SearchIcon from "@mui/icons-material/Search";
-import axios from "axios";
-import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import {connect} from 'react-redux'
-import filterActions from '../redux/actions/filterActions'
+import { connect } from "react-redux";
+import filterActions from "../redux/actions/filterActions";
+import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,47 +34,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CitiesComp = () => {
-  const [cities, setCities] = useState([]);
-  const [search, setSearch] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [alert, setAlert] = useState(false)
-  const [inputValue, setInputValue] = useState('')
-
+const CitiesComp = (props) => {
+  const [inputValue, setInputValue] = useState("");
+  const { cities, fetchCities, filterCities, auxiliar, loading } = props;
   const classes = useStyles();
   useEffect(() => {
-    axios.get("http://localhost:4000/api/cities")
-    .then((res) => {
-      setSearch(res.data.response);
-      setCities(res.data.response);
-      setIsLoading(false);
-    })
-    .catch(error => {
-      console.error('Error:', error)
-    })
+    fetchCities();
   }, []);
 
-  const handleChange = (e) => {
-    let value = e.target.value.toLowerCase().replace(/ /g, "");
-    let result = [];
-
-    result = cities.filter(
-      (city) =>
-        city.title.toLowerCase().replace(/ /g, "").startsWith(value) ||
-        city.country.toLowerCase().replace(/ /g, "").startsWith(value)
-    );
-    setAlert(false)
-    setSearch(result);
-    if(result > []){
-      setAlert(false)
-    }else{
-      setAlert(true)
-    }
+  const handleValue = (e) => {
+    let value = e.target.value;
+    setInputValue(value);
   };
-  const handleValue= (e) => {
-    let value = e.target.value
-    setInputValue(value)
-  }
+
   return (
     <>
       <Box>
@@ -85,8 +56,9 @@ const CitiesComp = () => {
               className={classes.input}
               placeholder="Where to?"
               onChange={(event) => {
-                handleValue(event)
-                handleChange(event)}}
+                filterCities(cities, event.target.value);
+                handleValue(event);
+              }}
               id="input-with-icon-adornment"
               startAdornment={
                 <SearchIcon
@@ -105,16 +77,17 @@ const CitiesComp = () => {
             <Grid item xs={12}>
               <Alert
                 severity="error"
-                style={{ display: alert ? "block" : "none" }}
+                style={{ display: auxiliar ? "none" : "block" }}
               >
                 <AlertTitle>No results found for '{inputValue}'</AlertTitle>
-                We couldnt found your request 😿 — <strong>check it out!</strong>
+                We couldnt found your request 😿 —{" "}
+                <strong>check it out!</strong>
               </Alert>
             </Grid>
-            {isLoading ? (
-              <CircularProgress sx={{ margin: "1rem" }} />
+            {loading ? (
+              <Loader />
             ) : (
-              search.map((city, index) => {
+              auxiliar.map((city, index) => {
                 return (
                   <Grid item key={index} xs={7} lg={4} md={4}>
                     <CardComp photo={city} />
@@ -127,13 +100,18 @@ const CitiesComp = () => {
       </Box>
     </>
   );
-}
+};
 const mapDispatchToProps = {
-  fetchCities : filterActions.fetchCities
-}
+  fetchCities: filterActions.fetchCities,
+  filterCities: filterActions.filterCities,
+};
 
 const mapStateToProps = (state) => {
-  return {cities : state.filterReducer.cities}
-}
+  return {
+    cities: state.filterReducer.cities,
+    auxiliar: state.filterReducer.auxiliar,
+    loading: state.filterReducer.loading,
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps )(CitiesComp)
+export default connect(mapStateToProps, mapDispatchToProps)(CitiesComp);

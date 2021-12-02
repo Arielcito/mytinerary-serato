@@ -15,9 +15,9 @@ Router.route("/cities").get(getAllCities).post(postCities);
 
 Router.route("/cities/:id").get(getACity).delete(deleteACity).put(modifyACity);
 
-Router.route("/itinerarys").get(getAllItinerarys).post(postItinerary);
+Router.route("/itineraries").get(getAllItinerarys).post(postItinerary);
 
-Router.route("/itinerary/:id")
+Router.route("/itineraries/:id")
   .get(getAItinerary)
   .delete(deleteAItinerary)
   .put(modifyAItinerary);

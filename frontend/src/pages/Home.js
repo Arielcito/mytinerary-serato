@@ -5,10 +5,16 @@ import "../styles/NavBar.css";
 import ScrollToTop from "../components/ScrollToTop";
 
 export default class Home extends React.Component {
+  componentDidMount() {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  }
   render() {
     return (
       <>
-        <ScrollToTop/>
+        <ScrollToTop />
         <Hero></Hero>
         <CarouselComp></CarouselComp>
       </>

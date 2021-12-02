@@ -1,24 +1,26 @@
 import "../styles/NavBar.css";
 import React from "react";
-import axios from "axios";
 import { Box } from "@mui/system";
 import Itinerary from "../components/Itinerary";
-export default class City extends React.Component {
-  state = { city: { title: "loading..." } };
-  id = this.props.params.id;
+import { connect } from "react-redux";
+import filterActions from "../redux/actions/filterActions";
+class City extends React.Component {
+  state = {};
 
   componentDidMount() {
-    axios
-      .get("http://localhost:4000/api/cities/" + this.id)
-      .then((res) => this.setState({ city: res.data.response }));
+    this.props.fetchCities();
   }
   render() {
-    const image = this.state.city.src;
+    let id = this.props.params.id;
+    let city = this.props.cities.find((city) => city._id === id);
+    let image = "";
+    if (city) {
+      image = city.src;
+    }
     let imageSrc = "";
     if (image) {
       imageSrc = require(`../assets/carousel/${image}`).default;
     }
-
     return (
       <>
         <Box
@@ -33,12 +35,30 @@ export default class City extends React.Component {
             justifyContent: "center",
           }}
         >
-          <h2 style={{ textAlign: "center", fontSize: "100px" }} id="cityTitle">
-            {this.state.city.title}
+          <h2
+            style={{
+              textAlign: "center",
+              fontSize: "100px",
+              textShadow: "4px 4px 3px #000",
+            }}
+            id="cityTitle"
+          >
+            {city && city.title}
           </h2>
         </Box>
-        <Itinerary />
+        <Itinerary id={id} />
       </>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cities: state.filterReducer.cities,
+  };
+};
+const mapDispatchToProps = {
+  fetchCities: filterActions.fetchCities,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(City);
