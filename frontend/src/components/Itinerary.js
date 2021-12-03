@@ -1,11 +1,6 @@
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
-import {
-  Grid,
-  List,
-  ListItem,
-  Button,
-} from "@mui/material";
+import { Grid, List, ListItem, Button } from "@mui/material";
 import Carousel from "react-elastic-carousel";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
@@ -13,8 +8,9 @@ import dolar from "../assets/dolar.png";
 import { Avatar } from "@mui/material";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import filterActions from "../redux/actions/filterActions";
+import itinerariesActions from "../redux/actions/itinerariesActions";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
@@ -75,18 +71,22 @@ const Itinerary = (props) => {
 
   useEffect(() => {
     fetchItineraries();
-  }, []);
+  });
 
   const handleClick = () => {
     setVisible(!visible);
   };
-  const { id, itineraries, fetchItineraries } = props;
+  const { id, itineraries, fetchItineraries, loading } = props;
   let arrayItineraries = itineraries.filter(
     (itinerary) => itinerary.city[0]._id === id
   );
   return (
     <>
-      {arrayItineraries && arrayItineraries.length === 0 ? (
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", margin: "1rem" }}>
+          <Loader />
+        </Box>
+      ) : arrayItineraries && arrayItineraries.length === 0 ? (
         <Box className={classes.noItineraries} id="noItineraries">
           <Box
             sx={{
@@ -124,7 +124,11 @@ const Itinerary = (props) => {
               <h3 className={classes.title}>{itinerary.title}</h3>
               <List className={classes.hashtags} key={index}>
                 {itinerary["hashtags"].map((hashtag, index) => {
-                  return <ListItem key={index}>#{hashtag}</ListItem>;
+                  return (
+                    <ListItem key={index} color="blue">
+                      #{hashtag}
+                    </ListItem>
+                  );
                 })}
               </List>
               <Grid container className={classes.gridContainer}>
@@ -186,14 +190,21 @@ const Itinerary = (props) => {
               <Box>
                 {visible && (
                   <>
-                    <Box>
-                        <h2>UnderConstruction</h2>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontSize:"60px"
+                      }}
+                    >
+                      <h2 sx={{color:"error"}}>UnderConstruction</h2>
                     </Box>
                   </>
                 )}
               </Box>
               <Box className={classes.commentContainer}>
-                <Button variant="outlined" onClick={() => handleClick()}>
+                <Button variant="contained" size="medium" color="error" onClick={() => handleClick()}>
                   {visible ? "Show Less" : "Show More"}
                 </Button>
               </Box>
@@ -214,11 +225,12 @@ const Itinerary = (props) => {
   );
 };
 const mapDispatchToProps = {
-  fetchItineraries: filterActions.fetchItineraries,
+  fetchItineraries: itinerariesActions.fetchItineraries,
 };
 const mapStateToProps = (state) => {
   return {
-    itineraries: state.filterReducer.itineraries,
+    itineraries: state.itinerariesReducer.itineraries,
+    loading: state.itinerariesReducer.loading,
   };
 };
 

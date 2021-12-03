@@ -18,7 +18,11 @@ export default function ScrollToTop() {
     <KeyboardArrowUpIcon
       className="scrollTop"
       onClick={scrollTop}
-      style={{ height: 40, display: showScroll ? "flex" : "none",fontSize:"50px" }}
+      style={{
+        height: 40,
+        display: showScroll ? "flex" : "none",
+        fontSize: "50px",
+      }}
     />
   );
 }

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const filterActions = {
+const citiesActions = {
 
     fetchCities: () => {
         return async(dispatch, getState) => {
@@ -11,13 +11,7 @@ const filterActions = {
         return(dispatch,getState) => {
             dispatch({type:'filter',payload:{cities,value}})
         }
-    },
-    fetchItineraries: () => {
-        return async(dispatch, getState) => {
-            const res = await axios.get("http://localhost:4000/api/itineraries")
-            dispatch({type:'fetch2',payload:res.data.response})
-    }}
-
+    }
 }
 
-export default filterActions
+export default citiesActions

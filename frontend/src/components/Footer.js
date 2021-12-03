@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff!important",
     display: "flex",
     textDecoration: "none!important",
+    bottom: 0,
+    
   },
   logo: {
     maxWidth: "100px",

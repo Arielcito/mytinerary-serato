@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CardsComp from "./CardsComp";
@@ -7,7 +7,8 @@ import "../styles/NavBar.css";
 import ExploreIcon from "@mui/icons-material/Explore";
 import Steps from "./steps";
 import MapIcon from "@mui/icons-material/Map";
-import axios from "axios";
+import { connect } from "react-redux";
+import citiesActions from "../redux/actions/citiesActions";
 
 const useStyles = makeStyles((theme) => ({
   titulo: {
@@ -26,14 +27,12 @@ const useStyles = makeStyles((theme) => ({
     background: "#1e2326",
   },
 }));
-const CarouselComp = () => {
+const CarouselComp = (props) => {
   const classes = useStyles();
-  const [cities, setCities] = useState([]);
+  const { cities, fetchCities } = props;
   let arrayCarousel = splitArray(cities, 4);
   useEffect(() => {
-    axios.get("http://localhost:4000/api/cities").then((res) => {
-      setCities(res.data.response);
-    });
+    fetchCities();
   }, []);
   return (
     <Box className={classes.main} id="main">
@@ -73,5 +72,12 @@ function splitArray(array, n) {
   }
   return auxArray;
 }
+const mapDispatchToProps = {
+  fetchCities: citiesActions.fetchCities,
+};
 
-export default CarouselComp;
+const mapStateToProps = (state) => {
+  return { cities: state.citiesReducer.cities };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarouselComp);

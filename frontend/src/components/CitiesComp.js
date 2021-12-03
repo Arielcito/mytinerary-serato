@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { connect } from "react-redux";
-import filterActions from "../redux/actions/filterActions";
+import citiesActions from "../redux/actions/citiesActions";
 import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,17 +36,15 @@ const useStyles = makeStyles((theme) => ({
 
 const CitiesComp = (props) => {
   const [inputValue, setInputValue] = useState("");
-  const { cities, fetchCities, filterCities, auxiliar, loading } = props;
+  const { cities, fetchCities, filterCities, auxiliar, loading, alert } = props;
   const classes = useStyles();
   useEffect(() => {
     fetchCities();
   }, []);
-
   const handleValue = (e) => {
     let value = e.target.value;
     setInputValue(value);
   };
-
   return (
     <>
       <Box>
@@ -74,18 +72,16 @@ const CitiesComp = (props) => {
         </Box>
         <Box>
           <Grid container sx={{ justifyContent: "center", margin: "1rem" }}>
-            <Grid item xs={12}>
-              <Alert
-                severity="error"
-                style={{ display: auxiliar ? "none" : "block" }}
-              >
-                <AlertTitle>No results found for '{inputValue}'</AlertTitle>
-                We couldnt found your request 😿 —{" "}
-                <strong>check it out!</strong>
-              </Alert>
-            </Grid>
             {loading ? (
               <Loader />
+            ) : auxiliar.length === 0 ? (
+              <Grid item xs={12}>
+                <Alert severity="error">
+                  <AlertTitle>No results found for '{inputValue}'</AlertTitle>
+                  We couldnt found your request 😿 —{" "}
+                  <strong>check it out!</strong>
+                </Alert>
+              </Grid>
             ) : (
               auxiliar.map((city, index) => {
                 return (
@@ -102,15 +98,16 @@ const CitiesComp = (props) => {
   );
 };
 const mapDispatchToProps = {
-  fetchCities: filterActions.fetchCities,
-  filterCities: filterActions.filterCities,
+  fetchCities: citiesActions.fetchCities,
+  filterCities: citiesActions.filterCities,
 };
 
 const mapStateToProps = (state) => {
   return {
-    cities: state.filterReducer.cities,
-    auxiliar: state.filterReducer.auxiliar,
-    loading: state.filterReducer.loading,
+    cities: state.citiesReducer.cities,
+    auxiliar: state.citiesReducer.auxiliar,
+    loading: state.citiesReducer.loading,
+    alert: state.citiesReducer.alert,
   };
 };
 

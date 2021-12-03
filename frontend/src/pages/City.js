@@ -3,12 +3,16 @@ import React from "react";
 import { Box } from "@mui/system";
 import Itinerary from "../components/Itinerary";
 import { connect } from "react-redux";
-import filterActions from "../redux/actions/filterActions";
+import citiesActions from "../redux/actions/citiesActions";
 class City extends React.Component {
   state = {};
 
   componentDidMount() {
     this.props.fetchCities();
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
   }
   render() {
     let id = this.props.params.id;
@@ -54,11 +58,11 @@ class City extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    cities: state.filterReducer.cities,
+    cities: state.citiesReducer.cities,
   };
 };
 const mapDispatchToProps = {
-  fetchCities: filterActions.fetchCities,
+  fetchCities: citiesActions.fetchCities,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);
