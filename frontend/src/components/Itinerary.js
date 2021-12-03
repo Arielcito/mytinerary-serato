@@ -5,9 +5,6 @@ import {
   List,
   ListItem,
   Button,
-  FormControlLabel,
-  Switch,
-  Collapse,
 } from "@mui/material";
 import Carousel from "react-elastic-carousel";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,7 +15,6 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import filterActions from "../redux/actions/filterActions";
 import { Link } from "react-router-dom";
-import CommentIcon from "@mui/icons-material/Comment";
 
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
