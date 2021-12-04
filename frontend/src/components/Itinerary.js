@@ -80,6 +80,9 @@ const Itinerary = (props) => {
   let arrayItineraries = itineraries.filter(
     (itinerary) => itinerary.city[0]._id === id
   );
+  
+
+  console.log(arrayItineraries)
   return (
     <>
       {loading ? (
@@ -108,17 +111,11 @@ const Itinerary = (props) => {
             }}
           >
             We dont have any itinerary yet.
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Link to="/cities">
-                <Button sx={{ backgroundColor: "#000", color: "white" }}>
-                  Cities
-                </Button>
-              </Link>
-            </Box>
           </Box>
         </Box>
       ) : (
         arrayItineraries.map((itinerary, index) => {
+          const price = itinerary.price
           return (
             <Box className={classes.tripContainer}>
               <h3 className={classes.title}>{itinerary.title}</h3>
@@ -160,12 +157,14 @@ const Itinerary = (props) => {
                     </ListItem>
                     <ListItem sx={{ fontSize: "20px" }}>
                       Price:
-                      {
-                        <img
-                          src={dolar}
-                          alt="dolar"
-                          className={classes.dolar}
-                        />
+                      {priceCounter(price).map((bill,index) => {
+                        return <img
+                        src={dolar}
+                        alt="dolar"
+                        className={classes.dolar}
+                        key={index}
+                      />
+                      })
                       }
                     </ListItem>
                     <ListItem sx={{ fontSize: "20px" }}>
@@ -216,6 +215,7 @@ const Itinerary = (props) => {
         <Link to="/cities">
           <Button
             sx={{ backgroundColor: "#000", color: "white", margin: "4rem" }}
+            id="backToCities"
           >
             Back To Cities
           </Button>
@@ -224,6 +224,12 @@ const Itinerary = (props) => {
     </>
   );
 };
+
+const priceCounter = element => {
+  let arrayElement = []
+  for (let i = 0; i < element; i++) { arrayElement.push('e') }
+  return arrayElement
+}
 const mapDispatchToProps = {
   fetchItineraries: itinerariesActions.fetchItineraries,
 };
