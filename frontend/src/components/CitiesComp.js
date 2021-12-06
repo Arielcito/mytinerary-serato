@@ -40,6 +40,7 @@ const CitiesComp = (props) => {
   const classes = useStyles();
   useEffect(() => {
     fetchCities();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleValue = (e) => {
     let value = e.target.value;
@@ -75,7 +76,7 @@ const CitiesComp = (props) => {
             {loading ? (
               <Loader />
             ) : auxiliar.length === 0 ? (
-              <Grid item xs={12}>
+              <Grid item xs={12} >
                 <Alert severity="error">
                   <AlertTitle>No results found for '{inputValue}'</AlertTitle>
                   We couldnt found your request 😿 —{" "}
@@ -85,7 +86,7 @@ const CitiesComp = (props) => {
             ) : (
               auxiliar.map((city, index) => {
                 return (
-                  <Grid item key={index} xs={7} lg={4} md={4}>
+                  <Grid item key={index} xs={7} lg={4} md={4} sm={6}>
                     <CardComp photo={city} />
                   </Grid>
                 );
@@ -107,7 +108,6 @@ const mapStateToProps = (state) => {
     cities: state.citiesReducer.cities,
     auxiliar: state.citiesReducer.auxiliar,
     loading: state.citiesReducer.loading,
-    alert: state.citiesReducer.alert,
   };
 };
 
