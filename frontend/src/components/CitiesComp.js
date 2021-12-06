@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CitiesComp = (props) => {
   const [inputValue, setInputValue] = useState("");
-  const { cities, fetchCities, filterCities, auxiliar, loading, alert } = props;
+  const { cities, fetchCities, filterCities, auxiliar, loading } = props;
   const classes = useStyles();
   useEffect(() => {
     fetchCities();

@@ -5,7 +5,7 @@ const initialState = {
 
 const itinerariesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "fetchI":
+    case "GET_ITINERARIES":
       return {
         ...state,
         itineraries: action.payload,

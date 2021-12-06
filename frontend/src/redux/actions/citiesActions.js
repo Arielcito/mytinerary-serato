@@ -5,11 +5,11 @@ const citiesActions = {
     fetchCities: () => {
         return async(dispatch, getState) => {
             const res = await axios.get("http://localhost:4000/api/cities")
-            dispatch({type:'fetch',payload:res.data.response})
+            dispatch({type:'GET_CITIES',payload:res.data.response})
     }},
     filterCities: ( cities, value) => {
         return(dispatch,getState) => {
-            dispatch({type:'filter',payload:{cities,value}})
+            dispatch({type:'FILTER_CITIES',payload:{cities,value}})
         }
     }
 }
