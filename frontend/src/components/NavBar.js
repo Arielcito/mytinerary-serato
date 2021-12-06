@@ -141,10 +141,14 @@ const NavBar = () => {
             onClose={handleClose}
           >
             <MenuItem sx={{ color: "#000" }} onClick={handleClose}>
-              Log in
+              <Link to='SignIn'>
+              Sign in
+              </Link>
             </MenuItem>
             <MenuItem sx={{ color: "#000" }} onClick={handleClose}>
+            <Link to='SignUp'>
               Sign up
+            </Link>
             </MenuItem>
           </Menu>
         </Toolbar>

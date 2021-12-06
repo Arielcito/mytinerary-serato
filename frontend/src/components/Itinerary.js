@@ -75,6 +75,7 @@ const Itinerary = (props) => {
 
   useEffect(() => {
     fetchItineraries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {

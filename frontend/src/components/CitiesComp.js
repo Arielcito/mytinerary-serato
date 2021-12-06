@@ -40,6 +40,7 @@ const CitiesComp = (props) => {
   const classes = useStyles();
   useEffect(() => {
     fetchCities();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleValue = (e) => {
     let value = e.target.value;
