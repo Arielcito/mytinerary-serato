@@ -4,6 +4,12 @@ import backgroundSignUp from "../assets/registerbackground.jpg";
 import RegistrationForm
  from "../components/RegistrationForm";
 export default class SignIn extends React.Component {
+  componentDidMount() {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  }
   render() {
     return (
       <Box

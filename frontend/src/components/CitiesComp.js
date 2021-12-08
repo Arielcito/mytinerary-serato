@@ -42,6 +42,7 @@ const CitiesComp = (props) => {
     fetchCities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
   const handleValue = (e) => {
     let value = e.target.value;
     setInputValue(value);

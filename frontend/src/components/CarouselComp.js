@@ -33,6 +33,7 @@ const CarouselComp = (props) => {
   let arrayCarousel = splitArray(cities, 4);
   useEffect(() => {
     fetchCities();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box className={classes.main} id="main">

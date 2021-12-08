@@ -12,7 +12,7 @@ import itinerariesActions from "../redux/actions/itinerariesActions";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { IconButton } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 const Itinerary = (props) => {
   const [visible, setVisible] = useState(false);
   const [like, setLike] = useState(0);
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -78,21 +78,15 @@ const Itinerary = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = () => {
-    setVisible(!visible);
-  };
-
   const handleLike = () => {
-    if(liked){
-      setLike(like -1)
-
-    }else{
-      setLike(like + 1)
+    if (liked) {
+      setLike(like - 1);
+    } else {
+      setLike(like + 1);
     }
 
-    setLiked(!liked)
-  }
-  console.log(liked)
+    setLiked(!liked);
+  };
   const { id, itineraries, fetchItineraries, loading } = props;
   let arrayItineraries = itineraries.filter(
     (itinerary) => itinerary.city[0]._id === id
@@ -136,7 +130,10 @@ const Itinerary = (props) => {
               <List className={classes.hashtags} key={index}>
                 {itinerary["hashtags"].map((hashtag, index) => {
                   return (
-                    <ListItem key={index} sx={{color:"blue",cursor:"pointer"}}>
+                    <ListItem
+                      key={index}
+                      sx={{ color: "blue", cursor: "pointer" }}
+                    >
                       #{hashtag}
                     </ListItem>
                   );
@@ -195,11 +192,21 @@ const Itinerary = (props) => {
                             aria-label="like the itinerary"
                             onClick={() => handleLike()}
                           >
-                            {liked ? <FavoriteIcon sx={{ fontSize: "40px",color:"red" }}/> :<FavoriteBorderIcon sx={{ fontSize: "40px",color:"red" }} />}
+                            {liked ? (
+                              <FavoriteIcon
+                                sx={{ fontSize: "40px", color: "red" }}
+                              />
+                            ) : (
+                              <FavoriteBorderIcon
+                                sx={{ fontSize: "40px", color: "red" }}
+                              />
+                            )}
                           </IconButton>
                         </ListItem>
                         <ListItem>
-                          <p>{like} {like>1 ? 'likes' : 'like'}</p>
+                          <p>
+                            {like} {like > 1 ? "likes" : "like"}
+                          </p>
                         </ListItem>
                         <ListItem>
                           <ShareIcon sx={{ fontSize: "40px" }} />
@@ -209,28 +216,24 @@ const Itinerary = (props) => {
                   </List>
                 </Grid>
               </Grid>
-              <Box>
-                {visible && (
-                  <>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontSize: "60px",
-                      }}
-                    >
-                      <h2 sx={{ color: "error" }}>UnderConstruction</h2>
-                    </Box>
-                  </>
-                )}
+              <Box sx={{display: visible ? "block" : "none"}}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "60px",
+                  }}
+                >
+                  <h2 sx={{ color: "error" }}>UnderConstruction</h2>
+                </Box>
               </Box>
               <Box className={classes.commentContainer}>
                 <Button
                   variant="contained"
                   size="medium"
                   color="error"
-                  onClick={() => handleClick()}
+                  onClick={() => setVisible(!visible)}
                 >
                   {visible ? "Show Less" : "Show More"}
                 </Button>

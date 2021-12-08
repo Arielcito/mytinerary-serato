@@ -140,12 +140,12 @@ const NavBar = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem sx={{ color: "#000" }} onClick={handleClose}>
-              <Link to='SignIn'>
+            <MenuItem onClick={handleClose} sx={{backgroundColor:"rgba(0,0,0,.2)"}} >
+              <Link to='SignIn' sx={{color:"black!important"}}>
               Sign in
               </Link>
             </MenuItem>
-            <MenuItem sx={{ color: "#000" }} onClick={handleClose}>
+            <MenuItem onClick={handleClose} sx={{backgroundColor:"rgba(0,0,0,.2)"}} >
             <Link to='SignUp'>
               Sign up
             </Link>
