@@ -11,6 +11,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
+import { connect } from "react-redux";
+import authActions from "../redux/actions/authActions";
+import { useRef } from "react";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: "rgba(0,0,0,.5)",
@@ -36,31 +40,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
+  const inputEmail = useRef();
+  const inputPassword = useRef();
   const classes = useStyles();
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
+
+  const handleSubmitInputs = (e) => {
+    e.preventDefault();
+    handleSubmit(inputEmail.current.value, inputPassword.current.value);
+  };
+
+  const handleSubmit = async (email, password) => {
+    props.logInUser(email, password);
+  };
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-    return (
-      <Box className={classes.container}>
-        <h2 className={classes.title} id="newAccount">
-          {" "}
-          Welcome back !
-        </h2>
-        <Box sx={{ width: "90%" }}>
+console.log(props.user)
+  return (
+    <Box className={classes.container}>
+      <h2 className={classes.title} id="newAccount">
+        {" "}
+        Welcome back !
+      </h2>
+      <Box sx={{ width: "90%" }}>
+        <form onSubmit={(e) => handleSubmitInputs(e)}>
           <FormControl
             id="outlined-Email-input"
             label="Email"
@@ -75,6 +95,7 @@ const RegistrationForm = () => {
           >
             <InputLabel htmlFor="filled-adornment-password">Email</InputLabel>
             <FilledInput
+              inputRef={inputEmail}
               id="filled-adornment-Email"
               type="text"
               endAdornment={
@@ -99,6 +120,7 @@ const RegistrationForm = () => {
               Password
             </InputLabel>
             <FilledInput
+              inputRef={inputPassword}
               id="filled-adornment-password"
               type={values.showPassword ? "text" : "password"}
               value={values.password}
@@ -116,16 +138,26 @@ const RegistrationForm = () => {
             />
           </FormControl>
           <Button
+            type="submit"
             variant="contained"
             color="error"
             sx={{ width: "100%", marginBottom: "1rem" }}
           >
             Sign In
           </Button>
-        </Box>
+        </form>
       </Box>
-    );
+    </Box>
+  );
+};
+
+const mapDispatchToProps = {
+  logInUser: authActions.logInUser,
+};
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.userlog,
   };
+};
 
-
-export default RegistrationForm;
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

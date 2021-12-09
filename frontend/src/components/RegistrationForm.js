@@ -59,7 +59,6 @@ const RegistrationForm = (props) => {
   const inputSurname = useRef();
   const inputImageURL = useRef();
   const inputCountry = useRef();
-  console.log(inputCountry);
   const testedResult = zxcvbn(values.password);
   useEffect(() => {
     props.fetchCountrys();
@@ -97,6 +96,12 @@ const RegistrationForm = (props) => {
       inputImageURL.current.value,
       inputCountry.current.value
     );
+      inputEmail.current.value = ''
+      inputPassword.current.value = ''
+      inputName.current.value = ''
+      inputSurname.current.value = ''
+      inputImageURL.current.value= ''
+      inputCountry.current.value = ''
   };
   return (
     <Box className={classes.container}>
@@ -264,7 +269,7 @@ const RegistrationForm = (props) => {
               props.countrys.map((country) => country.name.common)
             }
             sx={{ width: "100%" }}
-            renderInput={(params) => <TextField inputRef={inputCountry} {...params} label="Countrys" />}
+            renderInput={(params) => <TextField inputRef={inputCountry} {...params} label="Select a country..." />}
             className={classes.formInput}
             
           />

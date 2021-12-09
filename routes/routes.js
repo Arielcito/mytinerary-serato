@@ -13,6 +13,7 @@ const {
   modifyAItinerary,
 } = ItinerarysController;
 const { newUser, logInUser } = UserController;
+
 Router.route("/cities").get(getAllCities).post(postCities);
 
 Router.route("/cities/:id").get(getACity).delete(deleteACity).put(modifyACity);
@@ -26,6 +27,6 @@ Router.route("/itineraries/:id")
 
 Router.route("/auth/signup").post(validator, newUser);
 
-Router.route("/auth/signin").post(logInUser);
+Router.route("/auth/signin").post(logInUser)
 
 module.exports = Router;

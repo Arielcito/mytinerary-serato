@@ -8,6 +8,7 @@ const initialState = {
     country: "",
   },
   countrys: [],
+  userlog:{email:'',password:''}
 };
 
 const authReducer = (state = initialState, action) => {
@@ -20,7 +21,7 @@ const authReducer = (state = initialState, action) => {
     case "LOGIN_USER":
       return {
         ...state,
-        user: action.payload,
+        userlog: action.payload,
       };
     case "GET_COUNTRYS":
       return {
