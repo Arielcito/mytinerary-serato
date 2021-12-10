@@ -14,6 +14,8 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import authActions from "../redux/actions/authActions";
 import { useRef } from "react";
+import { Toaster } from "react-hot-toast";
+import GoogleLogin from "react-google-login";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(0,0,0,.5)",
   },
 }));
-
 const RegistrationForm = (props) => {
   const inputEmail = useRef();
   const inputPassword = useRef();
@@ -48,7 +49,15 @@ const RegistrationForm = (props) => {
     password: "",
     showPassword: false,
   });
-
+  
+  const responseGoogle = (res) => {
+    let googleUser = {
+      email: res.profileObj.email,
+      password: res.profileObj.googleId,
+      google:true
+    }
+    props.logInUser(googleUser).then(res => res.data.success).catch( err => console.err(err))
+  };
   const handleSubmitInputs = (e) => {
     e.preventDefault();
     handleSubmit(inputEmail.current.value, inputPassword.current.value);
@@ -72,7 +81,6 @@ const RegistrationForm = (props) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-console.log(props.user)
   return (
     <Box className={classes.container}>
       <h2 className={classes.title} id="newAccount">
@@ -145,6 +153,14 @@ console.log(props.user)
           >
             Sign In
           </Button>
+          <GoogleLogin
+            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
+          <Toaster />
         </form>
       </Box>
     </Box>

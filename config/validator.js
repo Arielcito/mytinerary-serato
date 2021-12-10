@@ -11,7 +11,6 @@ const validator = (req, res, next) => {
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
       .min(4)
       .required()
-      .max(20)
       .trim()
       .messages({
         "string.empty": "Este campo es requerido",
@@ -21,6 +20,7 @@ const validator = (req, res, next) => {
     surname: joi.string().required(),
     imageURL: joi.string().required(),
     country: joi.string().required(),
+    google
   });
   const validation = schema.validate(req.body, { abortEarly: false });
 

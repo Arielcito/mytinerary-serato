@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const userController = {
   newUser: async (req, res) => {
-    let { email, password, name, surname, imageURL, country } = req.body;
+    let { email, password, name, surname, imageURL, country, google } = req.body;
 
     try {
       const userExist = await User.findOne({ email });
@@ -25,6 +25,7 @@ const userController = {
           surname,
           imageURL,
           country,
+          google
         });
         const token = jwt.sign({ ...userExist }, process.env.JWT_KEY);
         await newUser.save();
@@ -35,20 +36,26 @@ const userController = {
     }
   },
   logInUser: async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, google } = req.body;
     try {
       const user = await User.findOne({ email });
-      const passwordCorrect =
-        user === null
-          ? res.json({ success: false, error: "the user doesnt exists" })
-          : await bcryptjs.compareSync(password, user.password);
-      if (passwordCorrect) {
-        const token = jwt.sign({ ...user }, process.env.JWT_KEY);
-        res.json({ success: true, response: { token, email }, error: null });
-      } else {
-        response.status(401).json({
-          error: "invalid user or password",
+      if (!user) {
+        res.json({
+          success: true,
+          error: "Wrong username or password ",
         });
+      } else {
+        if(user.google && !google) throw new Error ('invalid email')
+        let passwordCompare = bcryptjs.compareSync(password, user.password);
+        if (passwordCompare) {
+          const token = jwt.sign({ ...user }, process.env.JWT_KEY);
+          res.json({ success: true, response: { token, email }, error: null });
+        } else {
+          res.json({
+            success: true,
+            error: "El usuario y/o contraseña incorrectos",
+          });
+        }
       }
     } catch (error) {
       res.json({ success: false, response: null, error: error });

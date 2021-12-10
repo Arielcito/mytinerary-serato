@@ -43,14 +43,16 @@ const authActions = {
           email,
           password
         });
+        
         if (user.data.success && !user.data.error) {
+          toast.success('Successfully sign in!')
           localStorage.setItem('token',user.data.response.token)
           dispatch({
             type: "LOGIN_USER",
             payload: { email: user.data.response },
           });
         } else {
-          console.error(user.data.response);
+          toast.error(user.data.error)
         }
       } catch (error) {
         console.error(error);

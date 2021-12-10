@@ -14,6 +14,8 @@ import authActions from "../redux/actions/authActions";
 import zxcvbn from "zxcvbn";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import GoogleLogin from "react-google-login";
+import { Toaster } from "react-hot-toast";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,8 +48,16 @@ const createPasswordLabel = {
   3: "Good",
   4: "Strong",
 };
-
 const RegistrationForm = (props) => {
+  const responseGoogle = (res) => {
+    let googleUser = {
+      name: res.profileObj.name,
+      email:res.profileObj.email,
+      password:res.profileObj.googleId,
+      google: true
+    }
+    props.registerUser(googleUser).then((res) => res.data.success).catch((error) => console.error(error))
+  }
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -84,7 +94,17 @@ const RegistrationForm = (props) => {
     imageURL,
     country
   ) => {
-    props.registerUser(email, password, name, surname, imageURL, country);
+    const errores = await props.registerUser(
+      email,
+      password,
+      name,
+      surname,
+      imageURL,
+      country
+    );
+    if (errores.errores) {
+      errores.errores.map((e) => alert(e.message));
+    }
   };
   const handleSubmitInputs = (e) => {
     e.preventDefault();
@@ -96,12 +116,12 @@ const RegistrationForm = (props) => {
       inputImageURL.current.value,
       inputCountry.current.value
     );
-      inputEmail.current.value = ''
-      inputPassword.current.value = ''
-      inputName.current.value = ''
-      inputSurname.current.value = ''
-      inputImageURL.current.value= ''
-      inputCountry.current.value = ''
+    inputEmail.current.value = "";
+    inputPassword.current.value = "";
+    inputName.current.value = "";
+    inputSurname.current.value = "";
+    inputImageURL.current.value = "";
+    inputCountry.current.value = "";
   };
   return (
     <Box className={classes.container}>
@@ -269,9 +289,14 @@ const RegistrationForm = (props) => {
               props.countrys.map((country) => country.name.common)
             }
             sx={{ width: "100%" }}
-            renderInput={(params) => <TextField inputRef={inputCountry} {...params} label="Select a country..." />}
+            renderInput={(params) => (
+              <TextField
+                inputRef={inputCountry}
+                {...params}
+                label="Select a country..."
+              />
+            )}
             className={classes.formInput}
-            
           />
           <Button
             type="submit"
@@ -281,6 +306,14 @@ const RegistrationForm = (props) => {
           >
             Sign Up
           </Button>
+          <GoogleLogin
+            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
+          <Toaster />
         </form>
       </Box>
     </Box>
