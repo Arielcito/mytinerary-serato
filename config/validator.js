@@ -8,7 +8,6 @@ const validator = (req, res, next) => {
     }),
     password: joi
       .string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
       .min(4)
       .required()
       .trim()
@@ -20,7 +19,7 @@ const validator = (req, res, next) => {
     surname: joi.string().required(),
     imageURL: joi.string().required(),
     country: joi.string().required(),
-    google
+    google: joi.boolean()
   });
   const validation = schema.validate(req.body, { abortEarly: false });
 

@@ -4,11 +4,11 @@ const jwt = require("jsonwebtoken");
 
 const userController = {
   newUser: async (req, res) => {
-    let { email, password, name, surname, imageURL, country, google } = req.body;
+    let { email, password, name, surname, imageURL, country, google } =
+      req.body;
 
     try {
       const userExist = await User.findOne({ email });
-
       if (userExist) {
         res.json({
           succes: false,
@@ -25,7 +25,7 @@ const userController = {
           surname,
           imageURL,
           country,
-          google
+          google,
         });
         const token = jwt.sign({ ...userExist }, process.env.JWT_KEY);
         await newUser.save();
@@ -39,24 +39,24 @@ const userController = {
     const { email, password, google } = req.body;
     try {
       const user = await User.findOne({ email });
-      if (!user) {
+      if (user.google && !google)
         res.json({
           success: true,
-          error: "Wrong username or password ",
+          error: "Invalid email",
         });
-      } else {
-        if(user.google && !google) throw new Error ('invalid email')
-        let passwordCompare = bcryptjs.compareSync(password, user.password);
-        if (passwordCompare) {
-          const token = jwt.sign({ ...user }, process.env.JWT_KEY);
-          res.json({ success: true, response: { token, email }, error: null });
-        } else {
-          res.json({
-            success: true,
-            error: "El usuario y/o contraseña incorrectos",
-          });
-        }
-      }
+      if (!user)
+        res.json({
+          success: true,
+          error: "Email and/or password incorrect",
+        });
+      let passwordCompare = bcryptjs.compareSync(password, user.password);
+      if (!passwordCompare)
+        res.json({
+          success: true,
+          error: "Email and/or password incorrect",
+        });
+      const token = jwt.sign({ ...user }, process.env.JWT_KEY);
+      res.json({ success: true, response: { token, email }, error: null });
     } catch (error) {
       res.json({ success: false, response: null, error: error });
     }

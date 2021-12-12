@@ -21,15 +21,13 @@ const authActions = {
         });
         if (user.data.success && !user.data.error) {
           localStorage.setItem('token',user.data.response.token)
-          toast.success('Successfully toasted!')
+          toast.success('Successfully register!')
           dispatch({
             type: "REGISTER_USER",
             payload: { name, surname, email, password, imageURL, country },
           });
         } else {
-          toast.error("This didn't work.")
-          console.error(user.data.response);
-          return { errores: [{ message: user.data.error }] };
+          toast.error(user.data.error)
         }
       } catch (error) {
         console.error(error);

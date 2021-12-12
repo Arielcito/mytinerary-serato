@@ -14,7 +14,7 @@ import authActions from "../redux/actions/authActions";
 import zxcvbn from "zxcvbn";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import GoogleLogin from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { Toaster } from "react-hot-toast";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,15 +49,6 @@ const createPasswordLabel = {
   4: "Strong",
 };
 const RegistrationForm = (props) => {
-  const responseGoogle = (res) => {
-    let googleUser = {
-      name: res.profileObj.name,
-      email:res.profileObj.email,
-      password:res.profileObj.googleId,
-      google: true
-    }
-    props.registerUser(googleUser).then((res) => res.data.success).catch((error) => console.error(error))
-  }
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -85,6 +76,23 @@ const RegistrationForm = (props) => {
   };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const responseGoogle = (res) => {
+    console.log(res.profileObj);
+    let googleUser = {
+      email: res.profileObj.email,
+      password: res.profileObj.googleId,
+      name: res.profileObj.givenName,
+      surname: res.profileObj.familyName,
+      imageURL: res.profileObj.imageUrl,
+      country: "Argentina",
+      google: true,
+    };
+    props
+      .registerUser(googleUser.email,googleUser.password,googleUser.name,googleUser.surname,googleUser.imageURL,googleUser.country,googleUser.google)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
   };
   const handleSubmit = async (
     email,
@@ -298,21 +306,30 @@ const RegistrationForm = (props) => {
             )}
             className={classes.formInput}
           />
+          <GoogleLogin
+            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
+            buttonText="Sign Up"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+            render={(renderProps) => (
+              <button
+                className="login-with-google-btn"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                Sign up
+              </button>
+            )}
+          />
           <Button
             type="submit"
             variant="contained"
             color="error"
-            sx={{ width: "100%", marginBottom: "1rem", marginTop: "1rem" }}
+            sx={{ width: "40%", margin: "1rem 2rem" }}
           >
             Sign Up
           </Button>
-          <GoogleLogin
-            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-          />
           <Toaster />
         </form>
       </Box>
