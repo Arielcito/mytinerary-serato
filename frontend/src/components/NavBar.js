@@ -15,6 +15,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, NavLink } from "react-router-dom";
 import { FormControlLabel, Collapse, List, ListItem } from "@mui/material";
+import { connect } from "react-redux";
+import LogoutIcon from "@mui/icons-material/Logout";
+import authActions from "../redux/actions/authActions";
 //estilado navbar
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 //componente navbar
-const NavBar = () => {
+const NavBar = (props) => {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,7 +54,9 @@ const NavBar = () => {
   const handleChange = () => {
     setChecked((prev) => !prev);
   };
-
+  const handleLogOut = () => {
+    props.signOut()
+  }
   const stateMenu = checked ? "block" : "none";
   return (
     <div className="App">
@@ -115,46 +120,64 @@ const NavBar = () => {
             <ButtonNav page="Home"></ButtonNav>
             <ButtonNav page="Cities"></ButtonNav>
           </Box>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleClick}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose} sx={{backgroundColor:"rgba(0,0,0,.2)"}} >
-              <Link to='SignIn' sx={{color:"black!important"}}>
-              Sign in
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} sx={{backgroundColor:"rgba(0,0,0,.2)"}} >
-            <Link to='SignUp'>
-              Sign up
-            </Link>
-            </MenuItem>
-          </Menu>
+          {props.user ? (
+            <LogoutIcon onClick={handleLogOut} sx={{cursor:"pointer"}} />
+          ) : (
+            <>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleClick}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem
+                  onClick={handleClose}
+                  sx={{ backgroundColor: "rgba(0,0,0,.2)" }}
+                >
+                  <Link to="SignIn" sx={{ color: "black!important" }}>
+                    Sign in
+                  </Link>
+                </MenuItem>
+                <MenuItem
+                  onClick={handleClose}
+                  sx={{ backgroundColor: "rgba(0,0,0,.2)" }}
+                >
+                  <Link to="SignUp">Sign up</Link>
+                </MenuItem>
+              </Menu>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-export default NavBar;
+const mapDispatchToProps = {
+  signOut: authActions.signOut
+}
+const mapStateToProps = (state) => {
+  return ({
+    user: state.authReducer.user,
+  })
+};
+export default connect(mapStateToProps,mapDispatchToProps)(NavBar);

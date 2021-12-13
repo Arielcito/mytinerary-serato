@@ -84,7 +84,6 @@ const Itinerary = (props) => {
     } else {
       setLike(like + 1);
     }
-
     setLiked(!liked);
   };
   const { id, itineraries, fetchItineraries, loading } = props;
@@ -142,11 +141,12 @@ const Itinerary = (props) => {
               <Grid container className={classes.gridContainer}>
                 <Grid item xs={12} md={12} lg={6} id="ghelo">
                   <Carousel>
-                    {itinerary["src"].map((item) => {
+                    {itinerary["src"].map((item,index) => {
                       return (
                         <img
                           src={item}
                           alt={item}
+                          key={index}
                           className={classes.imageCarousel}
                         />
                       );
@@ -190,9 +190,14 @@ const Itinerary = (props) => {
                         <ListItem>
                           <IconButton
                             aria-label="like the itinerary"
-                            onClick={() => handleLike()}
+                            onClick={() =>!props.user ? handleLike() : ''}
                           >
-                            {liked ? (
+                            {!props.user ? 
+                            <FavoriteBorderIcon
+                            sx={{ fontSize: "40px", color: "red" }}
+                          />
+                          :
+                            liked ? (
                               <FavoriteIcon
                                 sx={{ fontSize: "40px", color: "red" }}
                               />
@@ -268,6 +273,7 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = (state) => {
   return {
+    user: state.authReducer.user,
     itineraries: state.itinerariesReducer.itineraries,
     loading: state.itinerariesReducer.loading,
   };

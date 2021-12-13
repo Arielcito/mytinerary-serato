@@ -16,6 +16,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "react-google-login";
 import { Toaster } from "react-hot-toast";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,6 +51,28 @@ const createPasswordLabel = {
   4: "Strong",
 };
 const RegistrationForm = (props) => {
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .required('Required'),
+      lastName: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().required('Required'),
+      imageURL:Yup.string().required('Required'),
+      country:Yup.string().required('Required')  
+    }),
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -79,7 +103,6 @@ const RegistrationForm = (props) => {
   };
 
   const responseGoogle = (res) => {
-    console.log(res.profileObj);
     let googleUser = {
       email: res.profileObj.email,
       password: res.profileObj.googleId,
@@ -91,8 +114,6 @@ const RegistrationForm = (props) => {
     };
     props
       .registerUser(googleUser.email,googleUser.password,googleUser.name,googleUser.surname,googleUser.imageURL,googleUser.country,googleUser.google)
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
   };
   const handleSubmit = async (
     email,
@@ -150,7 +171,7 @@ const RegistrationForm = (props) => {
             className={classes.formInput}
             sx={{ marginBottom: "1rem", marginRight: "3.5rem", width: "45%" }}
             color="success"
-            required
+            
           >
             <InputLabel htmlFor="filled-adornment-password">Name</InputLabel>
             <FilledInput
@@ -173,7 +194,7 @@ const RegistrationForm = (props) => {
             className={classes.formInput}
             sx={{ marginBottom: "1rem", width: "45%" }}
             color="success"
-            required
+            
           >
             <InputLabel htmlFor="filled-adornment-password">Surname</InputLabel>
             <FilledInput
@@ -197,10 +218,11 @@ const RegistrationForm = (props) => {
             sx={{ marginBottom: "1rem" }}
             color="success"
             fullWidth
-            required
           >
             <InputLabel htmlFor="filled-adornment-password">Email</InputLabel>
             <FilledInput
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
               inputRef={inputEmail}
               id="filled-adornment-Email"
               type="email"
@@ -220,7 +242,7 @@ const RegistrationForm = (props) => {
             }}
             variant="filled"
             color="success"
-            required
+            
             className={classes.formInput}
           >
             <InputLabel htmlFor="filled-adornment-password">
@@ -344,9 +366,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  return {
+  return ({
     user: state.authReducer.user,
     countrys: state.authReducer.countrys,
-  };
+  })
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

@@ -1,32 +1,24 @@
 const initialState = {
-  user: {
-    email: "",
-    password: "",
-    name: "",
-    surname: "",
-    imageURL: "",
-    country: "",
-  },
+  user: false,
   countrys: [],
-  userlog:{email:'',password:''}
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "REGISTER_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
     case "LOGIN_USER":
       return {
         ...state,
-        userlog: action.payload,
+        user: true,
       };
     case "GET_COUNTRYS":
       return {
         countrys: action.payload,
       };
+      case "LOGOUT_USER":
+        return {
+          ...state,
+          user: false,
+        };
     default:
       return state;
   }

@@ -15,10 +15,22 @@ const validator = (req, res, next) => {
         "string.empty": "Este campo es requerido",
         "string.min": "Este campo es requerido",
       }),
-    name: joi.string().required(),
-    surname: joi.string().required(),
-    imageURL: joi.string().required(),
-    country: joi.string().required(),
+    name: joi.string().required().messages({
+      "string.empty": "Este campo es requerido",
+      "string.min": "Este campo es requerido",
+    }),
+    surname: joi.string().required().messages({
+      "string.empty": "Este campo es requerido",
+      "string.min": "Este campo es requerido",
+    }),
+    imageURL: joi.string().required().messages({
+      "string.empty": "Este campo es requerido",
+      "string.min": "Este campo es requerido",
+    }),
+    country: joi.string().required().messages({
+      "string.empty": "Este campo es requerido",
+      "string.min": "Este campo es requerido",
+    }),
     google: joi.boolean()
   });
   const validation = schema.validate(req.body, { abortEarly: false });

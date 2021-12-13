@@ -8,10 +8,14 @@ import {withRouter} from './utils/withRouter'
 import CityNoProps from './pages/City'
 import SignIn from "./pages/SignIn";
 import SignUp from './pages/SignUp'
+import authActions from "./redux/actions/authActions";
+import {connect} from 'react-redux'
 
 const City = withRouter(CityNoProps)
 
-function App() {
+function App(props) {
+  
+
   return (
     <>
       <BrowserRouter>
@@ -19,15 +23,24 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Cities" element={<Cities />} />
-          <Route path="/SignIn" element={<SignIn />} />
-          <Route path="/SignUp" element={<SignUp />} />
           <Route path="*" element={<Home />} />
           <Route path="/City/:id" element={<City/>}/>
+          {!props.userLogged && <Route path="/SignIn" element={<SignIn />} />}
+          {!props.userLogged && <Route path="/SignUp" element={<SignUp />} />}
         </Routes>
       <Footer/>
       </BrowserRouter>
     </>
   );
 }
+const mapStateToProps = state => {
+  return {
+      userLogged: state.authReducer.user
+  }
+}
 
-export default App;
+const mapDispatchToProps = {
+  signInLS: authActions.signInLS
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

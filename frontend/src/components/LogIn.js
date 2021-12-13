@@ -16,6 +16,8 @@ import authActions from "../redux/actions/authActions";
 import { useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import GoogleLogin from "react-google-login";
+import {Link} from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(0,0,0,.5)",
   },
 }));
-const RegistrationForm = (props) => {
+
+const LogIn = (props) => {
+  
   const inputEmail = useRef();
   const inputPassword = useRef();
   const classes = useStyles();
@@ -56,7 +60,7 @@ const RegistrationForm = (props) => {
       password: res.profileObj.googleId,
       google:true
     }
-    props.logInUser(googleUser).then(res => res.data.success).catch( err => console.err(err))
+    props.logInUser(googleUser.email,googleUser.password,googleUser.google)
   };
   const handleSubmitInputs = (e) => {
     e.preventDefault();
@@ -83,10 +87,17 @@ const RegistrationForm = (props) => {
   };
   return (
     <Box className={classes.container}>
-      <h2 className={classes.title} id="newAccount">
+      <Box >
+
+      <h2 className={classes.title} id="newAccount" >
         {" "}
         Welcome back !
       </h2>
+      <h3 className={classes.callToAction}>
+        Havent register yet? <Link to="/SignUp"> Sign Up</Link>
+      </h3>
+      
+      </Box>
       <Box sx={{ width: "90%" }}>
         <form onSubmit={(e) => handleSubmitInputs(e)}>
           <FormControl
@@ -145,21 +156,30 @@ const RegistrationForm = (props) => {
               }
             />
           </FormControl>
+          <GoogleLogin
+            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
+            buttonText="Sign Up"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+            render={(renderProps) => (
+              <button
+                className="login-with-google-btn"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                Sign In
+              </button>
+            )}
+          />
           <Button
             type="submit"
             variant="contained"
             color="error"
-            sx={{ width: "100%", marginBottom: "1rem" }}
+            sx={{ width: "40%", margin: "1rem 2rem" }}
           >
             Sign In
           </Button>
-          <GoogleLogin
-            clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-          />
           <Toaster />
         </form>
       </Box>
@@ -171,9 +191,9 @@ const mapDispatchToProps = {
   logInUser: authActions.logInUser,
 };
 const mapStateToProps = (state) => {
-  return {
-    user: state.authReducer.userlog,
-  };
+  return ({
+    user: state.authReducer.user,
+  })
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

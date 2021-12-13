@@ -8,7 +8,7 @@ const authActions = {
       dispatch({ type: "GET_COUNTRYS", payload: res.data });
     };
   },
-  registerUser: (email, password, name, surname, imageURL, country) => {
+  registerUser: (email, password, name, surname, imageURL, country, google) => {
     return async (dispatch, getState) => {
       try {
         const user = await axios.post("http://localhost:4000/api/auth/signup", {
@@ -18,13 +18,14 @@ const authActions = {
           surname,
           imageURL,
           country,
+          google
         });
         if (user.data.success && !user.data.error) {
           localStorage.setItem('token',user.data.response.token)
           toast.success('Successfully register!')
           dispatch({
-            type: "REGISTER_USER",
-            payload: { name, surname, email, password, imageURL, country },
+            type: "LOGIN_USER",
+            payload: { name, surname, email, password, imageURL, country, google },
           });
         } else {
           toast.error(user.data.error)
@@ -34,12 +35,13 @@ const authActions = {
       }
     };
   },
-  logInUser: (email, password) => {
+  logInUser: (email, password, google) => {
     return async (dispatch, getState) => {
       try {
         const user = await axios.post("http://localhost:4000/api/auth/signin", {
           email,
-          password
+          password,
+          google
         });
         
         if (user.data.success && !user.data.error) {
@@ -57,6 +59,24 @@ const authActions = {
       }
     };
   },
+  signOut: () => {
+    return async (dispatch, getState) => {
+      toast.success('See you soon!',{icon:'👋'})
+      dispatch({ type: 'LOGOUT_USER' })
+    }
+},
+signInLS:(userLS) => {
+  return async(dispatch,getState) => {
+    try{
+      const res = await axios.get('http://localhost:4000/api/auth/signinls',{
+        headers: { 'Authorization': 'Bearer ' + userLS.token }
+    })
+    dispatch({ type: 'LOGIN_USER', payload: { ...res.data.response, token: userLS.token } })
+    }catch (error) {
+      console.error(error);
+    }
+  }
+}
 };
 
 export default authActions;
