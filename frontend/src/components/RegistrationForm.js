@@ -4,9 +4,8 @@ import { useRef, useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 import { Button, Autocomplete } from "@mui/material";
-import { FormControl, IconButton, InputLabel } from "@mui/material";
+import { IconButton } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { FilledInput } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import ImageIcon from "@mui/icons-material/Image";
 import { connect } from "react-redux";
@@ -16,14 +15,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "react-google-login";
 import { Toaster } from "react-hot-toast";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik, Form } from "formik";
+import * as Yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: "rgba(0,0,0,.5)",
     width: "40rem",
-    maxHeight: "35rem",
+    maxHeight: "42rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -53,24 +52,44 @@ const createPasswordLabel = {
 const RegistrationForm = (props) => {
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      imageURL: "",
+      country: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(15, 'Must be 15 characters or less')
-        .required('Required'),
-      lastName: Yup.string()
-        .max(20, 'Must be 20 characters or less')
-        .required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().required('Required'),
-      imageURL:Yup.string().required('Required'),
-      country:Yup.string().required('Required')  
+      name: Yup.string()
+        .min(3, "must be 3 characters at least")
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      surname: Yup.string()
+        .min(3, "must be 3 characters at least")
+        .max(20, "Must be 20 characters or less")
+        .required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      password: Yup.string()
+        .min(3, "must be 3 characters at least")
+        .required("Required"),
+      imageURL: Yup.string().required("Required"),
+      country: Yup.string().required("Required"),
     }),
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: () => {
+      handleSubmit(
+        inputEmail.current.value,
+        inputPassword.current.value,
+        inputName.current.value,
+        inputSurname.current.value,
+        inputImageURL.current.value,
+        inputCountry.current.value
+      );
+      inputEmail.current.value = "";
+      inputPassword.current.value = "";
+      inputName.current.value = "";
+      inputSurname.current.value = "";
+      inputImageURL.current.value = "";
+      inputCountry.current.value = "";
     },
   });
   const [values, setValues] = useState({
@@ -112,8 +131,15 @@ const RegistrationForm = (props) => {
       country: "Argentina",
       google: true,
     };
-    props
-      .registerUser(googleUser.email,googleUser.password,googleUser.name,googleUser.surname,googleUser.imageURL,googleUser.country,googleUser.google)
+    props.registerUser(
+      googleUser.email,
+      googleUser.password,
+      googleUser.name,
+      googleUser.surname,
+      googleUser.imageURL,
+      googleUser.country,
+      googleUser.google
+    );
   };
   const handleSubmit = async (
     email,
@@ -123,17 +149,7 @@ const RegistrationForm = (props) => {
     imageURL,
     country
   ) => {
-    const errores = await props.registerUser(
-      email,
-      password,
-      name,
-      surname,
-      imageURL,
-      country
-    );
-    if (errores.errores) {
-      errores.errores.map((e) => alert(e.message));
-    }
+    await props.registerUser(email, password, name, surname, imageURL, country);
   };
   const handleSubmitInputs = (e) => {
     e.preventDefault();
@@ -145,12 +161,6 @@ const RegistrationForm = (props) => {
       inputImageURL.current.value,
       inputCountry.current.value
     );
-    inputEmail.current.value = "";
-    inputPassword.current.value = "";
-    inputName.current.value = "";
-    inputSurname.current.value = "";
-    inputImageURL.current.value = "";
-    inputCountry.current.value = "";
   };
   return (
     <Box className={classes.container}>
@@ -161,100 +171,77 @@ const RegistrationForm = (props) => {
       <h3 className={classes.callToAction}>Already Have An Account? </h3>
       <Link to="/SignIn"> Sign In</Link>
       <Box sx={{ width: "90%", overflow: "hidden" }}>
-        <form onSubmit={(e) => handleSubmitInputs(e)}>
-          <FormControl
-            id="outlined-Name-input"
+        <Form>
+          <TextField
+            name="name"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            inputRef={inputName}
             label="Name"
             type="text"
-            autoComplete="current-Name"
-            variant="filled"
             className={classes.formInput}
             sx={{ marginBottom: "1rem", marginRight: "3.5rem", width: "45%" }}
-            color="success"
-            
-          >
-            <InputLabel htmlFor="filled-adornment-password">Name</InputLabel>
-            <FilledInput
-              inputRef={inputName}
-              id="filled-adornment-Name"
-              type="text"
-              endAdornment={
-                <IconButton edge="end">
-                  <AccountCircle />
-                </IconButton>
-              }
-            />
-          </FormControl>
-          <FormControl
-            id="outlined-Surname-input"
+            InputProps={{
+              endAdornment: <AccountCircle />,
+            }}
+            variant="filled"
+          />
+          <TextField
+            name="surname"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.surname && Boolean(formik.errors.surname)}
+            helperText={formik.touched.surname && formik.errors.surname}
+            inputRef={inputSurname}
             label="Surname"
             type="text"
-            autoComplete="current-Surname"
-            variant="filled"
             className={classes.formInput}
             sx={{ marginBottom: "1rem", width: "45%" }}
-            color="success"
-            
-          >
-            <InputLabel htmlFor="filled-adornment-password">Surname</InputLabel>
-            <FilledInput
-              inputRef={inputSurname}
-              id="filled-adornment-Surname"
-              type="text"
-              endAdornment={
-                <IconButton edge="end">
-                  <AccountCircle />
-                </IconButton>
-              }
-            />
-          </FormControl>
-          <FormControl
-            id="outlined-Email-input"
-            label="Email"
-            type="email"
-            autoComplete="current-Email"
+            InputProps={{
+              endAdornment: <AccountCircle />,
+            }}
             variant="filled"
-            className={classes.formInput}
-            sx={{ marginBottom: "1rem" }}
-            color="success"
-            fullWidth
-          >
-            <InputLabel htmlFor="filled-adornment-password">Email</InputLabel>
-            <FilledInput
+          />
+          <TextField
+            name="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
-              inputRef={inputEmail}
-              id="filled-adornment-Email"
-              type="email"
-              endAdornment={
-                <IconButton edge="end">
-                  <EmailIcon />
-                </IconButton>
-              }
-            />
-          </FormControl>
-          <FormControl
+            inputRef={inputEmail}
+            label="Email"
+            type="text"
+            className={classes.formInput}
+            sx={{ marginBottom: "1rem" }}
+            fullWidth
+            InputProps={{
+              endAdornment: <EmailIcon />,
+            }}
+            variant="filled"
+          />
+          <TextField
+            name="password"
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            label="Password"
             fullWidth
             sx={{
               marginBottom: "1rem",
               backgroundColor: "rgba(256,256,256,.3)",
               borderRadius: "10px",
             }}
-            variant="filled"
             color="success"
-            
+            inputRef={inputPassword}
+            id="filled-adornment-password"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
             className={classes.formInput}
-          >
-            <InputLabel htmlFor="filled-adornment-password">
-              Password
-            </InputLabel>
-            <FilledInput
-              inputRef={inputPassword}
-              id="filled-adornment-password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              endAdornment={
+            InputProps={{
+              endAdornment: (
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
@@ -263,9 +250,10 @@ const RegistrationForm = (props) => {
                 >
                   {values.showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-              }
-            />
-          </FormControl>
+              ),
+            }}
+            variant="filled"
+          />
           <div className="password-strength-meter">
             <progress
               value={testedResult.score}
@@ -285,35 +273,30 @@ const RegistrationForm = (props) => {
               {createPasswordLabel[testedResult.score]}
             </span>
           </label>
-          <FormControl
+          <TextField
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.imageURL && Boolean(formik.errors.imageURL)}
+            helperText={formik.touched.imageURL && formik.errors.imageURL}
+            name="imageURL"
+            inputRef={inputImageURL}
             id="outlined-Image-input"
-            label="Image"
+            label="ImageURL"
             type="text"
             autoComplete="current-Image"
-            variant="filled"
             className={classes.formInput}
             sx={{ marginBottom: "1rem" }}
             color="success"
             fullWidth
-            required
-          >
-            <InputLabel htmlFor="filled-adornment-password">
-              Image URL
-            </InputLabel>
-            <FilledInput
-              inputRef={inputImageURL}
-              id="filled-adornment-Image"
-              type="text"
-              endAdornment={
-                <IconButton edge="end">
-                  <ImageIcon />
-                </IconButton>
-              }
-            />
-          </FormControl>
+            InputProps={{
+              endAdornment: <ImageIcon />,
+            }}
+            variant="filled"
+          />
           <Autocomplete
             disablePortal
             id="combo-box-demo"
+            component="select"
             options={
               props.countrys &&
               props.countrys.map((country) => country.name.common)
@@ -353,7 +336,7 @@ const RegistrationForm = (props) => {
             Sign Up
           </Button>
           <Toaster />
-        </form>
+        </Form>
       </Box>
     </Box>
   );
@@ -362,13 +345,12 @@ const RegistrationForm = (props) => {
 const mapDispatchToProps = {
   fetchCountrys: authActions.fetchCountrys,
   registerUser: authActions.registerUser,
-  logInUser: authActions.logInUser,
 };
 
 const mapStateToProps = (state) => {
-  return ({
+  return {
     user: state.authReducer.user,
     countrys: state.authReducer.countrys,
-  })
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const authActions = {
   fetchCountrys: () => {
@@ -18,17 +18,25 @@ const authActions = {
           surname,
           imageURL,
           country,
-          google
+          google,
         });
         if (user.data.success && !user.data.error) {
-          localStorage.setItem('token',user.data.response.token)
-          toast.success('Successfully register!')
+          localStorage.setItem("token", user.data.response.token);
+          toast.success("Successfully register!");
           dispatch({
             type: "LOGIN_USER",
-            payload: { name, surname, email, password, imageURL, country, google },
+            payload: {
+              name,
+              surname,
+              email,
+              password,
+              imageURL,
+              country,
+              google,
+            },
           });
         } else {
-          toast.error(user.data.error)
+          toast.error(user.data.error);
         }
       } catch (error) {
         console.error(error);
@@ -41,18 +49,17 @@ const authActions = {
         const user = await axios.post("http://localhost:4000/api/auth/signin", {
           email,
           password,
-          google
+          google,
         });
-        
         if (user.data.success && !user.data.error) {
-          toast.success('Successfully sign in!')
-          localStorage.setItem('token',user.data.response.token)
+          toast.success("Successfully sign in!");
+          localStorage.setItem("token", user.data.response.token);
           dispatch({
             type: "LOGIN_USER",
-            payload: { email: user.data.response },
+            payload: user.data.response,
           });
         } else {
-          toast.error(user.data.error)
+          toast.error(user.data.error);
         }
       } catch (error) {
         console.error(error);
@@ -61,22 +68,44 @@ const authActions = {
   },
   signOut: () => {
     return async (dispatch, getState) => {
-      toast.success('See you soon!',{icon:'👋'})
-      dispatch({ type: 'LOGOUT_USER' })
-    }
-},
-signInLS:(userLS) => {
-  return async(dispatch,getState) => {
-    try{
-      const res = await axios.get('http://localhost:4000/api/auth/signinls',{
-        headers: { 'Authorization': 'Bearer ' + userLS.token }
-    })
-    dispatch({ type: 'LOGIN_USER', payload: { ...res.data.response, token: userLS.token } })
-    }catch (error) {
-      console.error(error);
-    }
-  }
-}
+      localStorage.clear();
+      toast.success("See you soon!", { icon: "👋" });
+      dispatch({ type: "LOGOUT_USER" });
+    };
+  },
+  forcedLog: (userLS) => {
+    return async (dispatch, getState) => {
+      try {
+        const respuesta = await axios.get(
+          "http://localhost:4000/api/auth/signin",
+          {
+            headers: {
+              Authorization: "Bearer " + userLS.token,
+            },
+          }
+        );
+        dispatch({
+          type: "LOGIN_USER",
+          payload: {
+            ...respuesta.data.respuesta,
+            token: userLS.token,
+          },
+        });
+      } catch (error) {
+        if (!error.response) {
+          return toast.error(
+            "Failed trying to connect with server"
+          );
+        } else if (
+          
+          error.response.status === 401
+        ) {
+          toast.error("Invalid Token");
+          dispatch({ type: "LOG_OUT", payload: null });
+        }
+      }
+    };
+  },
 };
 
 export default authActions;

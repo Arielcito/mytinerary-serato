@@ -68,7 +68,7 @@ const LogIn = (props) => {
   };
 
   const handleSubmit = async (email, password) => {
-    props.logInUser(email, password);
+    await props.logInUser(email, password);
   };
 
   const handleChange = (prop) => (event) => {
@@ -191,9 +191,9 @@ const mapDispatchToProps = {
   logInUser: authActions.logInUser,
 };
 const mapStateToProps = (state) => {
-  return ({
+  return {
     user: state.authReducer.user,
-  })
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

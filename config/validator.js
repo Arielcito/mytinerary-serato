@@ -2,9 +2,9 @@ const joi = require("joi");
 
 const validator = (req, res, next) => {
   const schema = joi.object({
-    email: joi.string().email().required().trim().messages({
-      "string.empty": "Este campo es requerido",
-      "string.min": "Este campo es requerido",
+    email: joi.string().email().required().trim().min(4).messages({
+      "string.empty": "This field is required",
+      "string.min": "This field is required",
     }),
     password: joi
       .string()
@@ -12,24 +12,22 @@ const validator = (req, res, next) => {
       .required()
       .trim()
       .messages({
-        "string.empty": "Este campo es requerido",
-        "string.min": "Este campo es requerido",
+        "string.empty": "This field is required",
+        "string.min": "This field is required",
       }),
-    name: joi.string().required().messages({
-      "string.empty": "Este campo es requerido",
-      "string.min": "Este campo es requerido",
+    name: joi.string().min(4).required().messages({
+      "string.empty": "This field is required",
+      "string.min": "This field is required",
     }),
-    surname: joi.string().required().messages({
-      "string.empty": "Este campo es requerido",
-      "string.min": "Este campo es requerido",
+    surname: joi.string().min(4).required().messages({
+      "string.empty": "This field is required",
+      "string.min": "This field is required",
     }),
     imageURL: joi.string().required().messages({
-      "string.empty": "Este campo es requerido",
-      "string.min": "Este campo es requerido",
+      "string.empty": "This field is required",
     }),
     country: joi.string().required().messages({
-      "string.empty": "Este campo es requerido",
-      "string.min": "Este campo es requerido",
+      "string.empty": "This field is required",
     }),
     google: joi.boolean()
   });

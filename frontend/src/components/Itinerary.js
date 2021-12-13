@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import toast, { Toaster } from "react-hot-toast";
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
     maxWidth: "65rem",
@@ -86,12 +86,16 @@ const Itinerary = (props) => {
     }
     setLiked(!liked);
   };
+  const viewMoreLess = () => {
+    setVisible(!visible);
+  };
   const { id, itineraries, fetchItineraries, loading } = props;
   let arrayItineraries = itineraries.filter(
     (itinerary) => itinerary.city[0]._id === id
-  );
-  return (
-    <>
+    );
+    return (
+      <>
+      <Toaster position="bottom-right" reverseOrder={false} />
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", margin: "1rem" }}>
           <Loader />
@@ -141,7 +145,7 @@ const Itinerary = (props) => {
               <Grid container className={classes.gridContainer}>
                 <Grid item xs={12} md={12} lg={6} id="ghelo">
                   <Carousel>
-                    {itinerary["src"].map((item,index) => {
+                    {itinerary["src"].map((item, index) => {
                       return (
                         <img
                           src={item}
@@ -190,14 +194,27 @@ const Itinerary = (props) => {
                         <ListItem>
                           <IconButton
                             aria-label="like the itinerary"
-                            onClick={() =>!props.user ? handleLike() : ''}
+                            onClick={() =>
+                              props.user
+                                ? handleLike()
+                                : toast.error(
+                                    "You must be logged to like itinerarys",
+                                    {
+                                      duration: 60000,
+                                      style: {
+                                        borderRadius: "10px",
+                                        background: "#333",
+                                        color: "#fff",
+                                      },
+                                    }
+                                  )
+                            }
                           >
-                            {!props.user ? 
-                            <FavoriteBorderIcon
-                            sx={{ fontSize: "40px", color: "red" }}
-                          />
-                          :
-                            liked ? (
+                            {!props.user ? (
+                              <FavoriteBorderIcon
+                                sx={{ fontSize: "40px", color: "red" }}
+                              />
+                            ) : liked ? (
                               <FavoriteIcon
                                 sx={{ fontSize: "40px", color: "red" }}
                               />
@@ -221,7 +238,7 @@ const Itinerary = (props) => {
                   </List>
                 </Grid>
               </Grid>
-              <Box sx={{display: visible ? "block" : "none"}}>
+              <Box sx={{ display: visible ? "block" : "none" }}>
                 <Box
                   sx={{
                     display: "flex",
@@ -238,7 +255,7 @@ const Itinerary = (props) => {
                   variant="contained"
                   size="medium"
                   color="error"
-                  onClick={() => setVisible(!visible)}
+                  onClick={viewMoreLess}
                 >
                   {visible ? "Show Less" : "Show More"}
                 </Button>

@@ -4,6 +4,7 @@ import background from "../assets/background.jpg";
 import { makeStyles } from "@mui/styles";
 import "../styles/NavBar.css";
 import { Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 //estilado del Hero
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -40,6 +41,7 @@ const Hero = () => {
 
   return (
     <Box className={classes.hero} id="hero">
+      <Toaster />
       <Box className={classes.p}>
         <h2 id="heroTitle">MyTinerary</h2>
         <p id="slogan">
