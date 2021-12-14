@@ -22,7 +22,6 @@ function App(props) {
     };
     props.forcedLog(userLS);
   }
-
   return (
     <>
       <BrowserRouter>
