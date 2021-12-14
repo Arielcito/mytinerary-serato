@@ -128,7 +128,7 @@ const Itinerary = (props) => {
         arrayItineraries.map((itinerary, index) => {
           const price = itinerary.price;
           return (
-            <Box className={classes.tripContainer}>
+            <Box className={classes.tripContainer} key={index}>
               <h3 className={classes.title}>{itinerary.title}</h3>
               <List className={classes.hashtags} key={index}>
                 {itinerary["hashtags"].map((hashtag, index) => {
@@ -205,6 +205,7 @@ const Itinerary = (props) => {
                                         borderRadius: "10px",
                                         background: "#333",
                                         color: "#fff",
+                                        
                                       },
                                     }
                                   )

@@ -14,7 +14,13 @@ import "../styles/NavBar.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles } from "@mui/styles";
 import { Link, NavLink } from "react-router-dom";
-import { FormControlLabel, Collapse, List, ListItem } from "@mui/material";
+import {
+  FormControlLabel,
+  Collapse,
+  List,
+  ListItem,
+  Avatar,
+} from "@mui/material";
 import { connect } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import authActions from "../redux/actions/authActions";
@@ -55,8 +61,10 @@ const NavBar = (props) => {
     setChecked((prev) => !prev);
   };
   const handleLogOut = () => {
-    props.signOut()
-  }
+    props.signOut();
+  };
+  const avatarURL = localStorage.getItem('userInfo')
+  console.log(avatarURL)
   const stateMenu = checked ? "block" : "none";
   return (
     <div className="App">
@@ -121,7 +129,10 @@ const NavBar = (props) => {
             <ButtonNav page="Cities"></ButtonNav>
           </Box>
           {props.user ? (
-            <LogoutIcon onClick={handleLogOut} sx={{cursor:"pointer"}} />
+            <Box sx={{display:"flex"}}>
+              <Avatar alt="Avatar" src={avatarURL} sx={{cursor: "pointer"}} />
+              <LogoutIcon onClick={handleLogOut} sx={{ cursor: "pointer" }} />
+            </Box>
           ) : (
             <>
               <IconButton
@@ -173,11 +184,11 @@ const NavBar = (props) => {
 };
 
 const mapDispatchToProps = {
-  signOut: authActions.signOut
-}
-const mapStateToProps = (state) => {
-  return ({
-    user: state.authReducer.user,
-  })
+  signOut: authActions.signOut,
 };
-export default connect(mapStateToProps,mapDispatchToProps)(NavBar);
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

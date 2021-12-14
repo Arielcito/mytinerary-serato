@@ -93,14 +93,8 @@ const authActions = {
         });
       } catch (error) {
         if (!error.response) {
-          return toast.error(
-            "Failed trying to connect with server"
-          );
-        } else if (
-          
-          error.response.status === 401
-        ) {
-          toast.error("Invalid Token");
+          return toast.error("Failed trying to connect with server");
+        } else if (error.response.status === 401) {
           dispatch({ type: "LOG_OUT", payload: null });
         }
       }

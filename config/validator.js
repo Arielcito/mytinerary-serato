@@ -2,24 +2,24 @@ const joi = require("joi");
 
 const validator = (req, res, next) => {
   const schema = joi.object({
-    email: joi.string().email().required().trim().min(4).messages({
+    email: joi.string().email().required().trim().min(3).messages({
       "string.empty": "This field is required",
       "string.min": "This field is required",
     }),
     password: joi
       .string()
-      .min(4)
+      .min(3)
       .required()
       .trim()
       .messages({
         "string.empty": "This field is required",
         "string.min": "This field is required",
       }),
-    name: joi.string().min(4).required().messages({
+    name: joi.string().min(3).required().messages({
       "string.empty": "This field is required",
       "string.min": "This field is required",
     }),
-    surname: joi.string().min(4).required().messages({
+    surname: joi.string().min(3).required().messages({
       "string.empty": "This field is required",
       "string.min": "This field is required",
     }),

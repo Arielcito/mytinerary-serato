@@ -15,7 +15,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "react-google-login";
 import { Toaster } from "react-hot-toast";
-import { useFormik, Form } from "formik";
+import { useFormik,Formik,Form } from "formik";
 import * as Yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     flexWrap: "wrap",
     borderRadius: "5%",
-    marginTop: "3rem",
+    marginTop: "7rem",
     overflow: "hidden",
   },
   formInput: {
@@ -55,7 +55,6 @@ const RegistrationForm = (props) => {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
       imageURL: "",
       country: "",
     },
@@ -69,14 +68,11 @@ const RegistrationForm = (props) => {
         .max(20, "Must be 20 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string()
-        .min(3, "must be 3 characters at least")
-        .required("Required"),
       imageURL: Yup.string().required("Required"),
       country: Yup.string().required("Required"),
     }),
     onSubmit: () => {
-      handleSubmit(
+      handleSubmitRegister(
         inputEmail.current.value,
         inputPassword.current.value,
         inputName.current.value,
@@ -111,12 +107,14 @@ const RegistrationForm = (props) => {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -141,7 +139,8 @@ const RegistrationForm = (props) => {
       googleUser.google
     );
   };
-  const handleSubmit = async (
+
+  const handleSubmitRegister = async (
     email,
     password,
     name,
@@ -151,17 +150,7 @@ const RegistrationForm = (props) => {
   ) => {
     await props.registerUser(email, password, name, surname, imageURL, country);
   };
-  const handleSubmitInputs = (e) => {
-    e.preventDefault();
-    handleSubmit(
-      inputEmail.current.value,
-      inputPassword.current.value,
-      inputName.current.value,
-      inputSurname.current.value,
-      inputImageURL.current.value,
-      inputCountry.current.value
-    );
-  };
+  
   return (
     <Box className={classes.container}>
       <h2 className={classes.title} id="newAccount">
@@ -171,7 +160,26 @@ const RegistrationForm = (props) => {
       <h3 className={classes.callToAction}>Already Have An Account? </h3>
       <Link to="/SignIn"> Sign In</Link>
       <Box sx={{ width: "90%", overflow: "hidden" }}>
-        <Form>
+        <Formik
+        initialValues={ {
+          firstName: "",
+          lastName: "",
+          email: "",
+          imageURL: "",
+          country: "",
+        }}
+        onSubmit={() => {
+          handleSubmitRegister(
+            inputEmail.current.value,
+            inputPassword.current.value,
+            inputName.current.value,
+            inputSurname.current.value,
+            inputImageURL.current.value,
+            inputCountry.current.value
+          );
+        }}
+        >
+        <Form >
           <TextField
             name="name"
             onChange={formik.handleChange}
@@ -181,8 +189,9 @@ const RegistrationForm = (props) => {
             inputRef={inputName}
             label="Name"
             type="text"
+            id="nameInput"
             className={classes.formInput}
-            sx={{ marginBottom: "1rem", marginRight: "3.5rem", width: "45%" }}
+            sx={{ marginBottom: "1rem", marginRight: "1.2rem", width: "47%" }}
             InputProps={{
               endAdornment: <AccountCircle />,
             }}
@@ -198,7 +207,7 @@ const RegistrationForm = (props) => {
             label="Surname"
             type="text"
             className={classes.formInput}
-            sx={{ marginBottom: "1rem", width: "45%" }}
+            sx={{ marginBottom: "1rem", width: "47%" }}
             InputProps={{
               endAdornment: <AccountCircle />,
             }}
@@ -223,22 +232,17 @@ const RegistrationForm = (props) => {
           />
           <TextField
             name="password"
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            required
             label="Password"
             fullWidth
-            sx={{
-              marginBottom: "1rem",
-              backgroundColor: "rgba(256,256,256,.3)",
-              borderRadius: "10px",
-            }}
             color="success"
             inputRef={inputPassword}
             id="filled-adornment-password"
             type={values.showPassword ? "text" : "password"}
             value={values.password}
-            onChange={handleChange("password")}
+            onChange={
+              handleChange("password")
+            }
             className={classes.formInput}
             InputProps={{
               endAdornment: (
@@ -331,12 +335,14 @@ const RegistrationForm = (props) => {
             type="submit"
             variant="contained"
             color="error"
+            id="registerSubmit"
             sx={{ width: "40%", margin: "1rem 2rem" }}
           >
             Sign Up
           </Button>
           <Toaster />
         </Form>
+        </Formik>
       </Box>
     </Box>
   );

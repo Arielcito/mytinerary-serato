@@ -144,7 +144,7 @@ a:hover {
   background-repeat: no-repeat;
   background-position: 12px 11px;
   width: 40%;
-  margin:1rem;
+  
   height: 3rem;
   cursor: pointer;
 }
@@ -209,5 +209,8 @@ a:hover {
   }
   #containerCard {
     width: 9.5rem;
+  }
+  #nameInput{
+    margin-right: 1rem;
   }
 }
