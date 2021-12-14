@@ -21,8 +21,8 @@ const authActions = {
           google,
         });
         if (user.data.success && !user.data.error) {
-          localStorage.setItem("token", user.data.response.token);
           toast.success("Successfully register!");
+          localStorage.setItem("token", user.data.response.token);
           dispatch({
             type: "LOGIN_USER",
             payload: {
@@ -39,7 +39,7 @@ const authActions = {
           toast.error(user.data.error);
         }
       } catch (error) {
-        console.error(error);
+        toast.error('Error trying to sign up user');
       }
     };
   },
@@ -62,13 +62,12 @@ const authActions = {
           toast.error(user.data.error);
         }
       } catch (error) {
-        console.error(error);
+        toast.error('Error trying to sign in user');
       }
     };
   },
   signOut: () => {
     return async (dispatch, getState) => {
-      localStorage.clear();
       toast.success("See you soon!", { icon: "👋" });
       dispatch({ type: "LOGOUT_USER" });
     };

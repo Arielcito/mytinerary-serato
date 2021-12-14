@@ -6,8 +6,8 @@ const userController = {
   newUser: async (req, res) => {
     let { email, password, name, surname, imageURL, country, google } =
       req.body;
-    try {
       const userExist = await User.findOne({ email });
+    try {
       if (userExist) {
         res.json({
           succes: false,
@@ -26,10 +26,9 @@ const userController = {
           country,
           google,
         });
-        const token = jwt.sign({ ...userExist }, process.env.JWT_KEY);
         await newUser.save();
-        console.log(res)
-        res.json({ success: true, response: newUser, token, error: null });
+        const token = jwt.sign({ ...newUser }, process.env.JWT_KEY);
+        res.json({ success: true, response: {newUser, token}, error: null });
       }
     } catch (error) {
       res.json({ success: false, response: null, error: error });
@@ -50,13 +49,14 @@ const userController = {
           error: "Email and/or password incorrect",
         });
       let passwordCompare = bcryptjs.compareSync(password, user.password);
-      if (!passwordCompare)
+      if (!passwordCompare){
         res.json({
           success: true,
           error: "Email and/or password incorrect",
-        });
-      const token = jwt.sign({ ...user }, process.env.JWT_KEY);
-      res.json({ success: true, response: { token, email }, error: null });
+        })}else{
+          const token = jwt.sign({ ...user }, process.env.JWT_KEY);
+          res.json({ success: true, response: { token, email }, error: null });
+        }
     } catch (error) {
       res.json({
         success: false,

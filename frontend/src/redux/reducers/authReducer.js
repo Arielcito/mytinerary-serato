@@ -7,7 +7,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN_USER":
-      localStorage.setItem('userInfo', JSON.stringify({ name: action.payload.firstName, avatar: action.payload.imageURL }))
+      localStorage.setItem('userInfo', action.payload.imageURL )
       return {
         ...state,
         userData: action.payload,
@@ -18,6 +18,7 @@ const authReducer = (state = initialState, action) => {
         countrys: action.payload,
       };
       case "LOGOUT_USER":
+        localStorage.clear()
         return {
           ...state,
           user: false,

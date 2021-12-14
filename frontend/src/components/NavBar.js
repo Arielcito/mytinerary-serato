@@ -63,8 +63,6 @@ const NavBar = (props) => {
   const handleLogOut = () => {
     props.signOut();
   };
-  const avatarURL = localStorage.getItem('userInfo')
-  console.log(avatarURL)
   const stateMenu = checked ? "block" : "none";
   return (
     <div className="App">
@@ -130,7 +128,7 @@ const NavBar = (props) => {
           </Box>
           {props.user ? (
             <Box sx={{display:"flex"}}>
-              <Avatar alt="Avatar" src={avatarURL} sx={{cursor: "pointer"}} />
+              <Avatar alt="Avatar" src={props.userData.imageURL} sx={{cursor: "pointer"}} />
               <LogoutIcon onClick={handleLogOut} sx={{ cursor: "pointer" }} />
             </Box>
           ) : (
@@ -189,6 +187,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
+    userData: state.authReducer.userData
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
