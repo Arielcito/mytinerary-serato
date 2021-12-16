@@ -13,7 +13,8 @@ import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import Comments from "./Comments";
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
     maxWidth: "65rem",
@@ -72,30 +73,40 @@ const Itinerary = (props) => {
   const [like, setLike] = useState(0);
   const [liked, setLiked] = useState(false);
   const classes = useStyles();
-
+  const { id, itineraries, fetchItineraries, loading,likeItinerary,userData , getCommentaries} = props;
   useEffect(() => {
     fetchItineraries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleLike = () => {
-    if (liked) {
-      setLike(like - 1);
-    } else {
-      setLike(like + 1);
-    }
-    setLiked(!liked);
-  };
-  const viewMoreLess = () => {
+  const handleLike = (itineraryId) => {
+    if (props.user){
+      likeItinerary(itineraryId,userData,liked).then(
+        res => {
+          setLike(res.response.length)
+          setLiked(!liked)
+        }
+      )
+    }else{
+      toast.error(
+        "You must be logged to like itinerarys",
+        {
+          duration: 6000,
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",    
+          },
+    })
+  }}
+  const viewMoreLess = (itineraryId) => {
     setVisible(!visible);
+    getCommentaries(itineraryId)
   };
-  const { id, itineraries, fetchItineraries, loading } = props;
   let arrayItineraries = itineraries.filter(
     (itinerary) => itinerary.city[0]._id === id
     );
     return (
       <>
-      <Toaster position="bottom-right" reverseOrder={false} />
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", margin: "1rem" }}>
           <Loader />
@@ -194,28 +205,9 @@ const Itinerary = (props) => {
                         <ListItem>
                           <IconButton
                             aria-label="like the itinerary"
-                            onClick={() =>
-                              props.user
-                                ? handleLike()
-                                : toast.error(
-                                    "You must be logged to like itinerarys",
-                                    {
-                                      duration: 60000,
-                                      style: {
-                                        borderRadius: "10px",
-                                        background: "#333",
-                                        color: "#fff",
-                                        
-                                      },
-                                    }
-                                  )
-                            }
+                            onClick={() => handleLike(itinerary._id)} 
                           >
-                            {!props.user ? (
-                              <FavoriteBorderIcon
-                                sx={{ fontSize: "40px", color: "red" }}
-                              />
-                            ) : liked ? (
+                            {liked ? (
                               <FavoriteIcon
                                 sx={{ fontSize: "40px", color: "red" }}
                               />
@@ -228,7 +220,7 @@ const Itinerary = (props) => {
                         </ListItem>
                         <ListItem>
                           <p>
-                            {like} {like > 1 ? "likes" : "like"}
+                            {like} {like>1 ? "likes" : "like"}
                           </p>
                         </ListItem>
                         <ListItem>
@@ -248,7 +240,7 @@ const Itinerary = (props) => {
                     fontSize: "60px",
                   }}
                 >
-                  <h2 sx={{ color: "error" }}>UnderConstruction</h2>
+                  <Comments id={itinerary._id}  />
                 </Box>
               </Box>
               <Box className={classes.commentContainer}>
@@ -256,7 +248,7 @@ const Itinerary = (props) => {
                   variant="contained"
                   size="medium"
                   color="error"
-                  onClick={viewMoreLess}
+                  onClick={() => viewMoreLess(itinerary._id)}
                 >
                   {visible ? "Show Less" : "Show More"}
                 </Button>
@@ -288,12 +280,16 @@ const priceCounter = (element) => {
 };
 const mapDispatchToProps = {
   fetchItineraries: itinerariesActions.fetchItineraries,
+  likeItinerary: itinerariesActions.likeItinerary,
+  getCommentaries: itinerariesActions.getCommentaries
 };
 const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
     itineraries: state.itinerariesReducer.itineraries,
     loading: state.itinerariesReducer.loading,
+    userData: state.authReducer.userData,
+    comments: state.authReducer.comments
   };
 };
 

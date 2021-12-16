@@ -7,6 +7,7 @@ const mainReducer = combineReducers({
   citiesReducer,
   itinerariesReducer,
   authReducer
+  
 });
 
 export default mainReducer;

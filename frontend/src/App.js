@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import authActions from "./redux/actions/authActions";
 import { connect } from "react-redux";
+import { ToastContainer } from 'react-toastify';
 
 const City = withRouter(CityNoProps);
 
@@ -24,18 +25,20 @@ function App(props) {
   }
   return (
     <>
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Cities" element={<Cities />} />
-          <Route path="*" element={<Home />} />
-          <Route path="/City/:id" element={<City />} />
-          {!props.userLogged && <Route path="/SignIn" element={<SignIn />} />}
-          {!props.userLogged && <Route path="/SignUp" element={<SignUp />} />}
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+    
+        <BrowserRouter>
+          <NavBar />
+          
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Cities" element={<Cities />} />
+            <Route path="*" element={<Home />} />
+            <Route path="/City/:id" element={<City />} />
+            {!props.userLogged && <Route path="/SignIn" element={<SignIn />} />}
+            {!props.userLogged && <Route path="/SignUp" element={<SignUp />} />}
+          </Routes>
+          <Footer />
+        </BrowserRouter>
     </>
   );
 }

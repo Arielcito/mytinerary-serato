@@ -62,6 +62,7 @@ const NavBar = (props) => {
   };
   const handleLogOut = () => {
     props.signOut();
+    window.location.reload()
   };
   const stateMenu = checked ? "block" : "none";
   return (

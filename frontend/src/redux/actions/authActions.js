@@ -1,5 +1,5 @@
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
 
 const authActions = {
   fetchCountrys: () => {
@@ -29,14 +29,14 @@ const authActions = {
               name,
               surname,
               email,
-              password,
               imageURL,
               country,
               google,
+              token: user.data.response.token
             },
           });
         } else {
-          toast.error(user.data.error);
+          return {message:user.data.response.details}
         }
       } catch (error) {
         toast.error('Error trying to sign up user');
@@ -54,9 +54,10 @@ const authActions = {
         if (user.data.success && !user.data.error) {
           toast.success("Successfully sign in!");
           localStorage.setItem("token", user.data.response.token);
+          
           dispatch({
             type: "LOGIN_USER",
-            payload: user.data.response,
+            payload: {...user.data.response.user,token:user.data.response.token },
           });
         } else {
           toast.error(user.data.error);
@@ -75,7 +76,7 @@ const authActions = {
   forcedLog: (userLS) => {
     return async (dispatch, getState) => {
       try {
-        const respuesta = await axios.get(
+        const response = await axios.get(
           "http://localhost:4000/api/auth/signin",
           {
             headers: {
@@ -86,7 +87,7 @@ const authActions = {
         dispatch({
           type: "LOGIN_USER",
           payload: {
-            ...respuesta.data.respuesta,
+            ...response.data.response,
             token: userLS.token,
           },
         });

@@ -14,9 +14,7 @@ import zxcvbn from "zxcvbn";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "react-google-login";
-import { Toaster } from "react-hot-toast";
-import { useFormik,Formik,Form } from "formik";
-import * as Yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,44 +48,6 @@ const createPasswordLabel = {
   4: "Strong",
 };
 const RegistrationForm = (props) => {
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      imageURL: "",
-      country: "",
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(3, "must be 3 characters at least")
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-      surname: Yup.string()
-        .min(3, "must be 3 characters at least")
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
-      imageURL: Yup.string().required("Required"),
-      country: Yup.string().required("Required"),
-    }),
-    onSubmit: () => {
-      handleSubmitRegister(
-        inputEmail.current.value,
-        inputPassword.current.value,
-        inputName.current.value,
-        inputSurname.current.value,
-        inputImageURL.current.value,
-        inputCountry.current.value
-      );
-      inputEmail.current.value = "";
-      inputPassword.current.value = "";
-      inputName.current.value = "";
-      inputSurname.current.value = "";
-      inputImageURL.current.value = "";
-      inputCountry.current.value = "";
-    },
-  });
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
@@ -139,6 +99,17 @@ const RegistrationForm = (props) => {
       googleUser.google
     );
   };
+  const handleSubmitInput = (e) => {
+    e.preventDefault();
+    handleSubmitRegister(
+      inputEmail.current.value,
+      inputPassword.current.value,
+      inputName.current.value,
+      inputSurname.current.value,
+      inputImageURL.current.value,
+      inputCountry.current.value
+    );
+  };
 
   const handleSubmitRegister = async (
     email,
@@ -148,9 +119,22 @@ const RegistrationForm = (props) => {
     imageURL,
     country
   ) => {
-    await props.registerUser(email, password, name, surname, imageURL, country);
+    const errors = await props.registerUser(
+      email,
+      password,
+      name,
+      surname,
+      imageURL,
+      country
+    );
+    if (errors) {
+      console.log(errors.message);
+      errors.message.map((error) =>
+      toast.error('error.message')
+      );
+    }
   };
-  
+
   return (
     <Box className={classes.container}>
       <h2 className={classes.title} id="newAccount">
@@ -160,32 +144,9 @@ const RegistrationForm = (props) => {
       <h3 className={classes.callToAction}>Already Have An Account? </h3>
       <Link to="/SignIn"> Sign In</Link>
       <Box sx={{ width: "90%", overflow: "hidden" }}>
-        <Formik
-        initialValues={ {
-          firstName: "",
-          lastName: "",
-          email: "",
-          imageURL: "",
-          country: "",
-        }}
-        onSubmit={() => {
-          handleSubmitRegister(
-            inputEmail.current.value,
-            inputPassword.current.value,
-            inputName.current.value,
-            inputSurname.current.value,
-            inputImageURL.current.value,
-            inputCountry.current.value
-          );
-        }}
-        >
-        <Form >
+        <form onSubmit={(e) => handleSubmitInput(e)}>
           <TextField
             name="name"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
             inputRef={inputName}
             label="Name"
             type="text"
@@ -199,10 +160,6 @@ const RegistrationForm = (props) => {
           />
           <TextField
             name="surname"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.surname && Boolean(formik.errors.surname)}
-            helperText={formik.touched.surname && formik.errors.surname}
             inputRef={inputSurname}
             label="Surname"
             type="text"
@@ -215,10 +172,6 @@ const RegistrationForm = (props) => {
           />
           <TextField
             name="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
             inputRef={inputEmail}
             label="Email"
             type="text"
@@ -232,7 +185,6 @@ const RegistrationForm = (props) => {
           />
           <TextField
             name="password"
-            required
             label="Password"
             fullWidth
             color="success"
@@ -240,9 +192,7 @@ const RegistrationForm = (props) => {
             id="filled-adornment-password"
             type={values.showPassword ? "text" : "password"}
             value={values.password}
-            onChange={
-              handleChange("password")
-            }
+            onChange={handleChange("password")}
             className={classes.formInput}
             InputProps={{
               endAdornment: (
@@ -278,10 +228,6 @@ const RegistrationForm = (props) => {
             </span>
           </label>
           <TextField
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.imageURL && Boolean(formik.errors.imageURL)}
-            helperText={formik.touched.imageURL && formik.errors.imageURL}
             name="imageURL"
             inputRef={inputImageURL}
             id="outlined-Image-input"
@@ -340,9 +286,7 @@ const RegistrationForm = (props) => {
           >
             Sign Up
           </Button>
-          <Toaster />
-        </Form>
-        </Formik>
+        </form>
       </Box>
     </Box>
   );
