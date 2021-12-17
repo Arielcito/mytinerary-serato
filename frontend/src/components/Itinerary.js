@@ -3,14 +3,11 @@ import { makeStyles } from "@mui/styles";
 import { Grid, List, ListItem, Button } from "@mui/material";
 import Carousel from "react-elastic-carousel";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ShareIcon from "@mui/icons-material/Share";
 import dolar from "../assets/dolar.png";
 import { Avatar } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
-import { Link } from "react-router-dom";
-import Loader from "./Loader";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Comments from "./Comments";
@@ -76,16 +73,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Itinerary = (props) => {
-  const [visible, setVisible] = useState(false);
-  const [like, setLike] = useState(0);
-  const [liked, setLiked] = useState(false);
   const classes = useStyles();
-  const { likeItinerary, userData, getCommentaries, Itinerary } = props;
+  const [visible, setVisible] = useState(false);
+  const { likeItinerary, userData, getCommentaries, Itinerary, user } = props;
+  const [likesArray, setLikeArray] = useState(Itinerary.like);
+  const [likeNumber, setLikeNumber] = useState(Itinerary.like.length);
+  const [like, setLike] = useState(user && likesArray.find(like => like.user === userData._id));
+  console.log(like)
+  console.log(likesArray)
   const handleLike = (itineraryId) => {
-    if (props.user) {
-      likeItinerary(itineraryId, userData, liked).then((res) => {
-        setLike(res.response.length);
-        setLiked(!liked);
+    if (user) {
+      likeItinerary(itineraryId, userData, like).then((res) => {
+        setLikeArray(res.response);
+        setLikeNumber(res.response.length);
+        setLike(!like);
       });
     } else {
       toast.error("You must be logged to like itinerarys", {
@@ -101,7 +102,9 @@ const Itinerary = (props) => {
   const viewMoreLess = (itineraryId) => {
     setVisible(!visible);
     getCommentaries(itineraryId);
+    props.fetchActivities();
   };
+
   return (
     <>
       <Box className={classes.tripContainer}>
@@ -169,7 +172,7 @@ const Itinerary = (props) => {
                       aria-label="like the itinerary"
                       onClick={() => handleLike(Itinerary._id)}
                     >
-                      {liked ? (
+                      {like ? (
                         <FavoriteIcon sx={{ fontSize: "40px", color: "red" }} />
                       ) : (
                         <FavoriteBorderIcon
@@ -180,11 +183,8 @@ const Itinerary = (props) => {
                   </ListItem>
                   <ListItem>
                     <p>
-                      {like} {like > 1 ? "likes" : "like"}
+                      {likeNumber} {likeNumber > 1 ? "likes" : "like"}
                     </p>
-                  </ListItem>
-                  <ListItem>
-                    <ShareIcon sx={{ fontSize: "40px" }} />
                   </ListItem>
                 </List>
               </ListItem>
@@ -231,6 +231,7 @@ const priceCounter = (element) => {
 const mapDispatchToProps = {
   likeItinerary: itinerariesActions.likeItinerary,
   getCommentaries: itinerariesActions.getCommentaries,
+  fetchActivities: itinerariesActions.fetchActivities,
 };
 const mapStateToProps = (state) => {
   return {

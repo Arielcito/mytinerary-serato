@@ -33,7 +33,6 @@ class City extends React.Component {
     let arrayItineraries = this.props.itineraries.filter(
       (itinerary) => itinerary.city[0]._id === id
     );
-    console.log(this.props.itineraries);
     return (
       <>
         <Box
@@ -99,8 +98,8 @@ class City extends React.Component {
             </Box>
           </Box>
         ) : (
-          arrayItineraries.map((itinerary) => (
-            <Itinerary id={id} Itinerary={itinerary} />
+          arrayItineraries.map((itinerary,index) => (
+            <Itinerary id={id} Itinerary={itinerary} key={index} />
           ))
         )}
         <Box sx={{ display: "flex", justifyContent: "center" }}>

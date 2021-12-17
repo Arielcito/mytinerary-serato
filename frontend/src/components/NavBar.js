@@ -147,10 +147,6 @@ const NavBar = (props) => {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}><Link to="Admin" sx={{ color: "black!important" }}>
-                    Setting
-                  </Link></MenuItem>
                 <MenuItem onClick={handleLogOut}>
                 <ListItemIcon>
                   <LogoutIcon
