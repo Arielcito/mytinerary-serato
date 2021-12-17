@@ -1,4 +1,4 @@
-import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import itinerariesActions from "../redux/actions/itinerariesActions";

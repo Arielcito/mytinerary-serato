@@ -6,6 +6,7 @@ import { IconButton, TextField } from "@mui/material";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import { useState, useRef } from "react";
+import Popup from "reactjs-popup";
 
 const useStyles = makeStyles((theme) => ({
   messageRow: {
@@ -92,6 +93,7 @@ const MessageRight = (props) => {
   const inputEdit = useRef();
   const [deleting, setDeleting] = useState(false);
   const [edit, setEdit] = useState(false);
+
   const {
     deleteComment,
     getCommentaries,
@@ -100,6 +102,7 @@ const MessageRight = (props) => {
     itineraryId,
     editComment,
   } = props;
+
   const handleDelete = () => {
     setDeleting(true);
     if (!deleting)
@@ -107,6 +110,7 @@ const MessageRight = (props) => {
         getCommentaries(itineraryId)
       );
   };
+
   const handleEdit = () => {
     setEdit(!edit);
     if (edit) {
@@ -138,9 +142,49 @@ const MessageRight = (props) => {
         <IconButton onClick={handleEdit}>
           <EditIcon />
         </IconButton>
-        <IconButton onClick={handleDelete}>
-          <DeleteIcon />
-        </IconButton>
+
+        <Popup
+          trigger={
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          }
+          modal
+          nested
+        >
+          {(close) => (
+            <div className="modal">
+              <button className="close" onClick={close}>
+                &times;
+              </button>
+              <div className="header"> Are you sure you want to delete your comment? </div>
+              
+              <div className="actions">
+                <Popup
+                  trigger={<button className="button"> Trigger </button>}
+                  position="top center"
+                  nested
+                >
+                  <span>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Beatae magni omnis delectus nemo, maxime molestiae dolorem
+                    numquam mollitia, voluptate ea, accusamus excepturi deleniti
+                    ratione sapiente! Laudantium, aperiam doloribus. Odit, aut.
+                  </span>
+                </Popup>
+                <button
+                  className="button"
+                  onClick={() => {
+                    console.log("modal closed ");
+                    close();
+                  }}
+                >
+                  close modal
+                </button>
+              </div>
+            </div>
+          )}
+        </Popup>
       </Box>
     </div>
   );

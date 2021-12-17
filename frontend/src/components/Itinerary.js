@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     overflow: "hidden",
     position: "relative",
-    boxShadow: "5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22)"
+    boxShadow:
+      "5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22)",
   },
   title: {
     margin: "1rem 1rem 0 1rem",
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   commentContainer: {
     display: "flex",
     justifyContent: "center",
-    margin:"2rem"
+    margin: "2rem",
   },
 }));
 
@@ -79,19 +80,7 @@ const Itinerary = (props) => {
   const [like, setLike] = useState(0);
   const [liked, setLiked] = useState(false);
   const classes = useStyles();
-  const {
-    id,
-    itineraries,
-    fetchItineraries,
-    loading,
-    likeItinerary,
-    userData,
-    getCommentaries,
-  } = props;
-  useEffect(() => {
-    fetchItineraries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { likeItinerary, userData, getCommentaries, Itinerary } = props;
   const handleLike = (itineraryId) => {
     if (props.user) {
       likeItinerary(itineraryId, userData, liked).then((res) => {
@@ -113,173 +102,120 @@ const Itinerary = (props) => {
     setVisible(!visible);
     getCommentaries(itineraryId);
   };
-  let arrayItineraries = itineraries.filter(
-    (itinerary) => itinerary.city[0]._id === id
-  );
   return (
     <>
-      {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", margin: "1rem" }}>
-          <Loader />
-        </Box>
-      ) : arrayItineraries && arrayItineraries.length === 0 ? (
-        <Box className={classes.noItineraries} id="noItineraries">
-          <Box
-            sx={{
-              backgroundColor: "#000",
-              padding: "1rem",
-              textAlign: "center",
-              fontSize: "2rem",
-            }}
-          >
-            <h2>Sorry!</h2>
-          </Box>
-          <Box
-            sx={{
-              textAlign: "center",
-              color: "rgba(0,0,0,.6)",
-              fontSize: "1.43em",
-              fontWeight: "700",
-              marginTop: "1rem",
-            }}
-          >
-            We dont have any itinerary yet.
-          </Box>
-        </Box>
-      ) : (
-        arrayItineraries.map((itinerary, index) => {
-          const price = itinerary.price;
-          return (
-            <Box className={classes.tripContainer} key={index}>
-              <h3 className={classes.title}>{itinerary.title}</h3>
-              <List className={classes.hashtags} key={index}>
-                {itinerary["hashtags"].map((hashtag, index) => {
+      <Box className={classes.tripContainer}>
+        <h3 className={classes.title}>{Itinerary.title}</h3>
+        <List className={classes.hashtags}>
+          {Itinerary["hashtags"].map((hashtag, index) => {
+            return (
+              <ListItem key={index} sx={{ color: "blue", cursor: "pointer" }}>
+                #{hashtag}
+              </ListItem>
+            );
+          })}
+        </List>
+        <Grid container className={classes.gridContainer}>
+          <Grid item xs={12} md={12} lg={6} id="ghelo">
+            <Carousel>
+              {Itinerary["src"].map((item, index) => {
+                return (
+                  <img
+                    src={item}
+                    alt={item}
+                    key={index}
+                    className={classes.imageCarousel}
+                  />
+                );
+              })}
+            </Carousel>
+          </Grid>
+          <Grid item xs={12} md={12} lg={6}>
+            <List>
+              <ListItem className={classes.profileInfo}>
+                <Avatar
+                  alt={Itinerary.user}
+                  src={Itinerary.userAvatar}
+                  sx={{ width: 80, height: 80, marginRight: "2rem" }}
+                />
+                <h4 className={classes.profileName}>{Itinerary.user}</h4>
+              </ListItem>
+              <ListItem sx={{ fontSize: "20px" }}>
+                Duration:{Itinerary.duration}hs
+              </ListItem>
+              <ListItem sx={{ fontSize: "20px" }}>
+                Price:
+                {priceCounter(1).map((bill, index) => {
                   return (
-                    <ListItem
+                    <img
+                      src={dolar}
+                      alt="dolar"
+                      className={classes.dolar}
                       key={index}
-                      sx={{ color: "blue", cursor: "pointer" }}
-                    >
-                      #{hashtag}
-                    </ListItem>
+                    />
                   );
                 })}
-              </List>
-              <Grid container className={classes.gridContainer}>
-                <Grid item xs={12} md={12} lg={6} id="ghelo">
-                  <Carousel>
-                    {itinerary["src"].map((item, index) => {
-                      return (
-                        <img
-                          src={item}
-                          alt={item}
-                          key={index}
-                          className={classes.imageCarousel}
+              </ListItem>
+              <ListItem sx={{ fontSize: "20px" }}>
+                Currency:{Itinerary.currency}
+              </ListItem>
+              <ListItem sx={{ fontSize: "20px" }}>
+                Language:{Itinerary.language}
+              </ListItem>
+              <ListItem>
+                <List className={classes.profileInfo}>
+                  <ListItem>
+                    <IconButton
+                      aria-label="like the itinerary"
+                      onClick={() => handleLike(Itinerary._id)}
+                    >
+                      {liked ? (
+                        <FavoriteIcon sx={{ fontSize: "40px", color: "red" }} />
+                      ) : (
+                        <FavoriteBorderIcon
+                          sx={{ fontSize: "40px", color: "red" }}
                         />
-                      );
-                    })}
-                  </Carousel>
-                </Grid>
-                <Grid item xs={12} md={12} lg={6}>
-                  <List>
-                    <ListItem className={classes.profileInfo}>
-                      <Avatar
-                        alt={itinerary.user}
-                        src={itinerary.userAvatar}
-                        sx={{ width: 80, height: 80, marginRight: "2rem" }}
-                      />
-                      <h4 className={classes.profileName}>{itinerary.user}</h4>
-                    </ListItem>
-                    <ListItem sx={{ fontSize: "20px" }}>
-                      Duration:{itinerary.duration}hs
-                    </ListItem>
-                    <ListItem sx={{ fontSize: "20px" }}>
-                      Price:
-                      {priceCounter(price).map((bill, index) => {
-                        return (
-                          <img
-                            src={dolar}
-                            alt="dolar"
-                            className={classes.dolar}
-                            key={index}
-                          />
-                        );
-                      })}
-                    </ListItem>
-                    <ListItem sx={{ fontSize: "20px" }}>
-                      Currency:{itinerary.currency}
-                    </ListItem>
-                    <ListItem sx={{ fontSize: "20px" }}>
-                      Language:{itinerary.language}
-                    </ListItem>
-                    <ListItem>
-                      <List className={classes.profileInfo}>
-                        <ListItem>
-                          <IconButton
-                            aria-label="like the itinerary"
-                            onClick={() => handleLike(itinerary._id)}
-                          >
-                            {liked ? (
-                              <FavoriteIcon
-                                sx={{ fontSize: "40px", color: "red" }}
-                              />
-                            ) : (
-                              <FavoriteBorderIcon
-                                sx={{ fontSize: "40px", color: "red" }}
-                              />
-                            )}
-                          </IconButton>
-                        </ListItem>
-                        <ListItem>
-                          <p>
-                            {like} {like > 1 ? "likes" : "like"}
-                          </p>
-                        </ListItem>
-                        <ListItem>
-                          <ShareIcon sx={{ fontSize: "40px" }} />
-                        </ListItem>
-                      </List>
-                    </ListItem>
-                  </List>
-                </Grid>
-              </Grid>
-              <Box sx={{ display: visible ? "block" : "none",minHeight:"40rem" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "60px",
-                    flexDirection:"column",
-                    height:"100%"
-                  }}
-                >
-                  <Activities id={itinerary._id}/>
-                  <Comments id={itinerary._id} />
-                </Box>
-              </Box>
-              <Box className={classes.commentContainer}>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  color="error"
-                  onClick={() => viewMoreLess(itinerary._id)}
-                >
-                  {visible ? "Show Less" : "Show More"}
-                </Button>
-              </Box>
-            </Box>
-          );
-        })
-      )}
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Link to="/cities">
-          <Button
-            sx={{ backgroundColor: "#000", color: "white", margin: "4rem" }}
-            id="backToCities"
+                      )}
+                    </IconButton>
+                  </ListItem>
+                  <ListItem>
+                    <p>
+                      {like} {like > 1 ? "likes" : "like"}
+                    </p>
+                  </ListItem>
+                  <ListItem>
+                    <ShareIcon sx={{ fontSize: "40px" }} />
+                  </ListItem>
+                </List>
+              </ListItem>
+            </List>
+          </Grid>
+        </Grid>
+        <Box sx={{ display: visible ? "block" : "none", minHeight: "40rem" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "60px",
+              flexDirection: "column",
+              height: "100%",
+            }}
           >
-            Back To Cities
+            <Activities id={Itinerary._id} />
+            <Comments id={Itinerary._id} />
+          </Box>
+        </Box>
+        <Box className={classes.commentContainer}>
+          <Button
+            variant="contained"
+            size="medium"
+            color="error"
+            onClick={() => viewMoreLess(Itinerary._id)}
+          >
+            {visible ? "Show Less" : "Show More"}
           </Button>
-        </Link>
+        </Box>
       </Box>
     </>
   );
@@ -293,7 +229,6 @@ const priceCounter = (element) => {
   return arrayElement;
 };
 const mapDispatchToProps = {
-  fetchItineraries: itinerariesActions.fetchItineraries,
   likeItinerary: itinerariesActions.likeItinerary,
   getCommentaries: itinerariesActions.getCommentaries,
 };
@@ -301,7 +236,6 @@ const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
     itineraries: state.itinerariesReducer.itineraries,
-    loading: state.itinerariesReducer.loading,
     userData: state.authReducer.userData,
     comments: state.authReducer.comments,
   };

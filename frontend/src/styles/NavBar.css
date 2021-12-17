@@ -218,6 +218,8 @@ a:hover {
 .title-black {
   color: black;
 }
+/* modal */
+
 /* City */
 @media (max-width: 600px) {
   #hamburger {
