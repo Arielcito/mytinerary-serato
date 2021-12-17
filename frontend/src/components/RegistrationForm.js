@@ -14,7 +14,7 @@ import zxcvbn from "zxcvbn";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "react-google-login";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -130,7 +130,7 @@ const RegistrationForm = (props) => {
     if (errors) {
       console.log(errors.message);
       errors.message.map((error) =>
-      toast.error('error.message')
+      toast.error(error.message ? error.message + '' + error.context['label'] : 'error')
       );
     }
   };
@@ -152,7 +152,7 @@ const RegistrationForm = (props) => {
             type="text"
             id="nameInput"
             className={classes.formInput}
-            sx={{ marginBottom: "1rem", marginRight: "1.2rem", width: "47%" }}
+            sx={{ marginBottom: "1rem", marginRight: "2rem", width: "47%" }}
             InputProps={{
               endAdornment: <AccountCircle />,
             }}

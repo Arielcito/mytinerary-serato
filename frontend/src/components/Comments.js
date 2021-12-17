@@ -8,21 +8,22 @@ import { Paper } from "@mui/material";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import { useRef } from "react";
-import toast from "react-hot-toast";
 import Loader from "./Loader";
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: "30px",
     textAlign: "center",
+    margin:"2rem"
   },
   wrapForm: {
     display: "flex",
-    justifyContent: "center",
-    width: "100%",
+    justifyContent:"center",
+    width: "90%",
   },
   wrapText: {
-    width: "100%",
+    width: "60vw",
   },
   paper: {
     width: "80vw",
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexDirection: "column",
     position: "relative",
+    
   },
   paper2: {
     width: "80vw",
@@ -70,20 +72,20 @@ const Comments = (props) => {
           getCommentaries(id)
         );
       } else {
-        toast.error("Type something first!");
+         toast.error("Type something first!");
       }
     } else {
       toast.error("You must be logged to comment");
     }
   };
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{ width: "90%",height:"100%"}}>
       <Box>
         <h3 className={classes.title}>Comentaries</h3>
       </Box>
       <div className={classes.container}>
-        <Paper className={classes.paper}>
-          <Paper id="style-1" className={classes.messagesBody}>
+        <Paper className={classes.paper} sx={{backgroundColor:"#eeaeca"}} >
+          <Paper id="style-1" className={classes.messagesBody} sx={{backgroundColor:"#94bbe9"}}>
             {comments ? (
               comments.map((comment, index) => {
                 return user ? (
@@ -125,9 +127,9 @@ const Comments = (props) => {
               <Loader />
             )}
           </Paper>
-          <Box>
+          <Box className={classes.wrapForm}>
             <form
-              className={classes.wrapForm}
+            className={classes.wrapForm}
               noValidate
               autoComplete="off"
               onSubmit={(e) => handlePost(e)}
@@ -136,7 +138,6 @@ const Comments = (props) => {
                 id="standard-text"
                 label="Comment"
                 className={classes.wrapText}
-                fullWidth
                 inputRef={inputComment}
               />
               <Button

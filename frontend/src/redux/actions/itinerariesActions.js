@@ -1,5 +1,5 @@
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
 
 const itinerariesActions = {
   fetchItineraries: () => {
@@ -44,7 +44,7 @@ const itinerariesActions = {
         if (res.data.success) {
           return res.data
         } else {
-          toast.error("Error");
+          toast.error("Error trying to post!");
         }
       } catch {
         console.log("error");
@@ -65,7 +65,7 @@ const itinerariesActions = {
         if (res.data.success) {
           return res.data
         } else {
-          toast.error("Error tring to delete");
+          toast.error("Error trying to delete!");
         }
       } catch {
         console.log("error");
@@ -83,6 +83,7 @@ const itinerariesActions = {
             headers: { Authorization: "Bearer " + user.token },
           }
         );
+        console.log(res.data)
         if (res.data.success) {
           return res.data
         } else {
@@ -91,6 +92,12 @@ const itinerariesActions = {
       } catch {
         console.log("error");
       }
+    };
+  },
+  fetchActivities: () => {
+    return async (dispatch, getState) => {
+      const res = await axios.get("http://localhost:4000/api/activities");
+      dispatch({ type: "GET_ACTIVITIES", payload: res.data.response });
     };
   },
 };

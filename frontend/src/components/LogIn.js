@@ -1,8 +1,6 @@
 import {
   IconButton,
-  InputLabel,
-  FormControl,
-  FilledInput,
+  TextField
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
@@ -14,7 +12,6 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import authActions from "../redux/actions/authActions";
 import { useRef } from "react";
-import { Toaster } from "react-hot-toast";
 import GoogleLogin from "react-google-login";
 import {Link} from 'react-router-dom'
 
@@ -100,51 +97,32 @@ const LogIn = (props) => {
       </Box>
       <Box sx={{ width: "90%" }}>
         <form onSubmit={(e) => handleSubmitInputs(e)}>
-          <FormControl
-            id="outlined-Email-input"
+        <TextField
+            name="email"
+            inputRef={inputEmail}
             label="Email"
             type="text"
-            autoComplete="current-Email"
-            variant="filled"
             className={classes.formInput}
             sx={{ marginBottom: "1rem" }}
-            color="success"
             fullWidth
-            required
-          >
-            <InputLabel htmlFor="filled-adornment-password">Email</InputLabel>
-            <FilledInput
-              inputRef={inputEmail}
-              id="filled-adornment-Email"
-              type="text"
-              endAdornment={
-                <IconButton edge="end">
-                  <EmailIcon />
-                </IconButton>
-              }
-            />
-          </FormControl>
-          <FormControl
-            fullWidth
-            sx={{
-              marginBottom: "1rem",
-              backgroundColor: "rgba(256,256,256,.3)",
-              borderRadius: "10px",
+            InputProps={{
+              endAdornment: <EmailIcon />,
             }}
             variant="filled"
+          />
+          <TextField
+            name="password"
+            label="Password"
+            fullWidth
             color="success"
-            required
-          >
-            <InputLabel htmlFor="filled-adornment-password">
-              Password
-            </InputLabel>
-            <FilledInput
-              inputRef={inputPassword}
-              id="filled-adornment-password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              endAdornment={
+            inputRef={inputPassword}
+            id="filled-adornment-password"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
+            className={classes.formInput}
+            InputProps={{
+              endAdornment: (
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
@@ -153,9 +131,10 @@ const LogIn = (props) => {
                 >
                   {values.showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-              }
-            />
-          </FormControl>
+              ),
+            }}
+            variant="filled"
+          />
           <GoogleLogin
             clientId="778603027811-79eh6q3tq939m9dqdmse2s9vhrk2esqo.apps.googleusercontent.com"
             buttonText="Sign Up"
@@ -180,7 +159,6 @@ const LogIn = (props) => {
           >
             Sign In
           </Button>
-          <Toaster />
         </form>
       </Box>
     </Box>

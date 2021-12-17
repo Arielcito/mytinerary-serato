@@ -6,6 +6,7 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  ListItemIcon 
 } from "@mui/material";
 import Logo from "../assets/logo.png";
 import ButtonNav from "./Button";
@@ -24,6 +25,7 @@ import {
 import { connect } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import authActions from "../redux/actions/authActions";
+
 //estilado navbar
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -48,7 +50,7 @@ const NavBar = (props) => {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,7 +64,8 @@ const NavBar = (props) => {
   };
   const handleLogOut = () => {
     props.signOut();
-    window.location.reload()
+    window.location.reload();
+    handleClose()
   };
   const stateMenu = checked ? "block" : "none";
   return (
@@ -128,9 +131,35 @@ const NavBar = (props) => {
             <ButtonNav page="Cities"></ButtonNav>
           </Box>
           {props.user ? (
-            <Box sx={{display:"flex"}}>
-              <Avatar alt="Avatar" src={props.userData.imageURL} sx={{cursor: "pointer"}} />
-              <LogoutIcon onClick={handleLogOut} sx={{ cursor: "pointer" }} />
+            <Box sx={{ display: "flex" }}>
+              <Avatar
+                alt="Avatar"
+                src={props.userData.imageURL}
+                sx={{ cursor: "pointer" }}
+                onClick={handleClick}
+              />
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}><Link to="Admin" sx={{ color: "black!important" }}>
+                    Setting
+                  </Link></MenuItem>
+                <MenuItem onClick={handleLogOut}>
+                <ListItemIcon>
+                  <LogoutIcon
+                    sx={{ cursor: "pointer" }}
+                  />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
             </Box>
           ) : (
             <>
@@ -188,7 +217,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
-    userData: state.authReducer.userData
+    userData: state.authReducer.userData,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

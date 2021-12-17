@@ -69,7 +69,7 @@ const authActions = {
   },
   signOut: () => {
     return async (dispatch, getState) => {
-      toast.success("See you soon!", { icon: "👋" });
+      toast("👋See you soon!");
       dispatch({ type: "LOGOUT_USER" });
     };
   },
@@ -100,6 +100,28 @@ const authActions = {
       }
     };
   },
-};
+  adminAuth:(userLS) => {
+    return async(dispatch,getState) => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/auth/signin",
+          {
+            headers: {
+              Authorization: "Bearer " + userLS.token,
+            },
+          }
+        );
+        if(response.data.response.email === 'admin@gmail.com'){
+          toast.success('welcome admin!')
+          dispatch({
+            type: "ADMIN",
+          });
+        }
+      } catch (error) {
+        
+      }
+    }
+  }
+}
 
 export default authActions;

@@ -12,7 +12,8 @@ const itinerarySchema = new Schema({
   user: {type:String,required: true},
   userAvatar: {type:String,required: true},
   city: [{ type:mongoose.Types.ObjectId, ref:'city', required: true}],
-  comments:[{type:String}]
+  comments:[{comment:{type:String, required:true},user:{type:mongoose.Types.ObjectId, ref:'user',required:true}}],
+  like:[{user:{ type:mongoose.Types.ObjectId, ref:'user',}}]
 });
 
 const Itinerary = mongoose.model("itinerary", itinerarySchema);

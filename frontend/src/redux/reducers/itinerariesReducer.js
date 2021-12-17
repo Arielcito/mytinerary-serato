@@ -1,7 +1,8 @@
 const initialState = {
   loading: true,
   itineraries: [],
-  comments:[]
+  comments:[],
+  activities:[]
 };
 
 const itinerariesReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const itinerariesReducer = (state = initialState, action) => {
       return{
         ...state,
         comments:action.payload.response
+      }
+    case 'GET_ACTIVITIES':
+      return{
+        ...state,
+        activities: action.payload
       }
     default:
       return state;
