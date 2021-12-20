@@ -2,11 +2,11 @@ import { makeStyles } from "@mui/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, TextField, Dialog, DialogActions,DialogContent,DialogContentText,DialogTitle, Button } from "@mui/material";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import { useState, useRef } from "react";
-import Popup from "reactjs-popup";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   messageRow: {
@@ -84,6 +84,17 @@ const useStyles = makeStyles((theme) => ({
   inputEdit: {
     width: "100%",
   },
+  modal: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  },
 }));
 
 const MessageRight = (props) => {
@@ -93,6 +104,9 @@ const MessageRight = (props) => {
   const inputEdit = useRef();
   const [deleting, setDeleting] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const {
     deleteComment,
@@ -105,10 +119,14 @@ const MessageRight = (props) => {
 
   const handleDelete = () => {
     setDeleting(true);
-    if (!deleting)
+    if (!deleting){
       deleteComment(userData, commentId).then((res) =>
         getCommentaries(itineraryId)
       );
+      toast.success('Comment deleted')
+      handleClose()
+    }
+
   };
 
   const handleEdit = () => {
@@ -142,49 +160,30 @@ const MessageRight = (props) => {
         <IconButton onClick={handleEdit}>
           <EditIcon />
         </IconButton>
-
-        <Popup
-          trigger={
-            <IconButton onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
-          }
-          modal
-          nested
-        >
-          {(close) => (
-            <div className="modal">
-              <button className="close" onClick={close}>
-                &times;
-              </button>
-              <div className="header"> Are you sure you want to delete your comment? </div>
-              
-              <div className="actions">
-                <Popup
-                  trigger={<button className="button"> Trigger </button>}
-                  position="top center"
-                  nested
-                >
-                  <span>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Beatae magni omnis delectus nemo, maxime molestiae dolorem
-                    numquam mollitia, voluptate ea, accusamus excepturi deleniti
-                    ratione sapiente! Laudantium, aperiam doloribus. Odit, aut.
-                  </span>
-                </Popup>
-                <button
-                  className="button"
-                  onClick={() => {
-                    console.log("modal closed ");
-                    close();
-                  }}
-                >
-                  close modal
-                </button>
-              </div>
-            </div>
-          )}
-        </Popup>
+        <IconButton onClick={handleOpen}>
+          <DeleteIcon />
+        </IconButton>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete message?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to permanently remove it?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={handleClose} autoFocus>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
       </Box>
     </div>
   );

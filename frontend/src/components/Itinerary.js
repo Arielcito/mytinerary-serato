@@ -79,8 +79,7 @@ const Itinerary = (props) => {
   const [likesArray, setLikeArray] = useState(Itinerary.like);
   const [likeNumber, setLikeNumber] = useState(Itinerary.like.length);
   const [like, setLike] = useState(user && likesArray.find(like => like.user === userData._id));
-  console.log(like)
-  console.log(likesArray)
+
   const handleLike = (itineraryId) => {
     if (user) {
       likeItinerary(itineraryId, userData, like).then((res) => {

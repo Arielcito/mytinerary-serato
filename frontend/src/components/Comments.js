@@ -9,17 +9,17 @@ import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import { useRef } from "react";
 import Loader from "./Loader";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: "30px",
     textAlign: "center",
-    margin:"2rem"
+    margin: "2rem",
   },
   wrapForm: {
     display: "flex",
-    justifyContent:"center",
+    justifyContent: "center",
     width: "90%",
   },
   wrapText: {
@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexDirection: "column",
     position: "relative",
-    
   },
   paper2: {
     width: "80vw",
@@ -71,21 +70,27 @@ const Comments = (props) => {
         postCommentary(id, inputComment.current.value, userData).then((res) =>
           getCommentaries(id)
         );
+        inputComment.current.value = ''
+        window.scrollTo(0, 500);
       } else {
-         toast.error("Type something first!");
+        toast.error("Type something first!");
       }
     } else {
       toast.error("You must be logged to comment");
     }
   };
   return (
-    <Box sx={{ width: "90%",height:"100%"}}>
+    <Box sx={{ width: "90%", height: "100%" }}>
       <Box>
         <h3 className={classes.title}>Comentaries</h3>
       </Box>
       <div className={classes.container}>
-        <Paper className={classes.paper} sx={{backgroundColor:"#eeaeca"}} >
-          <Paper id="style-1" className={classes.messagesBody} sx={{backgroundColor:"#94bbe9"}}>
+        <Paper className={classes.paper} sx={{ backgroundColor: "#eeaeca" }}>
+          <Paper
+            id="style-1"
+            className={classes.messagesBody}
+            sx={{ backgroundColor: "#94bbe9" }}
+          >
             {comments ? (
               comments.map((comment, index) => {
                 return user ? (
@@ -129,7 +134,7 @@ const Comments = (props) => {
           </Paper>
           <Box className={classes.wrapForm}>
             <form
-            className={classes.wrapForm}
+              className={classes.wrapForm}
               noValidate
               autoComplete="off"
               onSubmit={(e) => handlePost(e)}
