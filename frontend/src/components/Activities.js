@@ -23,9 +23,9 @@ const Activities = (props) => {
       <h3>Activities</h3>
       <Grid container>
         {arrayActivities ? (
-          arrayActivities.map((activity) => {
+          arrayActivities.map((activity, index) => {
             return (
-              <Grid item >
+              <Grid item key={index} >
                 <div className="card 1">
                   <div className="card_image">
                     {" "}

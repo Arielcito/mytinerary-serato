@@ -71,7 +71,6 @@ const Comments = (props) => {
           getCommentaries(id)
         );
         inputComment.current.value = ''
-        window.scrollTo(0, 500);
       } else {
         toast.error("Type something first!");
       }

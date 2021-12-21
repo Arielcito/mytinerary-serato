@@ -52,6 +52,9 @@ const RegistrationForm = (props) => {
     password: "",
     showPassword: false,
   });
+  const [error, setError] = useState(false);
+  const [errorArray, setErrorArray] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
   const classes = useStyles();
   const inputEmail = useRef();
   const inputPassword = useRef();
@@ -60,6 +63,12 @@ const RegistrationForm = (props) => {
   const inputImageURL = useRef();
   const inputCountry = useRef();
   const testedResult = zxcvbn(values.password);
+
+  function findError(input){
+    let error = errorMessage.find(error => error.label === input.current.name)
+    return error
+  }
+
   useEffect(() => {
     props.fetchCountrys();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,13 +137,19 @@ const RegistrationForm = (props) => {
       country
     );
     if (errors) {
-      console.log(errors.message);
-      errors.message.map((error) =>
-      toast.error(error.message ? error.message + '' + error.context['label'] : 'error')
-      );
+      let auxLabel = [];
+      let auxMessage = [];
+      setError(true);
+      toast.error('Error trying to submit')
+      errors.message.map((error) => {
+        auxLabel.push(error.context.label);
+        auxMessage.push({ message: error.message, label: error.context.label });
+        // toast.error(error.message ? error.message : "error");
+      });
+      setErrorMessage(auxMessage);
+      setErrorArray(auxLabel);
     }
   };
-
   return (
     <Box className={classes.container}>
       <h2 className={classes.title} id="newAccount">
@@ -146,6 +161,7 @@ const RegistrationForm = (props) => {
       <Box sx={{ width: "90%", overflow: "hidden" }}>
         <form onSubmit={(e) => handleSubmitInput(e)}>
           <TextField
+            helperText={ findError(inputName) && findError(inputName).message}
             name="name"
             inputRef={inputName}
             label="Name"
@@ -157,8 +173,13 @@ const RegistrationForm = (props) => {
               endAdornment: <AccountCircle />,
             }}
             variant="filled"
+            error={error && errorArray.includes(inputName.current.name) && true}
           />
           <TextField
+           helperText={ findError(inputSurname) && findError(inputSurname).message}
+            error={
+              error && errorArray.includes(inputSurname.current.name) && true
+            }
             name="surname"
             inputRef={inputSurname}
             label="Surname"
@@ -171,6 +192,10 @@ const RegistrationForm = (props) => {
             variant="filled"
           />
           <TextField
+           helperText={ findError(inputEmail) && findError(inputEmail).message}
+            error={
+              error && errorArray.includes(inputEmail.current.name) && true
+            }
             name="email"
             inputRef={inputEmail}
             label="Email"
@@ -184,6 +209,10 @@ const RegistrationForm = (props) => {
             variant="filled"
           />
           <TextField
+           helperText={ findError(inputPassword) && findError(inputPassword).message}
+            error={
+              error && errorArray.includes(inputPassword.current.name) && true
+            }
             name="password"
             label="Password"
             fullWidth
@@ -228,6 +257,10 @@ const RegistrationForm = (props) => {
             </span>
           </label>
           <TextField
+           helperText={ findError(inputImageURL) && findError(inputImageURL).message}
+            error={
+              error && errorArray.includes(inputImageURL.current.name) && true
+            }
             name="imageURL"
             inputRef={inputImageURL}
             id="outlined-Image-input"
@@ -254,6 +287,11 @@ const RegistrationForm = (props) => {
             sx={{ width: "100%" }}
             renderInput={(params) => (
               <TextField
+                error={
+                  error &&
+                  errorArray.includes(inputCountry.current.name) &&
+                  true
+                }
                 inputRef={inputCountry}
                 {...params}
                 label="Select a country..."
@@ -291,6 +329,7 @@ const RegistrationForm = (props) => {
     </Box>
   );
 };
+
 
 const mapDispatchToProps = {
   fetchCountrys: authActions.fetchCountrys,

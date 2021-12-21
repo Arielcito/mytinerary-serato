@@ -55,7 +55,7 @@ const userController = {
           error: "Email and/or password incorrect",
         })}else{
           const token = jwt.sign({ ...user }, process.env.JWT_KEY);
-          res.json({ success: true, response: { token, user }, error: null });
+          res.json({ success: true, response: {  user ,token }, error: null });
         }
     } catch (error) {
       res.json({

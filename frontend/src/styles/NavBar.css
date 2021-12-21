@@ -186,8 +186,8 @@ a:hover {
 
 .card .card_image img {
   overflow: hidden;
-  width: 100%;
-  height: 100%;
+  width: 15rem;
+  height: 15rem;
   border-radius: 40px;
   object-fit: cover;
 }

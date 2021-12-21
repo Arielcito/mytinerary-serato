@@ -3,9 +3,10 @@ const joi = require("joi");
 const validator = (req, res, next) => {
   const schema = joi.object({
     email: joi.string().email().required().trim().min(3).messages({
-      "string.empty": " is required",
-      "string.min": " is required",
-      'string.email': 'Enter a valid email'
+      "string.empty": " The email is required",
+      "string.min": " Email must have at least 3 characters",
+      'string.email': 'Enter a valid email',
+      "string.base": `email should be a type of string`,
     }),
     password: joi
       .string()
@@ -15,22 +16,23 @@ const validator = (req, res, next) => {
       .required()
       .trim()
       .messages({
-        "string.empty": " is required",
-        "string.min": " is required",
+        "string.base": `Password should be a type of string`,
+        "string.empty": " The password is required",
+        "string.min": "  Password must have at least 3 characters",
       }),
     name: joi.string().alphanum().min(3).max(30).required().messages({
-      "string.empty": " is required",
-      "string.min": " is required",
+      "string.empty": "Name is required",
+      "string.min": "Name must have at least 3 characters",
     }),
     surname: joi.string().alphanum().min(3).max(30).required().messages({
-      "string.empty": " is required",
-      "string.min": " is required",
+      "string.empty": "Surname is required",
+      "string.min": "Surname must have at least 3 characters",
     }),
     imageURL: joi.string().required().messages({
-      "string.empty": " is required",
+      "string.empty": "An image is required",
     }),
     country: joi.string().required().messages({
-      "string.empty": "This field is required",
+      "string.empty": "Country field is required",
     }),
     google: joi.boolean()
   });

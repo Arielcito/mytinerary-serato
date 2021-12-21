@@ -116,7 +116,7 @@ const ItinerarysController = {
   postACommentary: async (req, res) => {
     const itineraryId = req.params.id;
     const { comment, user } = req.body;
-    let itineraryComment;
+    console.log(user)
     try {
       postedComment = await Itinerary.findOneAndUpdate(
         { _id: itineraryId },
