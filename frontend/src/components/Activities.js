@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     width:"90%",
     overflow:"hidden"
   },
+  title:{
+    borderBottom:"1px solid black"
+  }
 }));
 const Activities = (props) => {
   const classes = useStyles();
@@ -20,7 +23,7 @@ const Activities = (props) => {
   );
   return (
     <Box className={classes.activitiesContainer}>
-      <h3>Activities</h3>
+      <h3 className={classes.title} >Activities</h3>
       <Grid container>
         {arrayActivities ? (
           arrayActivities.map((activity, index) => {

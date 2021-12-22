@@ -320,7 +320,7 @@ const RegistrationForm = (props) => {
             variant="contained"
             color="error"
             id="registerSubmit"
-            sx={{ width: "40%", margin: "1rem 2rem" }}
+            sx={{ width: "40%", margin: "1rem" }}
           >
             Sign Up
           </Button>

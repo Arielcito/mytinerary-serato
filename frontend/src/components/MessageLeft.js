@@ -57,13 +57,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "20px",
     fontSize:'1rem'
   },
+  orange:{
+    margin:"1rem"
+  }
 }));
 
 const MessageLeft = (props) => {
-  const message = props.message ? props.message : "No message";
-  const timestamp = props.timestamp ? props.timestamp : "";
-  const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-  const displayName = props.displayName ? props.displayName : "jorge";
+  const {message, photoURL, displayName} = props
+
   const classes = useStyles();
   return (
     <>
@@ -79,7 +80,6 @@ const MessageLeft = (props) => {
             <div>
               <p className={classes.messageContent}>{message}</p>
             </div>
-            <div className={classes.messageTimeStampRight}>{timestamp}</div>
           </div>
         </div>
       </div>

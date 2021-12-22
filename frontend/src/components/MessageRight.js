@@ -99,8 +99,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MessageRight = (props) => {
   const classes = useStyles();
-  const message = props.message ? props.message : "no message";
-  const timestamp = props.timestamp ? props.timestamp : "";
   const inputEdit = useRef();
   const [deleting, setDeleting] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -115,6 +113,7 @@ const MessageRight = (props) => {
     commentId,
     itineraryId,
     editComment,
+    message
   } = props;
 
   const handleDelete = () => {
@@ -154,7 +153,6 @@ const MessageRight = (props) => {
         ) : (
           <p className={classes.messageContent}>{message}</p>
         )}
-        <div className={classes.messageTimeStampRight}>{timestamp}</div>
       </div>
       <Box>
         <IconButton onClick={handleEdit}>

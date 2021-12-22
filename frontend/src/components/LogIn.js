@@ -155,7 +155,7 @@ const LogIn = (props) => {
             type="submit"
             variant="contained"
             color="error"
-            sx={{ width: "40%", margin: "1rem 2rem" }}
+            sx={{ width: "40%", margin: "1rem" }}
           >
             Sign In
           </Button>

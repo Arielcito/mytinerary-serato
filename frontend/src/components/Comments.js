@@ -99,7 +99,6 @@ const Comments = (props) => {
                       key={index}
                       commentId={comment.comment["_id"]}
                       message={comment.comment["text"]}
-                      timestamp="MM/DD 00:00"
                       photoURL={props.userData.imageURL}
                       displayName={props.userData.name}
                       avatarDisp={false}
@@ -109,7 +108,6 @@ const Comments = (props) => {
                       key={index}
                       commentId={comment.comment["_id"]}
                       message={comment.comment["text"]}
-                      timestamp="MM/DD 00:00"
                       photoURL={comment.user.imageURL}
                       displayName={comment.user.name}
                       avatarDisp={true}
@@ -120,7 +118,6 @@ const Comments = (props) => {
                     key={index}
                     commentId={comment.comment["_id"]}
                     message={comment.comment["text"]}
-                    timestamp="MM/DD 00:00"
                     photoURL={comment.user.imageURL}
                     displayName={comment.user.name}
                     avatarDisp={true}
