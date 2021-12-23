@@ -109,14 +109,13 @@ const ItinerarysController = {
       );
       res.json({ success: true, response: itinerary.like });
     } catch (error) {
-      console.log(error);
       res.json({ success: false });
     }
   },
   postACommentary: async (req, res) => {
     const itineraryId = req.params.id;
     const { comment, user } = req.body;
-    console.log(user)
+
     try {
       postedComment = await Itinerary.findOneAndUpdate(
         { _id: itineraryId },
@@ -125,7 +124,6 @@ const ItinerarysController = {
       ).populate("comments.user");
       res.json({ success: true, response: postedComment });
     } catch (error) {
-      console.log(error);
       res.json({ success: false, response: error });
     }
   },
@@ -184,7 +182,7 @@ const ItinerarysController = {
       ).populate("comments.user")
       res.json({ success: true, response: deletedComment });
     } catch (error) {
-      console.log(error);
+
       res.json({ success: false, response: [{ comment: "Error" }] });
     }
   },
