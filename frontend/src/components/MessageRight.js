@@ -5,8 +5,7 @@ import { Box } from "@mui/system";
 import { IconButton, TextField, Dialog, DialogActions,DialogContent,DialogContentText,DialogTitle, Button } from "@mui/material";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
-import { useState, useRef } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   messageRow: {
@@ -99,7 +98,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MessageRight = (props) => {
   const classes = useStyles();
-  const inputEdit = useRef();
   const [edit, setEdit] = useState(false);
   const [editValue, setEditValue] = useState([])
   const [open, setOpen] = useState(false);
