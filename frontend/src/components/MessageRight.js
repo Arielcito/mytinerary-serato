@@ -100,42 +100,29 @@ const useStyles = makeStyles((theme) => ({
 const MessageRight = (props) => {
   const classes = useStyles();
   const inputEdit = useRef();
-  const [deleting, setDeleting] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [editValue, setEditValue] = useState([])
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const {
-    deleteComment,
-    getCommentaries,
-    userData,
     commentId,
-    itineraryId,
-    editComment,
+    handleEdit,
+    handleDelete,
     message
   } = props;
 
-  const handleDelete = () => {
-    setDeleting(true);
-    if (!deleting){
-      deleteComment(userData, commentId).then((res) =>
-        getCommentaries(itineraryId)
-      );
-      toast.success('Comment deleted')
-      handleClose()
-    }
-
-  };
-
-  const handleEdit = () => {
-    setEdit(!edit);
-    if (edit) {
-      editComment(userData, commentId, inputEdit.current.value).then((res) =>
-        getCommentaries(itineraryId)
-      );
-    }
-  };
+  const editState = ()=>{
+    setEdit(!edit)
+  }
+  const handleInput = (e) => {
+    setEditValue(e.target.value)
+  }
+  const handleEdits = (edit) => {
+    handleEdit(editValue,commentId,edit)
+    editState()
+  }
   return (
     <div className={classes.messageRowRight}>
       <div className={classes.messageOrange}>
@@ -148,14 +135,14 @@ const MessageRight = (props) => {
             rows={4}
             defaultValue={message}
             variant="filled"
-            inputRef={inputEdit}
+            onChange={e => handleInput(e)}
           />
         ) : (
           <p className={classes.messageContent}>{message}</p>
         )}
       </div>
       <Box>
-        <IconButton onClick={handleEdit}>
+        <IconButton onClick={() => handleEdits(edit) } >
           <EditIcon />
         </IconButton>
         <IconButton onClick={handleOpen}>
@@ -176,7 +163,7 @@ const MessageRight = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={() => handleDelete(commentId)}>Delete</Button>
           <Button onClick={handleClose} autoFocus>
             Cancel
           </Button>
@@ -195,7 +182,6 @@ const mapStateToprops = (state) => {
 
 const mapDistatchToProps = {
   getCommentaries: itinerariesActions.getCommentaries,
-  deleteComment: itinerariesActions.deleteComment,
-  editComment: itinerariesActions.editComment,
+  
 };
 export default connect(mapStateToprops, mapDistatchToProps)(MessageRight);

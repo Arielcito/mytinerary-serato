@@ -122,7 +122,7 @@ const Itinerary = (props) => {
   const [visible, setVisible] = useState(false);
   const inputComment = useRef();
   const [comentaries, setComentaries] = useState([]);
-  const { likeItinerary, userData, getCommentaries, Itinerary, user } = props;
+  const { likeItinerary, userData, getCommentaries, Itinerary, user, editComment, deleteComment } = props;
   const [likesArray, setLikeArray] = useState(Itinerary.like);
   const [likeNumber, setLikeNumber] = useState(Itinerary.like.length);
   const [like, setLike] = useState(
@@ -152,7 +152,21 @@ const Itinerary = (props) => {
     setVisible(!visible);
     props.fetchActivities();
   };
-  
+  const handleDelete = (commentId) => {
+      deleteComment(userData, commentId).then((res) =>
+        setComentaries(res.response)
+      );
+      toast.success('Comment deleted')
+  };
+
+  const handleEdit = (value,commentId,edit) => {
+    if(edit){
+      editComment(userData, commentId,value).then((res) =>
+        setComentaries(res.response)
+      );
+    }
+    
+  };
   const handlePost = (e) => {
     e.preventDefault();
     if (props.user) {
@@ -283,6 +297,8 @@ const Itinerary = (props) => {
                     <Comments
                       id={Itinerary._id}
                       comments={comentaries && comentaries}
+                      handleDelete={handleDelete}
+                      handleEdit={handleEdit}
                     />
                   </Paper>
                   <Box className={classes.wrapForm}>
@@ -340,6 +356,8 @@ const mapDispatchToProps = {
   getCommentaries: itinerariesActions.getCommentaries,
   fetchActivities: itinerariesActions.fetchActivities,
   postCommentary: itinerariesActions.postCommentary,
+  deleteComment: itinerariesActions.deleteComment,
+  editComment: itinerariesActions.editComment,
 };
 const mapStateToProps = (state) => {
   return {

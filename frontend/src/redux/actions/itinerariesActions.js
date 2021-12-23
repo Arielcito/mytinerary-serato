@@ -41,7 +41,6 @@ const itinerariesActions = {
             headers: { Authorization: "Bearer " + user.token },
           }
         );
-        console.log(res.data)
         if (res.data.success) {
           return res.data
         } else {
@@ -62,7 +61,6 @@ const itinerariesActions = {
             headers: { Authorization: "Bearer " + user.token },
           }
         );
-        console.log(res.data)
         if (res.data.success) {
           return res.data
         } else {

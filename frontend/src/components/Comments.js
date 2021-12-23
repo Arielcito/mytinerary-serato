@@ -7,7 +7,7 @@ import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({}));
 const Comments = (props) => {
-  const { id, comments, user, edit, handleEdit, handleDelete } = props;
+  const { id, comments, user, handleEdit, handleDelete } = props;
 
   return (
     <>
@@ -23,7 +23,6 @@ const Comments = (props) => {
                 photoURL={props.userData.imageURL}
                 displayName={props.userData.name}
                 avatarDisp={false}
-                edit={edit}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
               />
