@@ -122,7 +122,16 @@ const ItinerarysController = {
         { $push: { comments: { comment, user } } },
         { new: true }
       ).populate("comments.user");
-      res.json({ success: true, response: postedComment });
+      const comments = postedComment.comments.map((comment) => ({
+        comment: { text: comment.comment, _id: comment._id },
+        user: {
+          name: comment.user.name,
+          imageURL: comment.user.imageURL,
+          surname: comment.user.surname,
+          userId: comment.user._id,
+        },
+      }));
+      res.json({ success: true, response: comments });
     } catch (error) {
       res.json({ success: false, response: error });
     }
@@ -160,7 +169,16 @@ const ItinerarysController = {
         update,
         {new:true}
       ).populate("comments.user");
-      res.json({ success: true, response: updatedComment });
+      const comments = updatedComment.comments.map((comment) => ({
+        comment: { text: comment.comment, _id: comment._id },
+        user: {
+          name: comment.user.name,
+          imageURL: comment.user.imageURL,
+          surname: comment.user.surname,
+          userId: comment.user._id,
+        },
+      }));
+      res.json({ success: true, response: comments });
     } catch (error) {
       console.log(error);
       res.json({ success: false, response: [{ comment: "Error" }] });
@@ -180,7 +198,16 @@ const ItinerarysController = {
           new: true,
         }
       ).populate("comments.user")
-      res.json({ success: true, response: deletedComment });
+      const comments = deletedComment.comments.map((comment) => ({
+        comment: { text: comment.comment, _id: comment._id },
+        user: {
+          name: comment.user.name,
+          imageURL: comment.user.imageURL,
+          surname: comment.user.surname,
+          userId: comment.user._id,
+        },
+      }));
+      res.json({ success: true, response: comments });
     } catch (error) {
 
       res.json({ success: false, response: [{ comment: "Error" }] });

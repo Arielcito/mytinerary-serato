@@ -1,11 +1,11 @@
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
-import { Grid, List, ListItem, Button } from "@mui/material";
+import { Grid, List, ListItem, Button, TextField, Paper } from "@mui/material";
 import Carousel from "react-elastic-carousel";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import dolar from "../assets/dolar.png";
 import { Avatar } from "@mui/material";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import { IconButton } from "@mui/material";
@@ -13,6 +13,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Comments from "./Comments";
 import { toast } from "react-toastify";
 import Activities from "./Activities";
+import SendIcon from "@mui/icons-material/Send";
 
 const useStyles = makeStyles((theme) => ({
   tripContainer: {
@@ -70,15 +71,63 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     margin: "2rem",
   },
+  titleCommentary: {
+    fontSize: "30px",
+    textAlign: "center",
+    margin: "2rem",
+  },
+  wrapForm: {
+    display: "flex",
+    justifyContent: "center",
+    width: "90%",
+  },
+  wrapText: {
+    width: "60vw",
+  },
+  paper: {
+    width: "80vw",
+    height: "80vh",
+    maxWidth: "80rem",
+    maxHeight: "60rem",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative",
+  },
+  paper2: {
+    width: "80vw",
+    maxWidth: "500px",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative",
+  },
+  container: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  messagesBody: {
+    width: "calc( 100% - 20px )",
+    margin: 10,
+    overflowY: "scroll",
+    height: "calc( 100% - 80px )",
+  },
 }));
 
 const Itinerary = (props) => {
   const classes = useStyles();
   const [visible, setVisible] = useState(false);
+  const inputComment = useRef();
+  const [comentaries, setComentaries] = useState([]);
   const { likeItinerary, userData, getCommentaries, Itinerary, user } = props;
   const [likesArray, setLikeArray] = useState(Itinerary.like);
   const [likeNumber, setLikeNumber] = useState(Itinerary.like.length);
-  const [like, setLike] = useState(user && likesArray.find(like => like.user === userData._id));
+  const [like, setLike] = useState(
+    user && likesArray.find((like) => like.user === userData._id)
+  );
 
   const handleLike = (itineraryId) => {
     if (user) {
@@ -98,12 +147,27 @@ const Itinerary = (props) => {
       });
     }
   };
-  const viewMoreLess = (itineraryId) => {
+  const viewMoreLess = () => {
+    getCommentaries(Itinerary._id).then((res) => setComentaries(res.response));
     setVisible(!visible);
-    getCommentaries(itineraryId);
     props.fetchActivities();
   };
-
+  
+  const handlePost = (e) => {
+    e.preventDefault();
+    if (props.user) {
+      if (inputComment.current.value.trim() !== "") {
+        props
+          .postCommentary(Itinerary._id, inputComment.current.value, userData)
+          .then((res) => setComentaries(res.response));
+        inputComment.current.value = "";
+      } else {
+        toast.error("Type something first!");
+      }
+    } else {
+      toast.error("You must be logged to comment");
+    }
+  };
   return (
     <>
       <Box className={classes.tripContainer}>
@@ -202,7 +266,51 @@ const Itinerary = (props) => {
             }}
           >
             <Activities id={Itinerary._id} />
-            <Comments id={Itinerary._id} />
+            <Box sx={{ width: "90%", height: "100%" }}>
+              <Box>
+                <h3 className={classes.titleCommentary}>Comentaries</h3>
+              </Box>
+              <div className={classes.container}>
+                <Paper
+                  className={classes.paper}
+                  sx={{ backgroundColor: "#eeaeca" }}
+                >
+                  <Paper
+                    id="style-1"
+                    className={classes.messagesBody}
+                    sx={{ backgroundColor: "#94bbe9" }}
+                  >
+                    <Comments
+                      id={Itinerary._id}
+                      comments={comentaries && comentaries}
+                    />
+                  </Paper>
+                  <Box className={classes.wrapForm}>
+                    <form
+                      className={classes.wrapForm}
+                      noValidate
+                      autoComplete="off"
+                      onSubmit={(e) => handlePost(e)}
+                    >
+                      <TextField
+                        id="standard-text"
+                        label="Comment"
+                        className={classes.wrapText}
+                        inputRef={inputComment}
+                      />
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                      >
+                        <SendIcon />
+                      </Button>
+                    </form>
+                  </Box>
+                </Paper>
+              </div>
+            </Box>
           </Box>
         </Box>
         <Box className={classes.commentContainer}>
@@ -231,6 +339,7 @@ const mapDispatchToProps = {
   likeItinerary: itinerariesActions.likeItinerary,
   getCommentaries: itinerariesActions.getCommentaries,
   fetchActivities: itinerariesActions.fetchActivities,
+  postCommentary: itinerariesActions.postCommentary,
 };
 const mapStateToProps = (state) => {
   return {

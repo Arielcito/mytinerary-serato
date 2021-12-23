@@ -25,7 +25,7 @@ const itinerariesActions = {
           "http://localhost:4000/api/comments/" + id
         );
         if (res.data.success) {
-          dispatch({type:'GET_COMMENTS',payload:res.data})
+          return res.data
         } else {
           toast.error('error')
         }
@@ -41,6 +41,7 @@ const itinerariesActions = {
             headers: { Authorization: "Bearer " + user.token },
           }
         );
+        console.log(res.data)
         if (res.data.success) {
           return res.data
         } else {
