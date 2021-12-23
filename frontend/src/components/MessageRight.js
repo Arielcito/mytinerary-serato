@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   messageRowRight: {
     display: "flex",
     justifyContent: "flex-end",
+    margin:"1rem"
   },
   messageOrange: {
     overflow: "hidden",
