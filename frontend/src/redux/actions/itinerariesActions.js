@@ -47,7 +47,7 @@ const itinerariesActions = {
           toast.error("Error trying to post!");
         }
       } catch {
-        console.log("error");
+        console.error("error");
       }
     };
   },
@@ -67,7 +67,7 @@ const itinerariesActions = {
           toast.error("Error trying to delete!");
         }
       } catch {
-        console.log("error");
+        console.error("error");
       }
     };
   },
@@ -82,14 +82,14 @@ const itinerariesActions = {
             headers: { Authorization: "Bearer " + user.token },
           }
         );
-        console.log(res.data)
+
         if (res.data.success) {
           return res.data
         } else {
           toast.error("Error trying to edit");
         }
       } catch {
-        console.log("error");
+        console.error("error");
       }
     };
   },

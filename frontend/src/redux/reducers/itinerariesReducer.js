@@ -14,7 +14,6 @@ const itinerariesReducer = (state = initialState, action) => {
         loading: false,
       };
     case 'GET_COMMENTS':
-      console.log(action.payload.response)
       return{
         ...state,
         comments:action.payload.response

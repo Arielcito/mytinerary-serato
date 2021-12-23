@@ -180,7 +180,7 @@ const ItinerarysController = {
       }));
       res.json({ success: true, response: comments });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.json({ success: false, response: [{ comment: "Error" }] });
     }
   },
