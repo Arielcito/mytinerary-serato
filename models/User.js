@@ -8,6 +8,7 @@ const userSchema = new Schema({
   surname: { type: String ,require:true},
   imageURL: { type: String ,require:true},
   country: { type: String , require:true,default:"Argentina"},
+  
   google:{type: Boolean, default:false}
 });
 

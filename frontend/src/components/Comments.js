@@ -1,11 +1,9 @@
-import { makeStyles } from "@mui/styles";
 import MessageLeft from "./MessageLeft";
 import MessageRight from "./MessageRight";
 import { connect } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
 import Loader from "./Loader";
 
-const useStyles = makeStyles((theme) => ({}));
 const Comments = (props) => {
   const { id, comments, user, handleEdit, handleDelete } = props;
 
